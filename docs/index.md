@@ -6,9 +6,12 @@ of ODT documents.
 
 ## Features
 
--   Generate a **brief synopsis** containing chapter summaries.
 
 -   Generate a **full synopsis** containing scene summaries.
+
+-   Generate a **brief synopsis** containing scene titles.
+
+-   Generate a **very brief synopsis** containing chapter titles.
 
 -   Generate **character sheets** containing character data.
 
@@ -28,7 +31,7 @@ __Please note:__  _This extension can not be installed on OpenOffice._
 
 ## Download and install {#download}
 
-[Download the latest release (version 0.1.1)](https://raw.githubusercontent.com/peter88213/aeon3odt/master/dist/aeon3odt-L-0.1.1.oxt)
+[Download the latest release (version 0.2.0)](https://raw.githubusercontent.com/peter88213/aeon3odt/master/dist/aeon3odt-L-0.2.0.oxt)
 
 -   Installation right at download, by double-clicking on the downloaded 
     file, or via the LibreOffice Extension Manager. Instructions can be found [here](https://wiki.documentfoundation.org/Documentation/HowTo/install_extension).

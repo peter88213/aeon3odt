@@ -1,6 +1,6 @@
 """Convert Aeon Timeline 3 project data to odt. 
 
-Version 0.1.1
+Version 0.2.0
 
 Copyright (c) 2021 Peter Triesberger
 For further information see https://github.com/peter88213/aeon3odt
