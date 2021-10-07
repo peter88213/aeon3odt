@@ -1,0 +1,7 @@
+Aeon Timeline 3 Projektdaten importieren.
+
+Aus einem Aeon Timeline 3 Projekt importieren:
+- Zusammenfassungen von Kapiteln und Szenen.
+
+Fügt ein Untermenü im Menü "Datei" hinzu.
+

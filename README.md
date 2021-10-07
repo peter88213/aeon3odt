@@ -1,0 +1,13 @@
+# The aeon3odt extension for LibreOffice: Import Aeon Timeline 3 project data
+
+For more information, see the [project homepage](https://peter88213.github.io/aeon3odt) with description and download instructions.
+
+
+## Credits
+
+- [OpenOffice Extension Compiler](https://wiki.openoffice.org/wiki/Extensions_Packager#Extension_Compiler) by Bernard Marcelly.
+- Frederik Lundh published the [xml pretty print algorithm](http://effbot.org/zone/element-lib.htm#prettyprint).
+
+## License
+
+This extension is distributed under the [MIT License](http://www.opensource.org/licenses/mit-license.php).
