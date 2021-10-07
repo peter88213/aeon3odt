@@ -21,6 +21,9 @@
 
 This will generate a new OpenDocument text document (odt) containing part 
 and chapter titles and scene summaries. 
+
+Scene titles are inserted as navigable comments.
+
 File name suffix is `_scenes`.
 
 [Top of page](#top)
@@ -31,6 +34,7 @@ File name suffix is `_scenes`.
 
 This will generate a new OpenDocument text document (odt) containing part
 and chapter titles and scene titles. 
+
 File name suffix is `_chapters`.
 
 [Top of page](#top)
@@ -41,6 +45,7 @@ File name suffix is `_chapters`.
 
 This will generate a new OpenDocument text document (odt) containing part
 and chapter titles. 
+
 File name suffix is `_parts`.
 
 [Top of page](#top)
@@ -50,7 +55,9 @@ File name suffix is `_parts`.
 ## Character sheets
 
 This will generate a new OpenDocument text document (odt) containing
-character descriptions, bio, goals, and notes. File name suffix is
+character descriptions, bio, goals, and notes. 
+
+File name suffix is
 `_characters`.
 
 [Top of page](#top)
@@ -60,7 +67,9 @@ character descriptions, bio, goals, and notes. File name suffix is
 ## Location sheets
 
 This will generate a new OpenDocument text document (odt) containing
-location descriptions. File name suffix is `_locations`.
+location descriptions. 
+
+File name suffix is `_locations`.
 
 [Top of page](#top)
 
@@ -69,9 +78,10 @@ location descriptions. File name suffix is `_locations`.
 
 ## Project report
 
-This will generate a new OpenDocument text document (odt) containing
- a full description of the narrative part, the characters and the locations. 
- File name suffix is `_report`.
+This will generate a new OpenDocument text document (odt) containing 
+a full description of the narrative part, the characters and the locations. 
+ 
+File name suffix is `_report`.
 
 [Top of page](#top)
 
