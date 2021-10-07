@@ -12,6 +12,7 @@ from configparser import ConfigParser
 
 from aeon3odt.odt_full_synopsis import OdtFullSynopsis
 from aeon3odt.odt_brief_synopsis import OdtBriefSynopsis
+from aeon3odt.odt_very_brief_synopsis import OdtVeryBriefSynopsis
 from aeon3odt.odt_character_sheets import OdtCharacterSheets
 from aeon3odt.odt_location_sheets import OdtLocationSheets
 from aeon3odt.odt_report import OdtReport
@@ -113,16 +114,20 @@ def open_csv(suffix, newExt):
         doc = desktop.loadComponentFromURL(newFile, "_blank", 0, ())
 
 
+def get_partdesc():
+    '''Import part descriptions from Aeon 3 to a Writer document. 
+    '''
+    open_csv(OdtVeryBriefSynopsis.SUFFIX, OdtVeryBriefSynopsis.EXTENSION)
+
+
 def get_chapterdesc():
-    '''Import chapter descriptions from Aeon 3 to a Writer document
-    with invisible chapter and scene markers. 
+    '''Import chapter descriptions from Aeon 3 to a Writer document. 
     '''
     open_csv(OdtBriefSynopsis.SUFFIX, OdtBriefSynopsis.EXTENSION)
 
 
 def get_scenedesc():
-    '''Import scene descriptions from Aeon 3 to a Writer document
-    with invisible chapter and scene markers. 
+    '''Import scene descriptions from Aeon 3 to a Writer document. 
     '''
     open_csv(OdtFullSynopsis.SUFFIX, OdtFullSynopsis.EXTENSION)
 

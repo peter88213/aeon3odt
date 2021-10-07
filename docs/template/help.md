@@ -8,35 +8,46 @@
 
 ### "Files" menu
 
--   [Scene summaries](#scene-summaries)
--   [Chapter summaries](#chapter-summaries)
--   [Character descriptions](#character-descriptions)
--   [Location descriptions](#location-descriptions)
+-   [Full synopsis](#full-synopsis)
+-   [Brief synopsis](#brief-synopsis)
+-   [Very brief synopsis](#very-brief-synopsis)
+-   [Character sheets](#character-sheets)
+-   [Location sheets](#location-sheets)
+-   [Project report](#project-report)
 
 ------------------------------------------------------------------------
 
-## Scene summaries
+## Full synopsis
 
-This will generate a new OpenDocument text document (odt) containing a
-**full synopsis** with chapter titles and scene summaries. 
+This will generate a new OpenDocument text document (odt) containing part 
+and chapter titles and scene summaries. 
 File name suffix is `_scenes`.
 
 [Top of page](#top)
 
 ------------------------------------------------------------------------
 
-## Chapter summaries
+## Brief synopsis
 
-This will generate a new OpenDocument text document (odt) containing a
-**brief synopsis** with chapter titles and chapter summaries. 
+This will generate a new OpenDocument text document (odt) containing part
+and chapter titles and scene titles. 
 File name suffix is `_chapters`.
 
 [Top of page](#top)
 
 ------------------------------------------------------------------------
 
+## Very brief synopsis
 
-## Character descriptions
+This will generate a new OpenDocument text document (odt) containing part
+and chapter titles. 
+File name suffix is `_parts`.
+
+[Top of page](#top)
+
+------------------------------------------------------------------------
+
+## Character sheets
 
 This will generate a new OpenDocument text document (odt) containing
 character descriptions, bio, goals, and notes. File name suffix is
@@ -46,7 +57,7 @@ character descriptions, bio, goals, and notes. File name suffix is
 
 ------------------------------------------------------------------------
 
-## Location descriptions
+## Location sheets
 
 This will generate a new OpenDocument text document (odt) containing
 location descriptions. File name suffix is `_locations`.

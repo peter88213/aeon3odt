@@ -14,7 +14,7 @@
                <value xml:lang="de">Aeon Timeline 3 import Hilfe</value>
             </prop>
             <prop oor:name="URL" oor:type="xs:string">
-               <value>vnd.sun.star.script:aeon3odt-L-0.1.0.oxt|help|help.py$show_help?language=Python&amp;location=user:uno_packages</value>
+               <value>vnd.sun.star.script:aeon3odt-L-0.1.1.oxt|help|help.py$show_help?language=Python&amp;location=user:uno_packages</value>
             </prop>
             <prop oor:name="Target" oor:type="xs:string">
                <value>_self</value>
@@ -56,10 +56,10 @@
                               <value/>
                            </prop>
                            <prop oor:name="Title" oor:type="xs:string">
-                              <value xml:lang="en">Scene descriptions</value>
+                              <value xml:lang="en">Full synopsis</value>
                            </prop>
                            <prop oor:name="URL" oor:type="xs:string">
-                              <value>vnd.sun.star.script:aeon3odt-L-0.1.0.oxt|aeon3odt|cnvaeon.py$get_scenedesc?language=Python&amp;location=user:uno_packages</value>
+                              <value>vnd.sun.star.script:aeon3odt-L-0.1.1.oxt|aeon3odt|cnvaeon.py$get_scenedesc?language=Python&amp;location=user:uno_packages</value>
                            </prop>
                            <prop oor:name="Target" oor:type="xs:string">
                               <value>_self</value>
@@ -70,10 +70,10 @@
                               <value/>
                            </prop>
                            <prop oor:name="Title" oor:type="xs:string">
-                              <value xml:lang="en">Chapter descriptions</value>
+                              <value xml:lang="en">Brief synopsis</value>
                            </prop>
                            <prop oor:name="URL" oor:type="xs:string">
-                              <value>vnd.sun.star.script:aeon3odt-L-0.1.0.oxt|aeon3odt|cnvaeon.py$get_chapterdesc?language=Python&amp;location=user:uno_packages</value>
+                              <value>vnd.sun.star.script:aeon3odt-L-0.1.1.oxt|aeon3odt|cnvaeon.py$get_chapterdesc?language=Python&amp;location=user:uno_packages</value>
                            </prop>
                            <prop oor:name="Target" oor:type="xs:string">
                               <value>_self</value>
@@ -84,10 +84,10 @@
                               <value/>
                            </prop>
                            <prop oor:name="Title" oor:type="xs:string">
-                              <value xml:lang="en">Character descriptions</value>
+                              <value xml:lang="en">Very brief synopsis</value>
                            </prop>
                            <prop oor:name="URL" oor:type="xs:string">
-                              <value>vnd.sun.star.script:aeon3odt-L-0.1.0.oxt|aeon3odt|cnvaeon.py$get_chardesc?language=Python&amp;location=user:uno_packages</value>
+                              <value>vnd.sun.star.script:aeon3odt-L-0.1.1.oxt|aeon3odt|cnvaeon.py$get_partdesc?language=Python&amp;location=user:uno_packages</value>
                            </prop>
                            <prop oor:name="Target" oor:type="xs:string">
                               <value>_self</value>
@@ -98,10 +98,10 @@
                               <value/>
                            </prop>
                            <prop oor:name="Title" oor:type="xs:string">
-                              <value xml:lang="en">Location descriptions</value>
+                              <value xml:lang="en">Character sheets</value>
                            </prop>
                            <prop oor:name="URL" oor:type="xs:string">
-                              <value>vnd.sun.star.script:aeon3odt-L-0.1.0.oxt|aeon3odt|cnvaeon.py$get_locdesc?language=Python&amp;location=user:uno_packages</value>
+                              <value>vnd.sun.star.script:aeon3odt-L-0.1.1.oxt|aeon3odt|cnvaeon.py$get_chardesc?language=Python&amp;location=user:uno_packages</value>
                            </prop>
                            <prop oor:name="Target" oor:type="xs:string">
                               <value>_self</value>
@@ -112,21 +112,35 @@
                               <value/>
                            </prop>
                            <prop oor:name="Title" oor:type="xs:string">
-                              <value xml:lang="en">Project report</value>
+                              <value xml:lang="en">Location sheets</value>
                            </prop>
                            <prop oor:name="URL" oor:type="xs:string">
-                              <value>vnd.sun.star.script:aeon3odt-L-0.1.0.oxt|aeon3odt|cnvaeon.py$get_report?language=Python&amp;location=user:uno_packages</value>
+                              <value>vnd.sun.star.script:aeon3odt-L-0.1.1.oxt|aeon3odt|cnvaeon.py$get_locdesc?language=Python&amp;location=user:uno_packages</value>
                            </prop>
                            <prop oor:name="Target" oor:type="xs:string">
                               <value>_self</value>
                            </prop>
                         </node>
                         <node oor:name="N009" oor:op="replace">
+                           <prop oor:name="Context" oor:type="xs:string">
+                              <value/>
+                           </prop>
+                           <prop oor:name="Title" oor:type="xs:string">
+                              <value xml:lang="en">Project report</value>
+                           </prop>
+                           <prop oor:name="URL" oor:type="xs:string">
+                              <value>vnd.sun.star.script:aeon3odt-L-0.1.1.oxt|aeon3odt|cnvaeon.py$get_report?language=Python&amp;location=user:uno_packages</value>
+                           </prop>
+                           <prop oor:name="Target" oor:type="xs:string">
+                              <value>_self</value>
+                           </prop>
+                        </node>
+                        <node oor:name="N010" oor:op="replace">
                            <prop oor:name="URL" oor:type="xs:string">
                               <value>private:separator</value>
                            </prop>
                         </node>
-                        <node oor:name="N010" oor:op="replace">
+                        <node oor:name="N011" oor:op="replace">
                            <prop oor:name="Context" oor:type="xs:string">
                               <value/>
                            </prop>
@@ -135,7 +149,7 @@
                               <value xml:lang="de">Hilfe</value>
                            </prop>
                            <prop oor:name="URL" oor:type="xs:string">
-                              <value>vnd.sun.star.script:aeon3odt-L-0.1.0.oxt|help|help.py$show_help?language=Python&amp;location=user:uno_packages</value>
+                              <value>vnd.sun.star.script:aeon3odt-L-0.1.1.oxt|help|help.py$show_help?language=Python&amp;location=user:uno_packages</value>
                            </prop>
                            <prop oor:name="Target" oor:type="xs:string">
                               <value>_self</value>
@@ -143,7 +157,7 @@
                         </node>
                      </node>
                   </node>
-                  <node oor:name="N011" oor:op="replace">
+                  <node oor:name="N012" oor:op="replace">
                      <prop oor:name="URL" oor:type="xs:string">
                         <value>private:separator</value>
                      </prop>
@@ -167,10 +181,10 @@
                      <value/>
                   </prop>
                   <prop oor:name="Title" oor:type="xs:string">
-                     <value xml:lang="en">Scene descriptions</value>
+                     <value xml:lang="en">Full synopsis</value>
                   </prop>
                   <prop oor:name="URL" oor:type="xs:string">
-                     <value>vnd.sun.star.script:aeon3odt-L-0.1.0.oxt|aeon3odt|cnvaeon.py$get_scenedesc?language=Python&amp;location=user:uno_packages</value>
+                     <value>vnd.sun.star.script:aeon3odt-L-0.1.1.oxt|aeon3odt|cnvaeon.py$get_scenedesc?language=Python&amp;location=user:uno_packages</value>
                   </prop>
                   <prop oor:name="Target" oor:type="xs:string">
                      <value>_self</value>
@@ -181,10 +195,10 @@
                      <value/>
                   </prop>
                   <prop oor:name="Title" oor:type="xs:string">
-                     <value xml:lang="en">Chapter descriptions</value>
+                     <value xml:lang="en">Brief synopsis</value>
                   </prop>
                   <prop oor:name="URL" oor:type="xs:string">
-                     <value>vnd.sun.star.script:aeon3odt-L-0.1.0.oxt|aeon3odt|cnvaeon.py$get_chapterdesc?language=Python&amp;location=user:uno_packages</value>
+                     <value>vnd.sun.star.script:aeon3odt-L-0.1.1.oxt|aeon3odt|cnvaeon.py$get_chapterdesc?language=Python&amp;location=user:uno_packages</value>
                   </prop>
                   <prop oor:name="Target" oor:type="xs:string">
                      <value>_self</value>
@@ -195,10 +209,10 @@
                      <value/>
                   </prop>
                   <prop oor:name="Title" oor:type="xs:string">
-                     <value xml:lang="en">Character descriptions</value>
+                     <value xml:lang="en">Very brief synopsis</value>
                   </prop>
                   <prop oor:name="URL" oor:type="xs:string">
-                     <value>vnd.sun.star.script:aeon3odt-L-0.1.0.oxt|aeon3odt|cnvaeon.py$get_chardesc?language=Python&amp;location=user:uno_packages</value>
+                     <value>vnd.sun.star.script:aeon3odt-L-0.1.1.oxt|aeon3odt|cnvaeon.py$get_partdesc?language=Python&amp;location=user:uno_packages</value>
                   </prop>
                   <prop oor:name="Target" oor:type="xs:string">
                      <value>_self</value>
@@ -209,10 +223,10 @@
                      <value/>
                   </prop>
                   <prop oor:name="Title" oor:type="xs:string">
-                     <value xml:lang="en">Location descriptions</value>
+                     <value xml:lang="en">Character sheets</value>
                   </prop>
                   <prop oor:name="URL" oor:type="xs:string">
-                     <value>vnd.sun.star.script:aeon3odt-L-0.1.0.oxt|aeon3odt|cnvaeon.py$get_locdesc?language=Python&amp;location=user:uno_packages</value>
+                     <value>vnd.sun.star.script:aeon3odt-L-0.1.1.oxt|aeon3odt|cnvaeon.py$get_chardesc?language=Python&amp;location=user:uno_packages</value>
                   </prop>
                   <prop oor:name="Target" oor:type="xs:string">
                      <value>_self</value>
@@ -223,21 +237,35 @@
                      <value/>
                   </prop>
                   <prop oor:name="Title" oor:type="xs:string">
-                     <value xml:lang="en">Project report</value>
+                     <value xml:lang="en">Location sheets</value>
                   </prop>
                   <prop oor:name="URL" oor:type="xs:string">
-                     <value>vnd.sun.star.script:aeon3odt-L-0.1.0.oxt|aeon3odt|cnvaeon.py$get_report?language=Python&amp;location=user:uno_packages</value>
+                     <value>vnd.sun.star.script:aeon3odt-L-0.1.1.oxt|aeon3odt|cnvaeon.py$get_locdesc?language=Python&amp;location=user:uno_packages</value>
                   </prop>
                   <prop oor:name="Target" oor:type="xs:string">
                      <value>_self</value>
                   </prop>
                </node>
                <node oor:name="N007" oor:op="replace">
+                  <prop oor:name="Context" oor:type="xs:string">
+                     <value/>
+                  </prop>
+                  <prop oor:name="Title" oor:type="xs:string">
+                     <value xml:lang="en">Project report</value>
+                  </prop>
+                  <prop oor:name="URL" oor:type="xs:string">
+                     <value>vnd.sun.star.script:aeon3odt-L-0.1.1.oxt|aeon3odt|cnvaeon.py$get_report?language=Python&amp;location=user:uno_packages</value>
+                  </prop>
+                  <prop oor:name="Target" oor:type="xs:string">
+                     <value>_self</value>
+                  </prop>
+               </node>
+               <node oor:name="N008" oor:op="replace">
                   <prop oor:name="URL" oor:type="xs:string">
                      <value>private:separator</value>
                   </prop>
                </node>
-               <node oor:name="N008" oor:op="replace">
+               <node oor:name="N009" oor:op="replace">
                   <prop oor:name="Context" oor:type="xs:string">
                      <value/>
                   </prop>
@@ -246,7 +274,7 @@
                      <value xml:lang="de">Hilfe</value>
                   </prop>
                   <prop oor:name="URL" oor:type="xs:string">
-                     <value>vnd.sun.star.script:aeon3odt-L-0.1.0.oxt|help|help.py$show_help?language=Python&amp;location=user:uno_packages</value>
+                     <value>vnd.sun.star.script:aeon3odt-L-0.1.1.oxt|help|help.py$show_help?language=Python&amp;location=user:uno_packages</value>
                   </prop>
                   <prop oor:name="Target" oor:type="xs:string">
                      <value>_self</value>

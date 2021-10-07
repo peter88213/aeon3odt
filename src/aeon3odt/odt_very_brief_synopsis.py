@@ -1,4 +1,4 @@
-"""Provide a class for ODT chapter descriptions export.
+"""Provide a class for ODT part descriptions export.
 
 Copyright (c) 2021 Peter Triesberger
 For further information see https://github.com/peter88213/aeon3odt
@@ -7,24 +7,21 @@ Published under the MIT License (https://opensource.org/licenses/mit-license.php
 from pywriter.odt.odt_file import OdtFile
 
 
-class OdtBriefSynopsis(OdtFile):
-    """ODT chapter summaries snf scene titles file representation.
+class OdtVeryBriefSynopsis(OdtFile):
+    """ODT part and chapter summaries file representation.
 
-    Export a brief synopsis.
+    Export a very brief synopsis.
     """
 
     DESCRIPTION = 'Chapter descriptions'
-    SUFFIX = '_chapters'
+    SUFFIX = '_parts'
 
     fileHeader = OdtFile.CONTENT_XML_HEADER
 
     partTemplate = '''<text:h text:style-name="Heading_20_1" text:outline-level="1">$Desc</text:h>
 '''
 
-    chapterTemplate = '''<text:h text:style-name="Heading_20_2" text:outline-level="2">$Desc</text:h>
-'''
-
-    sceneTemplate = '''<text:p text:style-name="Text_20_body">$Title</text:p>
+    chapterTemplate = '''<text:p text:style-name="Text_20_body">$Desc</text:p>
 '''
 
     fileFooter = OdtFile.CONTENT_XML_FOOTER

@@ -1,6 +1,6 @@
 """Convert Aeon Timeline 3 project data to odt. 
 
-Version 0.1.0
+Version 0.1.1
 
 Copyright (c) 2021 Peter Triesberger
 For further information see https://github.com/peter88213/aeon3odt
@@ -2602,49 +2602,29 @@ class OdtFullSynopsis(OdtFile):
     DESCRIPTION = 'Scene descriptions'
     SUFFIX = '_scenes'
 
-    fileHeader = OdtFile.CONTENT_XML_HEADER + '''<text:p text:style-name="Title">$Title</text:p>
-<text:p text:style-name="Subtitle">$AuthorName</text:p>
+    fileHeader = OdtFile.CONTENT_XML_HEADER
+
+    partTemplate = '''<text:h text:style-name="Heading_20_1" text:outline-level="1">$Title</text:h>
 '''
 
-    partTemplate = '''<text:section text:style-name="Sect1" text:name="ChID:$ID">
-<text:h text:style-name="Heading_20_1" text:outline-level="1"><text:a xlink:href="../${ProjectName}_parts.odt#ChID:$ID%7Cregion">$Title</text:a></text:h>
+    chapterTemplate = '''<text:h text:style-name="Heading_20_2" text:outline-level="2">$Title</text:h>
 '''
 
-    chapterTemplate = '''<text:section text:style-name="Sect1" text:name="ChID:$ID">
-<text:h text:style-name="Heading_20_2" text:outline-level="2"><text:a xlink:href="../${ProjectName}_chapters.odt#ChID:$ID%7Cregion">$Title</text:a></text:h>
-'''
-
-    sceneTemplate = '''<text:section text:style-name="Sect1" text:name="ScID:$ID">
-<text:p text:style-name="Text_20_body"><office:annotation>
+    sceneTemplate = '''<text:p text:style-name="Text_20_body"><office:annotation>
 <dc:creator>scene title</dc:creator>
 <text:p>~ ${Title} ~</text:p>
 <text:p/>
-<text:p><text:a xlink:href="../${ProjectName}_manuscript.odt#ScID:$ID%7Cregion">→Manuscript</text:a></text:p>
 </office:annotation>$Desc</text:p>
-</text:section>
-'''
-
-    appendedSceneTemplate = '''<text:section text:style-name="Sect1" text:name="ScID:$ID">
-<text:p text:style-name="First_20_line_20_indent"><office:annotation>
-<dc:creator>scene title</dc:creator>
-<text:p>~ ${Title} ~</text:p>
-<text:p/>
-<text:p><text:a xlink:href="../${ProjectName}_manuscript.odt#ScID:$ID%7Cregion">→Manuscript</text:a></text:p>
-</office:annotation>$Desc</text:p>
-</text:section>
 '''
 
     sceneDivider = '''<text:p text:style-name="Heading_20_4">* * *</text:p>
-'''
-
-    chapterEndTemplate = '''</text:section>
 '''
 
     fileFooter = OdtFile.CONTENT_XML_FOOTER
 
 
 class OdtBriefSynopsis(OdtFile):
-    """ODT chapter summaries file representation.
+    """ODT chapter summaries snf scene titles file representation.
 
     Export a brief synopsis.
     """
@@ -2652,17 +2632,35 @@ class OdtBriefSynopsis(OdtFile):
     DESCRIPTION = 'Chapter descriptions'
     SUFFIX = '_chapters'
 
-    fileHeader = OdtFile.CONTENT_XML_HEADER + '''<text:p text:style-name="Title">$Title</text:p>
-<text:p text:style-name="Subtitle">$AuthorName</text:p>
+    fileHeader = OdtFile.CONTENT_XML_HEADER
+
+    partTemplate = '''<text:h text:style-name="Heading_20_1" text:outline-level="1">$Desc</text:h>
 '''
 
-    partTemplate = '''<text:h text:style-name="Heading_20_1" text:outline-level="1"><text:a xlink:href="../${ProjectName}_parts.odt#ChID:$ID%7Cregion">$Title</text:a></text:h>
+    chapterTemplate = '''<text:h text:style-name="Heading_20_2" text:outline-level="2">$Desc</text:h>
 '''
 
-    chapterTemplate = '''<text:section text:style-name="Sect1" text:name="ChID:$ID">
-<text:h text:style-name="Heading_20_2" text:outline-level="2"><text:a xlink:href="../${ProjectName}_manuscript.odt#ChID:$ID%7Cregion">$Title</text:a></text:h>
-<text:p text:style-name="Text_20_body">$Desc</text:p>
-</text:section>
+    sceneTemplate = '''<text:p text:style-name="Text_20_body">$Title</text:p>
+'''
+
+    fileFooter = OdtFile.CONTENT_XML_FOOTER
+
+
+class OdtVeryBriefSynopsis(OdtFile):
+    """ODT part and chapter summaries file representation.
+
+    Export a very brief synopsis.
+    """
+
+    DESCRIPTION = 'Chapter descriptions'
+    SUFFIX = '_parts'
+
+    fileHeader = OdtFile.CONTENT_XML_HEADER
+
+    partTemplate = '''<text:h text:style-name="Heading_20_1" text:outline-level="1">$Desc</text:h>
+'''
+
+    chapterTemplate = '''<text:p text:style-name="Text_20_body">$Desc</text:p>
 '''
 
     fileFooter = OdtFile.CONTENT_XML_FOOTER
@@ -2759,42 +2757,21 @@ class OdtReport(OdtFile):
     DESCRIPTION = 'Project report'
     SUFFIX = '_report'
 
-    fileHeader = OdtFile.CONTENT_XML_HEADER + '''<text:p text:style-name="Title">$Title</text:p>
-<text:p text:style-name="Subtitle">$AuthorName</text:p>
+    fileHeader = OdtFile.CONTENT_XML_HEADER
+
+    partTemplate = '''<text:h text:style-name="Heading_20_1" text:outline-level="1">$Title</text:h>
 '''
 
-    partTemplate = '''<text:section text:style-name="Sect1" text:name="ChID:$ID">
-<text:h text:style-name="Heading_20_1" text:outline-level="1"><text:a xlink:href="../${ProjectName}_parts.odt#ChID:$ID%7Cregion">$Title</text:a></text:h>
+    chapterTemplate = '''<text:h text:style-name="Heading_20_2" text:outline-level="2">$Title</text:h>
+<text:p text:style-name="Text_20_body">$Desc</text:p>
 '''
 
-    chapterTemplate = '''<text:section text:style-name="Sect1" text:name="ChID:$ID">
-<text:h text:style-name="Heading_20_2" text:outline-level="2"><text:a xlink:href="../${ProjectName}_chapters.odt#ChID:$ID%7Cregion">$Title</text:a></text:h>
+    sceneTemplate = '''<text:h text:style-name="Heading_20_3" text:outline-level="3"> ${Title}</text:h>
+<text:p>$Desc</text:p>
 '''
 
-    sceneTemplate = '''<text:section text:style-name="Sect1" text:name="ScID:$ID">
-<text:p text:style-name="Text_20_body"><office:annotation>
-<dc:creator>scene title</dc:creator>
-<text:p>~ ${Title} ~</text:p>
-<text:p/>
-<text:p><text:a xlink:href="../${ProjectName}_manuscript.odt#ScID:$ID%7Cregion">→Manuscript</text:a></text:p>
-</office:annotation>$Desc</text:p>
-</text:section>
-'''
-
-    appendedSceneTemplate = '''<text:section text:style-name="Sect1" text:name="ScID:$ID">
-<text:p text:style-name="First_20_line_20_indent"><office:annotation>
-<dc:creator>scene title</dc:creator>
-<text:p>~ ${Title} ~</text:p>
-<text:p/>
-<text:p><text:a xlink:href="../${ProjectName}_manuscript.odt#ScID:$ID%7Cregion">→Manuscript</text:a></text:p>
-</office:annotation>$Desc</text:p>
-</text:section>
-'''
-
-    sceneDivider = '''<text:p text:style-name="Heading_20_4">* * *</text:p>
-'''
-
-    chapterEndTemplate = '''</text:section>
+    appendedSceneTemplate = '''<text:h text:style-name="Heading_20_3" text:outline-level="3"> ${Title}</text:h>
+<text:p>$Desc</text:p>
 '''
 
     fileFooter = OdtFile.CONTENT_XML_FOOTER
@@ -3877,6 +3854,7 @@ class CsvConverter(YwCnvUi):
     EXPORT_SOURCE_CLASSES = [CsvTimeline]
     EXPORT_TARGET_CLASSES = [OdtFullSynopsis,
                              OdtBriefSynopsis,
+                             OdtVeryBriefSynopsis,
                              OdtCharacterSheets,
                              OdtLocationSheets,
                              OdtReport,
@@ -4024,16 +4002,20 @@ def open_csv(suffix, newExt):
         doc = desktop.loadComponentFromURL(newFile, "_blank", 0, ())
 
 
+def get_partdesc():
+    '''Import part descriptions from Aeon 3 to a Writer document. 
+    '''
+    open_csv(OdtVeryBriefSynopsis.SUFFIX, OdtVeryBriefSynopsis.EXTENSION)
+
+
 def get_chapterdesc():
-    '''Import chapter descriptions from Aeon 3 to a Writer document
-    with invisible chapter and scene markers. 
+    '''Import chapter descriptions from Aeon 3 to a Writer document. 
     '''
     open_csv(OdtBriefSynopsis.SUFFIX, OdtBriefSynopsis.EXTENSION)
 
 
 def get_scenedesc():
-    '''Import scene descriptions from Aeon 3 to a Writer document
-    with invisible chapter and scene markers. 
+    '''Import scene descriptions from Aeon 3 to a Writer document. 
     '''
     open_csv(OdtFullSynopsis.SUFFIX, OdtFullSynopsis.EXTENSION)
 

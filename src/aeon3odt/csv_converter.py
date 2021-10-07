@@ -9,6 +9,7 @@ from pywaeon3.csv_timeline import CsvTimeline
 
 from aeon3odt.odt_full_synopsis import OdtFullSynopsis
 from aeon3odt.odt_brief_synopsis import OdtBriefSynopsis
+from aeon3odt.odt_very_brief_synopsis import OdtVeryBriefSynopsis
 from aeon3odt.odt_character_sheets import OdtCharacterSheets
 from aeon3odt.odt_location_sheets import OdtLocationSheets
 from aeon3odt.odt_report import OdtReport
@@ -18,6 +19,7 @@ class CsvConverter(YwCnvUi):
     EXPORT_SOURCE_CLASSES = [CsvTimeline]
     EXPORT_TARGET_CLASSES = [OdtFullSynopsis,
                              OdtBriefSynopsis,
+                             OdtVeryBriefSynopsis,
                              OdtCharacterSheets,
                              OdtLocationSheets,
                              OdtReport,
