@@ -1,0 +1,6 @@
+Aeon Timeline 3 project data import.
+ 
+Import from Aeon Timeline 3 project:
+- Synopses of the narrative part.
+
+Adds a submenu in the "File" menu.

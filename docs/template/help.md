@@ -8,27 +8,27 @@
 
 ### "Files" menu
 
--   [Scene descriptions](#scene-descriptions)
--   [Chapter descriptions](#chapter-descriptions)
+-   [Scene summaries](#scene-summaries)
+-   [Chapter summaries](#chapter-summaries)
 -   [Character descriptions](#character-descriptions)
 -   [Location descriptions](#location-descriptions)
 
 ------------------------------------------------------------------------
 
-## Scene descriptions
+## Scene summaries
 
 This will generate a new OpenDocument text document (odt) containing a
-**full synopsis** with chapter titles and scene descriptions. 
+**full synopsis** with chapter titles and scene summaries. 
 File name suffix is `_scenes`.
 
 [Top of page](#top)
 
 ------------------------------------------------------------------------
 
-## Chapter descriptions
+## Chapter summaries
 
 This will generate a new OpenDocument text document (odt) containing a
-**brief synopsis** with chapter titles and chapter descriptions. 
+**brief synopsis** with chapter titles and chapter summaries. 
 File name suffix is `_chapters`.
 
 [Top of page](#top)
@@ -50,6 +50,17 @@ character descriptions, bio, goals, and notes. File name suffix is
 
 This will generate a new OpenDocument text document (odt) containing
 location descriptions. File name suffix is `_locations`.
+
+[Top of page](#top)
+
+------------------------------------------------------------------------
+
+
+## Project report
+
+This will generate a new OpenDocument text document (odt) containing
+ a full description of the narrative part, the characters and the locations. 
+ File name suffix is `_report`.
 
 [Top of page](#top)
 

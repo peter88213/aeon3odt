@@ -11,8 +11,8 @@ import inliner
 
 SRC = '../src/'
 BUILD = '../test/'
-SOURCE_FILE = 'aeon3odt_.py'
-TARGET_FILE = BUILD + 'aeon3odt.py'
+SOURCE_FILE = 'cnvaeon_.py'
+TARGET_FILE = BUILD + 'cnvaeon.py'
 
 
 def main():
@@ -26,6 +26,8 @@ def main():
 
     inliner.run(SOURCE_FILE,
                 TARGET_FILE, 'libreoffice', '../src/')
+    inliner.run(TARGET_FILE,
+                TARGET_FILE, 'aeon3odt', '../src/')
     inliner.run(TARGET_FILE,
                 TARGET_FILE, 'pywaeon3', '../../aeon3yw/src/')
     inliner.run(TARGET_FILE,

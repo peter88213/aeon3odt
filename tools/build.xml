@@ -15,9 +15,9 @@
 	<target name="build" description="inline all library modules">
 		
 		<mkdir dir="${test}" />
-		<delete file="${test}/aeon3odt.py" />
+		<delete file="${test}/cnvaeon.py" />
 			<exec executable="python" failonerror="true">
-			    <arg value="${src}/build_aeon3odt.py"/>
+			    <arg value="${src}/build_cnvaeon.py"/>
 			</exec>
 	</target>
 
@@ -66,8 +66,8 @@
 		
 		<copy file="${src}/help.py" todir="${dist}/${release-name-L}/help" />
 
-		<copy file="${test}/aeon3odt.py" todir="${dist}/${release-name-L}/${ant.project.name}" />
-		<replace encoding="utf-8" file="${dist}/${release-name-L}/${ant.project.name}/aeon3odt.py" token="@release" value="${release}" />
+		<copy file="${test}/cnvaeon.py" todir="${dist}/${release-name-L}/${ant.project.name}" />
+		<replace encoding="utf-8" file="${dist}/${release-name-L}/${ant.project.name}/cnvaeon.py" token="@release" value="${release}" />
 
 		<copy file="${oxt}/AddonUI.xcu" todir="${dist}/${release-name-L}" />
 		<replace encoding="utf-8" file="${dist}/${release-name-L}/AddonUI.xcu" token="0.99.0" value="${release}" />
@@ -93,7 +93,7 @@
 
 	<target name="clean" description="clean up">
 		
-		<delete file="${test}/aeon3odt.py" />
+		<delete file="${test}/cnvaeon.py" />
 		
 	</target>
 	
