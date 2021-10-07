@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<office:document-content xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:draw="urn:oasis:names:tc:opendocument:xmlns:drawing:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:meta="urn:oasis:names:tc:opendocument:xmlns:meta:1.0" xmlns:number="urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0" xmlns:svg="urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0" xmlns:chart="urn:oasis:names:tc:opendocument:xmlns:chart:1.0" xmlns:dr3d="urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0" xmlns:math="http://www.w3.org/1998/Math/MathML" xmlns:form="urn:oasis:names:tc:opendocument:xmlns:form:1.0" xmlns:script="urn:oasis:names:tc:opendocument:xmlns:script:1.0" xmlns:ooo="http://openoffice.org/2004/office" xmlns:ooow="http://openoffice.org/2004/writer" xmlns:oooc="http://openoffice.org/2004/calc" xmlns:dom="http://www.w3.org/2001/xml-events" xmlns:xforms="http://www.w3.org/2002/xforms" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:rpt="http://openoffice.org/2005/report" xmlns:of="urn:oasis:names:tc:opendocument:xmlns:of:1.2" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:grddl="http://www.w3.org/2003/g/data-view#" xmlns:tableooo="http://openoffice.org/2009/table" xmlns:field="urn:openoffice:names:experimental:ooo-ms-interop:xmlns:field:1.0" office:version="1.2">
+ <office:scripts/>
+ <office:font-face-decls>
+  <style:font-face style:name="StarSymbol" svg:font-family="StarSymbol" style:font-charset="x-symbol"/>
+  <style:font-face style:name="Courier New" svg:font-family="&apos;Courier New&apos;" style:font-adornments="Standard" style:font-family-generic="modern" style:font-pitch="fixed"/>
+   </office:font-face-decls>
+ <office:automatic-styles>
+  <style:style style:name="Sect1" style:family="section">
+   <style:section-properties style:editable="false">
+    <style:columns fo:column-count="1" fo:column-gap="0cm"/>
+   </style:section-properties>
+  </style:style>
+ </office:automatic-styles>
+ <office:body>
+  <office:text text:use-soft-page-breaks="true">
+
+<text:h text:style-name="Heading_20_1" text:outline-level="1">The Facts</text:h>
+<text:p text:style-name="Text_20_body">An Important Passenger on the Taurus Express</text:p>
+<text:p text:style-name="Text_20_body">The Tokatlian Hotel</text:p>
+<text:p text:style-name="Text_20_body">Poirot Refuses a Case</text:p>
+<text:p text:style-name="Text_20_body">A Cry in the Night</text:p>
+<text:p text:style-name="Text_20_body">The Crime</text:p>
+<text:p text:style-name="Text_20_body">A Woman?</text:p>
+<text:p text:style-name="Text_20_body">The Body</text:p>
+<text:p text:style-name="Text_20_body">The Armstrong Kidnapping Case</text:p>
+<text:h text:style-name="Heading_20_1" text:outline-level="1">The Evidence</text:h>
+<text:p text:style-name="Text_20_body">The Evidence of the Wagon Lit Conductor</text:p>
+<text:p text:style-name="Text_20_body">The Evidence of the Secretary</text:p>
+<text:p text:style-name="Text_20_body">The Evidence of the Valet</text:p>
+<text:p text:style-name="Text_20_body">The Evidence of the American Lady</text:p>
+<text:p text:style-name="Text_20_body">The Evidence of the Swedish Lady</text:p>
+<text:p text:style-name="Text_20_body">The Evidence of the Russian Princess</text:p>
+<text:p text:style-name="Text_20_body">The Evidence of Count and Countess Andrenyi</text:p>
+<text:p text:style-name="Text_20_body">The Evidence of Colonel Arbuthnot</text:p>
+<text:p text:style-name="Text_20_body">The Evidence of Mr Hardman</text:p>
+<text:p text:style-name="Text_20_body">The Evidence of the Italian</text:p>
+<text:p text:style-name="Text_20_body">The Evidence of Miss Debenham</text:p>
+<text:p text:style-name="Text_20_body">The Evidence of the German Lady’s-Maid</text:p>
+<text:p text:style-name="Text_20_body">Summary of the Passenger’s Evidence</text:p>
+<text:p text:style-name="Text_20_body">The Evidence of the Weapon</text:p>
+<text:p text:style-name="Text_20_body">The Evidence of the Passenger’s Luggage</text:p>
+<text:h text:style-name="Heading_20_1" text:outline-level="1">Hercule Poirot sits back and thinks</text:h>
+<text:p text:style-name="Text_20_body">Which of Them?</text:p>
+<text:p text:style-name="Text_20_body">Ten Questions</text:p>
+<text:p text:style-name="Text_20_body">Certain Suggestive Points</text:p>
+<text:p text:style-name="Text_20_body">The Grease Spot on a Hungarian Passport</text:p>
+<text:p text:style-name="Text_20_body">The Christian Name of Princess Dragomiroff</text:p>
+<text:p text:style-name="Text_20_body">A Second Interview with Colonel Arbuthnot</text:p>
+<text:p text:style-name="Text_20_body">The Identity of Mary Debenham</text:p>
+<text:p text:style-name="Text_20_body">Further Surprising Revelations</text:p>
+<text:p text:style-name="Text_20_body">Poirot Propounds Two Solutions</text:p>
+  </office:text>
+ </office:body>
+</office:document-content>

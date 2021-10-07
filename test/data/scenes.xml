@@ -1,0 +1,821 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<office:document-content xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:draw="urn:oasis:names:tc:opendocument:xmlns:drawing:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:meta="urn:oasis:names:tc:opendocument:xmlns:meta:1.0" xmlns:number="urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0" xmlns:svg="urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0" xmlns:chart="urn:oasis:names:tc:opendocument:xmlns:chart:1.0" xmlns:dr3d="urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0" xmlns:math="http://www.w3.org/1998/Math/MathML" xmlns:form="urn:oasis:names:tc:opendocument:xmlns:form:1.0" xmlns:script="urn:oasis:names:tc:opendocument:xmlns:script:1.0" xmlns:ooo="http://openoffice.org/2004/office" xmlns:ooow="http://openoffice.org/2004/writer" xmlns:oooc="http://openoffice.org/2004/calc" xmlns:dom="http://www.w3.org/2001/xml-events" xmlns:xforms="http://www.w3.org/2002/xforms" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:rpt="http://openoffice.org/2005/report" xmlns:of="urn:oasis:names:tc:opendocument:xmlns:of:1.2" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:grddl="http://www.w3.org/2003/g/data-view#" xmlns:tableooo="http://openoffice.org/2009/table" xmlns:field="urn:openoffice:names:experimental:ooo-ms-interop:xmlns:field:1.0" office:version="1.2">
+ <office:scripts/>
+ <office:font-face-decls>
+  <style:font-face style:name="StarSymbol" svg:font-family="StarSymbol" style:font-charset="x-symbol"/>
+  <style:font-face style:name="Courier New" svg:font-family="&apos;Courier New&apos;" style:font-adornments="Standard" style:font-family-generic="modern" style:font-pitch="fixed"/>
+   </office:font-face-decls>
+ <office:automatic-styles>
+  <style:style style:name="Sect1" style:family="section">
+   <style:section-properties style:editable="false">
+    <style:columns fo:column-count="1" fo:column-gap="0cm"/>
+   </style:section-properties>
+  </style:style>
+ </office:automatic-styles>
+ <office:body>
+  <office:text text:use-soft-page-breaks="true">
+
+<text:h text:style-name="Heading_20_1" text:outline-level="1">Part 1</text:h>
+<text:h text:style-name="Heading_20_2" text:outline-level="2">Chapter 1</text:h>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot boards the Taurus Express on his way to Istanbul ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot observes the behaviour of Mary Debenham and Colonel Arbuthnot, and decides they are known to each other ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ At a rest stop in Konya, Poirot overheats Mary say to Arbuthnot: “When it’s all over…" ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:h text:style-name="Heading_20_2" text:outline-level="2">Chapter 2</text:h>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot arrives in Stamboul and checks in at the Tokatlian Hotel, where Poirot books into the Orient Express ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Over dinner, Poirot observes Ratchett and Hector MacQueen at a nearby table, and immediately distrusts Ratchett. ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot boards the train, where he shares a carriage with Hector MacQueen. ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:h text:style-name="Heading_20_2" text:outline-level="2">Chapter 3</text:h>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot shares lunch on the train with M. Bouc, while observing the other passengers. ~</text:p>
+<text:p/>
+</office:annotation>Each of the passengers is introduced and described in turn.</text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Ratchett approaches Poirot and asks him to investigate threats against him, which Poirot refuses. ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:h text:style-name="Heading_20_2" text:outline-level="2">Chapter 4</text:h>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ At Belgrade, Poirot is moved to a first class carriage, directly next to Ratchett and near to Mrs Hubbard. He overhears MacQueen and Arbuthnot planning further discussion in MacQueen’s carriage ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ After falling asleep, Poirot is awakened by a a loud groan and ringing bell. He notices the train has stopped. ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ After multiple passengers hear a groan, the Conductor answers Ratchett’s ringing bell, and Rachett replies in French to assure him he is okay. ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:h text:style-name="Heading_20_2" text:outline-level="2">Chapter 5</text:h>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Mrs Hubbard hears someone in her compartment and rings for the conductor ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ The Condutor brings mineral water to Poirot ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot hears a noise and sees a women in a dressing gown in the corridor ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot returns to his compartment and sleeps until morning. ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot has breakfast in the dining car with the other passengers, and observes that they are all nervously contacting family and friends. ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ M. Bouc calls Poirot to his cabin, and tells him that Ratchett has been stabbed. ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ M. Bouc discusses details of the case with Poirot ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot accepts M. Bouc’s request to take the case. ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:h text:style-name="Heading_20_2" text:outline-level="2">Chapter 6</text:h>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ The passports and tickets of all passengers are gathered ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot talks to MacQueen about the murder, as he had seen him with Ratchett previously. ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ MacQueen mentions that he travels with Ratchett because Ratchett does not know any languages ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ MacQueen mentions that he believes Ratchett’s name is an alias ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ MacQueen shows Poirot the threatening letters left for Ratchett, which Poirot determines were written by several different people. ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ MacQueen provides testimony that he last saw Ratchett when he took down a memoranda of letters ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:h text:style-name="Heading_20_2" text:outline-level="2">Chapter 7</text:h>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot examines the dead man's body and compartment ~</text:p>
+<text:p/>
+</office:annotation>12 stab wounds to the body</text:p>
+<text:p text:style-name="First_20_line_20_indent">Ratchett was already dead for some time before some of the stabs</text:p>
+<text:p text:style-name="First_20_line_20_indent">Some left handed, some right handed</text:p>
+<text:p text:style-name="First_20_line_20_indent">Some weak, some strong</text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot notices some stab wounds were delivered right handed, and others left handed; some are deep and some mere scratches. ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot finds two different kinds of matches in compartment ~</text:p>
+<text:p/>
+</office:annotation>This indicates to him that something incriminating has been burnt</text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot finds women's handkerchief with the initial 'H' ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot finds tobacco pipe ~</text:p>
+<text:p/>
+</office:annotation>Matches Colonel Arthbutnots</text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot finds smashed watch showing the time 12:45, but is sceptical this indicates the time of death because he too has read too much Agatha Christie. ~</text:p>
+<text:p/>
+</office:annotation>The hands point to 1:15</text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot finds scrap of paper with the words "-member little Daisy Armstrong" ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot recognises the name, and instantly knows the true identity of Ratchett as an American named Cassetti. ~</text:p>
+<text:p/>
+</office:annotation>A man responsible for the kidnap and murder of a little girl called Daisy Armstrong</text:p>
+<text:h text:style-name="Heading_20_2" text:outline-level="2">Chapter 8</text:h>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot, the coroner and M. Bouc share lunch, where Poirot explains the identity of the victim and details of the Armstrong case. ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:h text:style-name="Heading_20_1" text:outline-level="1">Part 2</text:h>
+<text:h text:style-name="Heading_20_2" text:outline-level="2">Chapter 9</text:h>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot interviews the Conductor, who recounts his previous nights actions ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Ratchett asks for his bed to be made while he was at dinner so he can retire early. ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ MacQueen takes down memoranda of letters with Mr Ratchett. This is observed by the Conductor, who states that no one else was seen entering Ratchett’s room that night. ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ The Conductor recounts responding to Ratchett’s bell, as Poirot had witnessed on the night ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ The Conductor confirms that MacQueen and Arbuthnot talked in their cabin late into the night. ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ MacQueen calls conductor and has him make up his bed ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ The Conductor talks with his co-workers in the adjacent carriage ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ The Conductor answers the bell of Mrs Hubbard ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ The Conductor recounts bringing mineral water to Poirot ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:h text:style-name="Heading_20_2" text:outline-level="2">Chapter 10</text:h>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot interviews MacQueen ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot informs MacQueen of Ratchett’s real identity. MacQueen reacts with surprise, and reveals his connection to the Armstrong case. ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ MacQueen talks politics with Colonel Arbuthnot ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:h text:style-name="Heading_20_2" text:outline-level="2">Chapter 11</text:h>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot interviews the Valet ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ The Valet leaves Ratchett with sleeping draught beside him ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ The Valet returns to his compartment and reads ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Conductor makes the beds for The Valet and Antonio Foscarelli ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ The Valet lies awake with a toothache ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Antonio Foscarelli reads in his compartment, which is confirmed by The Valet who shared his room ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot asks The Valet if he is a pipe smoker, but he claims he only smokes cigarettes ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:h text:style-name="Heading_20_2" text:outline-level="2">Chapter 12</text:h>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot interviews Mrs Hubbard ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Mrs Hubbard claims the murderer entered her room the previous night, as she awoke to a shadowy figure. She called the conductor, as witnessed by Poirot. ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Upon investigation, no one was found, but the door to Ratchett’s room wasn’t bolted. ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Mrs Hubbard hands Poirot a button from a train conductor’s uniform which she found near her bed ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Mrs Hubbard asks Greta Ohlsson to confirm the door to Ratchett’s room is bolted before she goes to bed. ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Greta Ohlsson is observed by Mrs Hubbard entering Rachett's apartment by mistake ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot informs Mrs Hubbard of Ratchett’s true identity, but she denies a connection. ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Mrs Hubbard denies owning a red dressing gown, and says the handkerchief with “H” written on it is not hers ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:h text:style-name="Heading_20_2" text:outline-level="2">Chapter 13</text:h>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Greta Ohlsson confirms Mrs Hubbards recollections ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Greta confirms that Mary Debenham never left the carriage they shared ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Greta denies having ever been to America ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:h text:style-name="Heading_20_2" text:outline-level="2">Chapter 14</text:h>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot asks The Conductor about the button found by Mrs Hubbard, but he denies it is his and finds colleagues to vouch for his whereabouts. ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot interviews Princess Drawgonmiroff ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Princess Dragonmiroff rings for her maid, Hildegard Schmidt ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Hildegarde Schmidt reads aloud to Princess Dragonmiroff ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ After Poirot reveals Ratchett’s identitiy, Princess Dragomiroff reveals she knew Daisy’s grandmother, Linda Arden. ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Princess Dragomiroff claims her dressing gown is black satin ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:h text:style-name="Heading_20_2" text:outline-level="2">Chapter 15</text:h>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot interviews Count and Countess Andrenyi ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Countess Andrenyi takes a sleeping draught and sleeps, as witnessed by her husband ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Count Andrenyi sleeps ~</text:p>
+<text:p/>
+</office:annotation>This alibi does not cover the time period 1-1:15 am</text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ The Countess claims her husband smokes cigarettes and cigars, but not a pipe ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ The Countess claims her dressing gown is yellow ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:h text:style-name="Heading_20_2" text:outline-level="2">Chapter 16</text:h>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot interviews Colonel Arbuthnot ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Arbuthnot volunteers that he smokes a pipe ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Arburthnot admits he remembers Colonel Armstrong when pushed by Poirot. ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Arbuthnot confirms he was up late in discussion with MacQueen ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:h text:style-name="Heading_20_2" text:outline-level="2">Chapter 17</text:h>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot interviews Cyrus Hardman ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Hardman claims he is a traveling salesman, then comes clean and claims to be a private detective ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Hardman reveals he had taken a job protecting Ratchett, and so kept watch all night. He corroborates the Conductor’s story. ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Hardman volunteers that he knew MacQueen and had worked with his father ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ When offered, Hardman opts for a cigarette rather than a tobacco pipe ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:h text:style-name="Heading_20_2" text:outline-level="2">Chapter 18</text:h>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot interviews Antonio Foscarelli ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Foscarelli confirms the story of the Valet, that they both remained in their compartment all night ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ After Foscarelli leaves, M. Bouc shows his prejudice by insisting it must be him because Italians use knives. ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:h text:style-name="Heading_20_2" text:outline-level="2">Chapter 19</text:h>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot interviews Mary Debenham, who is uncooperative and evasive during the interview ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Mary Debenham sleeps ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Mary Debenham denies owning the scarlet dressing gown ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Mary Debenham wakes and sees a women in a dressing gown in the corridor ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Greta Ohlsson returns to her compartment and sleeps ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:h text:style-name="Heading_20_2" text:outline-level="2">Chapter 20</text:h>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot interviews Greta Ohlsson ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Hildegarde corroborates Mary Debenham’s version of events. ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Hildegarde claims her dressing gown is dark blue ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Hildegarde reacts to being asked about a woman in a scarlett dressing gown, but denies seeing one ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Hildegarde claims to have seen a conductor leave an apartment and ignore a ringing bell ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Hildegarde claims not to own the handkerchief ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Hildegarde participates in a line up, and claims none of the three conductors was the person she saw when ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:h text:style-name="Heading_20_2" text:outline-level="2">Chapter 21</text:h>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Mrs Hubbard finds bloody knife in her sponge-bag ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:h text:style-name="Heading_20_2" text:outline-level="2">Chapter 22</text:h>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot examines the lock between Mrs Hubbard’s and Ratchett’s rooms, and believes it may have only been locked from Ratchett’s side. ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:h text:style-name="Heading_20_2" text:outline-level="2">Chapter 23</text:h>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot searches the passengers’ luggage to find the missing dressing gown and conductor’s uniform ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot finds pipe cleaners in Arbuthnot’s compartment that match those found in Ratchett’s room ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot finds a bottle of a sleeping drug in Countess Andrenyi’s room ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot asks Mary Debenham about her “when its all over” comment the previous day. ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot finds conductors uniform in Hildegarde Schmidt's compartment ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot finds dressing gown in his own compartment ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:h text:style-name="Heading_20_1" text:outline-level="1">Part 3</text:h>
+<text:h text:style-name="Heading_20_2" text:outline-level="2">Chapter 24</text:h>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot discusses the case with the doctor and inspector ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:h text:style-name="Heading_20_2" text:outline-level="2">Chapter 25</text:h>
+<text:h text:style-name="Heading_20_2" text:outline-level="2">Chapter 26</text:h>
+<text:h text:style-name="Heading_20_2" text:outline-level="2">Chapter 27</text:h>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Under pressure from Poirot, the Countess confirms that she is Helena Goldenberg and therefore had motive, but insists she is not the killer. ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ The Countess confirms Daisy’s household included a nursemaid, nurse, and governess. ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:h text:style-name="Heading_20_2" text:outline-level="2">Chapter 28</text:h>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Princess Dragomiroff claims ownership of the handkerchief, and admits she knew the Countess was related to the Armstrongs. ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:h text:style-name="Heading_20_2" text:outline-level="2">Chapter 29</text:h>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot interviews Colonel Arbuthnot for a second time ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot again confronts Colonel Arbuthnot regarding the pipe-cleaner, but Arbuthnot stonewalls him ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot asks Arbuthnot about his conversation with Ms Debenham in Syria, which he refuses to answer. ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot confronts Arbuthnot with a guess that Mary Debenham was the Countess’s governess. Arbuthnot silence confirms to Poirot that he is correct. ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:h text:style-name="Heading_20_2" text:outline-level="2">Chapter 30</text:h>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot sends for Mary Debenham, and suggests to her that she was living with the Armstrongs when Daisy was murdered. Mary admits this is true and that she previously lied. ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Arbuthnot becomes defensive of Mary, and threatens Poirot with injury, before they both leave, denying Mary had any involvement in Ratchett’s murder. ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:h text:style-name="Heading_20_2" text:outline-level="2">Chapter 31</text:h>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot calls for Foscarelli and correctly guesses that he acted as the Armstrong’s chauffer. ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot calls for Greta Ohlsson, and she admits she was Daisy Armstrong’s nurse. ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ The Valet comes forward to admit he was Colonel Armstrong’s assistant in the war, and apologises for his earlier deceipt. ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot questions Hardman’s history with the Armstrongs, but he denies any connection. ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:h text:style-name="Heading_20_2" text:outline-level="2">Chapter 32</text:h>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ In front of the assembled passengers, Poirot announces he has two theories of the crime, and will leave it to M. Bouc and Dr Constantine to “judge" which is correct. ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot covers the known facts of the case, including the time of murder and that it was believed no one had departed the train. ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot proposes one possible theory, involving an unknown assailant who snuck onto the train, murdered Ratchett, discarded the uniform in Hildegarde’s luggage and left the train ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ M. Bouc and Dr Constantine express shock and doubt at this theory, given it runs contrary to much of the evidence and theories they have seen earlier ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot then proposes a second possible theory, that all of the passengers colluded and participated in the murder to exact justice against Ratchett. ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot concludes the smashed watch was set to a fake time, and that MacQueen had lied about Ratchett not speaking French to make Poirot think Ratchett was dead at 12:37am, whereas the true murder occurred closer to 2:00am. ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot concludes the threatening letters, unknown assailant, conductor’s uniform and red dressing gown were all decoys designed to confuse the investigation. ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot determines that of the 13 guests who delivered 12 stab wounds, it was the Countess that did not take part, as she was the person with the greatest motive and her husband instead took her place. ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Poirot concludes that Linda Arden, Daisy’s grandmother, was the mastermind behind her plan, at which point Mrs Hubbard announces herself as Linda. ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Linda Arden confirms many details of Poirot’s theory, and confirms the remaining connections between the passengers and the Armstrong family. She insists it was an act of justice and not revenge. ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+<text:p text:style-name="Heading_20_4">* * *</text:p>
+<text:p text:style-name="Text_20_body"><office:annotation>
+<dc:creator>scene title</dc:creator>
+<text:p>~ Finally understanding why Poirot outlined his first potential solution, M. Bouc and Dr Constantine agree to go along with Poirot’s conspiracy, and present the decoy solution to police after all. ~</text:p>
+<text:p/>
+</office:annotation></text:p>
+  </office:text>
+ </office:body>
+</office:document-content>

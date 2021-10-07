@@ -20,8 +20,7 @@ You can find more information on the [help pages](help).
 
 ## Requirements
 
--   [LibreOffice](https://www.libreoffice.org/) version 5.4 or more 
-    recent. LibreOffice 7 is highly recommended.
+-   [LibreOffice version 7.0+](https://www.libreoffice.org/).
 -   Java Runtime Environment (LibreOffice might need it for macro
     execution).
 

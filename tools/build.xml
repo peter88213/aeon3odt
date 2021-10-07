@@ -19,6 +19,16 @@
 			<exec executable="python" failonerror="true">
 			    <arg value="${src}/build_cnvaeon.py"/>
 			</exec>
+		<delete file="${test}/cnvaeon_stub.py" />
+			<exec executable="python" failonerror="true">
+			    <arg value="${src}/build_stub.py"/>
+			</exec>
+	</target>
+
+	<target name="test" description="unit tests">
+		<exec executable="python" failonerror="true">
+		    <arg value="${test}/test_aeon3odt.py"/>
+		</exec>
 	</target>
 
 	<target name="dist" description="Generate the extension">
@@ -87,13 +97,13 @@
 
 		<copy file="${docs}/template/help.md" overwrite="True" todir="${docs}" />
 		<replace encoding="utf-8" file="${docs}/help.md" token="@help-adv@" value="help-adv" />
-		
-	
+			
 	</target>
 
 	<target name="clean" description="clean up">
 		
 		<delete file="${test}/cnvaeon.py" />
+		<delete file="${test}/cnvaeon_stub.py" />
 		
 	</target>
 	
