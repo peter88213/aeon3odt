@@ -4,6 +4,14 @@
 
 # Aeon Timeline 3 import
 
+## Set up your timeline for export
+
+In the "Narrative" settings select "Outline Style" as numbering system. Make sure that at least chapters are auto assigned to "folders", and scenes are auto assigned to "other types". 
+
+## csv export from Aeon Timeline 3
+
+- The csv file exported by Aeon Timeline 3 must be **comma**-separated.
+
 ## Command reference
 
 ### "Files" menu
@@ -58,7 +66,7 @@ This will generate a new OpenDocument text document (odt) containing
 character descriptions, bio, goals, and notes. 
 
 File name suffix is
-`_characters`.
+`_character_sheets`.
 
 [Top of page](#top)
 
@@ -69,7 +77,7 @@ File name suffix is
 This will generate a new OpenDocument text document (odt) containing
 location descriptions. 
 
-File name suffix is `_locations`.
+File name suffix is `_location_sheets`.
 
 [Top of page](#top)
 
