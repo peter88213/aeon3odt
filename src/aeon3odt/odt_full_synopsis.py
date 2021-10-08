@@ -13,8 +13,8 @@ class OdtFullSynopsis(OdtFile):
     Export a full synopsis.
     """
 
-    DESCRIPTION = 'Scene descriptions'
-    SUFFIX = '_scenes'
+    DESCRIPTION = 'Full synopsis'
+    SUFFIX = '_full_synopsis'
 
     fileHeader = OdtFile.CONTENT_XML_HEADER
 

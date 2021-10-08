@@ -12,7 +12,7 @@ from configparser import ConfigParser
 
 from aeon3odt.odt_full_synopsis import OdtFullSynopsis
 from aeon3odt.odt_brief_synopsis import OdtBriefSynopsis
-from aeon3odt.odt_very_brief_synopsis import OdtVeryBriefSynopsis
+from aeon3odt.odt_chapter_overview import OdtChapterOverview
 from aeon3odt.odt_character_sheets import OdtCharacterSheets
 from aeon3odt.odt_location_sheets import OdtLocationSheets
 from aeon3odt.odt_report import OdtReport
@@ -114,32 +114,32 @@ def open_csv(suffix, newExt):
         doc = desktop.loadComponentFromURL(newFile, "_blank", 0, ())
 
 
-def get_partdesc():
-    '''Import part descriptions from Aeon 3 to a Writer document. 
+def get_chapteroverview():
+    '''Import a chapter overview from Aeon 3 to a Writer document. 
     '''
-    open_csv(OdtVeryBriefSynopsis.SUFFIX, OdtVeryBriefSynopsis.EXTENSION)
+    open_csv(OdtChapterOverview.SUFFIX, OdtChapterOverview.EXTENSION)
 
 
-def get_chapterdesc():
-    '''Import chapter descriptions from Aeon 3 to a Writer document. 
+def get_briefsynopsis():
+    '''Import a brief synopsis from Aeon 3 to a Writer document. 
     '''
     open_csv(OdtBriefSynopsis.SUFFIX, OdtBriefSynopsis.EXTENSION)
 
 
-def get_scenedesc():
-    '''Import scene descriptions from Aeon 3 to a Writer document. 
+def get_fullsynopsis():
+    '''Import a full synopsis from Aeon 3 to a Writer document. 
     '''
     open_csv(OdtFullSynopsis.SUFFIX, OdtFullSynopsis.EXTENSION)
 
 
-def get_chardesc():
-    '''Import character descriptions from Aeon 3 to a Writer document.
+def get_charactersheets():
+    '''Import character sheets from Aeon 3 to a Writer document.
     '''
     open_csv(OdtCharacterSheets.SUFFIX, OdtCharacterSheets.EXTENSION)
 
 
-def get_locdesc():
-    '''Import location descriptions from Aeon 3 to a Writer document.
+def get_locationsheets():
+    '''Import location sheets from Aeon 3 to a Writer document.
     '''
     open_csv(OdtLocationSheets.SUFFIX, OdtLocationSheets.EXTENSION)
 

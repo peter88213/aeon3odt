@@ -7,14 +7,14 @@ Published under the MIT License (https://opensource.org/licenses/mit-license.php
 from pywriter.odt.odt_file import OdtFile
 
 
-class OdtVeryBriefSynopsis(OdtFile):
+class OdtChapterOverview(OdtFile):
     """ODT part and chapter summaries file representation.
 
     Export a very brief synopsis.
     """
 
-    DESCRIPTION = 'Chapter descriptions'
-    SUFFIX = '_parts'
+    DESCRIPTION = 'Chapter overview'
+    SUFFIX = '_chapter_overview'
 
     fileHeader = OdtFile.CONTENT_XML_HEADER
 

@@ -13,8 +13,8 @@ class OdtCharacterSheets(OdtFile):
     Export a character sheet.
     """
 
-    DESCRIPTION = 'Character descriptions'
-    SUFFIX = '_characters'
+    DESCRIPTION = 'Character sheets'
+    SUFFIX = '_character_sheets'
 
     fileHeader = OdtFile.CONTENT_XML_HEADER + '''<text:p text:style-name="Title">$Title</text:p>
 <text:p text:style-name="Subtitle">$AuthorName</text:p>

@@ -13,8 +13,8 @@ class OdtBriefSynopsis(OdtFile):
     Export a brief synopsis.
     """
 
-    DESCRIPTION = 'Chapter descriptions'
-    SUFFIX = '_chapters'
+    DESCRIPTION = 'Brief synopsis'
+    SUFFIX = '_brief_synopsis'
 
     fileHeader = OdtFile.CONTENT_XML_HEADER
 

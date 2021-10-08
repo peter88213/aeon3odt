@@ -59,7 +59,7 @@
                               <value xml:lang="en">Full synopsis</value>
                            </prop>
                            <prop oor:name="URL" oor:type="xs:string">
-                              <value>vnd.sun.star.script:aeon3odt-L-0.99.0.oxt|aeon3odt|cnvaeon.py$get_scenedesc?language=Python&amp;location=user:uno_packages</value>
+                              <value>vnd.sun.star.script:aeon3odt-L-0.99.0.oxt|aeon3odt|cnvaeon.py$get_fullsynopsis?language=Python&amp;location=user:uno_packages</value>
                            </prop>
                            <prop oor:name="Target" oor:type="xs:string">
                               <value>_self</value>
@@ -73,7 +73,7 @@
                               <value xml:lang="en">Brief synopsis</value>
                            </prop>
                            <prop oor:name="URL" oor:type="xs:string">
-                              <value>vnd.sun.star.script:aeon3odt-L-0.99.0.oxt|aeon3odt|cnvaeon.py$get_chapterdesc?language=Python&amp;location=user:uno_packages</value>
+                              <value>vnd.sun.star.script:aeon3odt-L-0.99.0.oxt|aeon3odt|cnvaeon.py$get_briefsynopsis?language=Python&amp;location=user:uno_packages</value>
                            </prop>
                            <prop oor:name="Target" oor:type="xs:string">
                               <value>_self</value>
@@ -84,10 +84,10 @@
                               <value/>
                            </prop>
                            <prop oor:name="Title" oor:type="xs:string">
-                              <value xml:lang="en">Very brief synopsis</value>
+                              <value xml:lang="en">Chapter overview</value>
                            </prop>
                            <prop oor:name="URL" oor:type="xs:string">
-                              <value>vnd.sun.star.script:aeon3odt-L-0.99.0.oxt|aeon3odt|cnvaeon.py$get_partdesc?language=Python&amp;location=user:uno_packages</value>
+                              <value>vnd.sun.star.script:aeon3odt-L-0.99.0.oxt|aeon3odt|cnvaeon.py$get_chapteroverview?language=Python&amp;location=user:uno_packages</value>
                            </prop>
                            <prop oor:name="Target" oor:type="xs:string">
                               <value>_self</value>
@@ -101,7 +101,7 @@
                               <value xml:lang="en">Character sheets</value>
                            </prop>
                            <prop oor:name="URL" oor:type="xs:string">
-                              <value>vnd.sun.star.script:aeon3odt-L-0.99.0.oxt|aeon3odt|cnvaeon.py$get_chardesc?language=Python&amp;location=user:uno_packages</value>
+                              <value>vnd.sun.star.script:aeon3odt-L-0.99.0.oxt|aeon3odt|cnvaeon.py$get_charactersheets?language=Python&amp;location=user:uno_packages</value>
                            </prop>
                            <prop oor:name="Target" oor:type="xs:string">
                               <value>_self</value>
@@ -115,7 +115,7 @@
                               <value xml:lang="en">Location sheets</value>
                            </prop>
                            <prop oor:name="URL" oor:type="xs:string">
-                              <value>vnd.sun.star.script:aeon3odt-L-0.99.0.oxt|aeon3odt|cnvaeon.py$get_locdesc?language=Python&amp;location=user:uno_packages</value>
+                              <value>vnd.sun.star.script:aeon3odt-L-0.99.0.oxt|aeon3odt|cnvaeon.py$get_locationsheets?language=Python&amp;location=user:uno_packages</value>
                            </prop>
                            <prop oor:name="Target" oor:type="xs:string">
                               <value>_self</value>
@@ -184,7 +184,7 @@
                      <value xml:lang="en">Full synopsis</value>
                   </prop>
                   <prop oor:name="URL" oor:type="xs:string">
-                     <value>vnd.sun.star.script:aeon3odt-L-0.99.0.oxt|aeon3odt|cnvaeon.py$get_scenedesc?language=Python&amp;location=user:uno_packages</value>
+                     <value>vnd.sun.star.script:aeon3odt-L-0.99.0.oxt|aeon3odt|cnvaeon.py$get_fullsynopsis?language=Python&amp;location=user:uno_packages</value>
                   </prop>
                   <prop oor:name="Target" oor:type="xs:string">
                      <value>_self</value>
@@ -198,7 +198,7 @@
                      <value xml:lang="en">Brief synopsis</value>
                   </prop>
                   <prop oor:name="URL" oor:type="xs:string">
-                     <value>vnd.sun.star.script:aeon3odt-L-0.99.0.oxt|aeon3odt|cnvaeon.py$get_chapterdesc?language=Python&amp;location=user:uno_packages</value>
+                     <value>vnd.sun.star.script:aeon3odt-L-0.99.0.oxt|aeon3odt|cnvaeon.py$get_briefsynopsis?language=Python&amp;location=user:uno_packages</value>
                   </prop>
                   <prop oor:name="Target" oor:type="xs:string">
                      <value>_self</value>
@@ -209,10 +209,10 @@
                      <value/>
                   </prop>
                   <prop oor:name="Title" oor:type="xs:string">
-                     <value xml:lang="en">Very brief synopsis</value>
+                     <value xml:lang="en">Chapter overview</value>
                   </prop>
                   <prop oor:name="URL" oor:type="xs:string">
-                     <value>vnd.sun.star.script:aeon3odt-L-0.99.0.oxt|aeon3odt|cnvaeon.py$get_partdesc?language=Python&amp;location=user:uno_packages</value>
+                     <value>vnd.sun.star.script:aeon3odt-L-0.99.0.oxt|aeon3odt|cnvaeon.py$get_chapteroverview?language=Python&amp;location=user:uno_packages</value>
                   </prop>
                   <prop oor:name="Target" oor:type="xs:string">
                      <value>_self</value>
@@ -226,7 +226,7 @@
                      <value xml:lang="en">Character sheets</value>
                   </prop>
                   <prop oor:name="URL" oor:type="xs:string">
-                     <value>vnd.sun.star.script:aeon3odt-L-0.99.0.oxt|aeon3odt|cnvaeon.py$get_chardesc?language=Python&amp;location=user:uno_packages</value>
+                     <value>vnd.sun.star.script:aeon3odt-L-0.99.0.oxt|aeon3odt|cnvaeon.py$get_charactersheets?language=Python&amp;location=user:uno_packages</value>
                   </prop>
                   <prop oor:name="Target" oor:type="xs:string">
                      <value>_self</value>
@@ -240,7 +240,7 @@
                      <value xml:lang="en">Location sheets</value>
                   </prop>
                   <prop oor:name="URL" oor:type="xs:string">
-                     <value>vnd.sun.star.script:aeon3odt-L-0.99.0.oxt|aeon3odt|cnvaeon.py$get_locdesc?language=Python&amp;location=user:uno_packages</value>
+                     <value>vnd.sun.star.script:aeon3odt-L-0.99.0.oxt|aeon3odt|cnvaeon.py$get_locationsheets?language=Python&amp;location=user:uno_packages</value>
                   </prop>
                   <prop oor:name="Target" oor:type="xs:string">
                      <value>_self</value>

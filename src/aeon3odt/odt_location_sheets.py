@@ -13,8 +13,8 @@ class OdtLocationSheets(OdtFile):
     Export a location sheet.
     """
 
-    DESCRIPTION = 'Location descriptions'
-    SUFFIX = '_locations'
+    DESCRIPTION = 'Location sheets'
+    SUFFIX = '_location_sheets'
 
     fileHeader = OdtFile.CONTENT_XML_HEADER + '''<text:p text:style-name="Title">$Title</text:p>
 <text:p text:style-name="Subtitle">$AuthorName</text:p>

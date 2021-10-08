@@ -29,9 +29,9 @@ SCENES_CONTENT = TEST_DATA_PATH + 'scenes.xml'
 
 # Test data
 TEST_CSV = TEST_EXEC_PATH + 'yw7 Sample Project.csv'
-TEST_PARTS = TEST_EXEC_PATH + 'yw7 Sample Project_parts.odt'
-TEST_CHAPTERS = TEST_EXEC_PATH + 'yw7 Sample Project_chapters.odt'
-TEST_SCENES = TEST_EXEC_PATH + 'yw7 Sample Project_scenes.odt'
+TEST_PARTS = TEST_EXEC_PATH + 'yw7 Sample Project_chapter_overview.odt'
+TEST_CHAPTERS = TEST_EXEC_PATH + 'yw7 Sample Project_brief_synopsis.odt'
+TEST_SCENES = TEST_EXEC_PATH + 'yw7 Sample Project_full_synopsis.odt'
 ODF_CONTENT = 'content.xml'
 
 
@@ -87,9 +87,9 @@ class NormalOperation(unittest.TestCase):
 
         remove_all_testfiles()
 
-    def test_partdesc(self):
+    def test_chapter_overview(self):
         copyfile(NORMAL_CSV, TEST_CSV)
-        cnvaeon_stub_.convert_csv(TEST_CSV, '_parts')
+        cnvaeon_stub_.convert_csv(TEST_CSV, '_chapter_overview')
 
         with zipfile.ZipFile(TEST_PARTS, 'r') as myzip:
             myzip.extract(ODF_CONTENT, TEST_EXEC_PATH)
@@ -98,9 +98,9 @@ class NormalOperation(unittest.TestCase):
         self.assertEqual(read_file(TEST_EXEC_PATH + ODF_CONTENT),
                          read_file(PARTS_CONTENT))
 
-    def test_chapterdesc(self):
+    def test_brief_synopsis(self):
         copyfile(NORMAL_CSV, TEST_CSV)
-        cnvaeon_stub_.convert_csv(TEST_CSV, '_chapters')
+        cnvaeon_stub_.convert_csv(TEST_CSV, '_brief_synopsis')
 
         with zipfile.ZipFile(TEST_CHAPTERS, 'r') as myzip:
             myzip.extract(ODF_CONTENT, TEST_EXEC_PATH)
@@ -109,9 +109,9 @@ class NormalOperation(unittest.TestCase):
         self.assertEqual(read_file(TEST_EXEC_PATH + ODF_CONTENT),
                          read_file(CHAPTERS_CONTENT))
 
-    def test_scenedesc(self):
+    def test_full_synopsis(self):
         copyfile(NORMAL_CSV, TEST_CSV)
-        cnvaeon_stub_.convert_csv(TEST_CSV, '_scenes')
+        cnvaeon_stub_.convert_csv(TEST_CSV, '_full_synopsis')
 
         with zipfile.ZipFile(TEST_SCENES, 'r') as myzip:
             myzip.extract(ODF_CONTENT, TEST_EXEC_PATH)

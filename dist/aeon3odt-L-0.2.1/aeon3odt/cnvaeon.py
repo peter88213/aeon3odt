@@ -1,6 +1,6 @@
 """Convert Aeon Timeline 3 project data to odt. 
 
-Version 0.2.0
+Version 0.2.1
 
 Copyright (c) 2021 Peter Triesberger
 For further information see https://github.com/peter88213/aeon3odt
@@ -2599,8 +2599,8 @@ class OdtFullSynopsis(OdtFile):
     Export a full synopsis.
     """
 
-    DESCRIPTION = 'Scene descriptions'
-    SUFFIX = '_scenes'
+    DESCRIPTION = 'Full synopsis'
+    SUFFIX = '_full_synopsis'
 
     fileHeader = OdtFile.CONTENT_XML_HEADER
 
@@ -2629,8 +2629,8 @@ class OdtBriefSynopsis(OdtFile):
     Export a brief synopsis.
     """
 
-    DESCRIPTION = 'Chapter descriptions'
-    SUFFIX = '_chapters'
+    DESCRIPTION = 'Brief synopsis'
+    SUFFIX = '_brief_synopsis'
 
     fileHeader = OdtFile.CONTENT_XML_HEADER
 
@@ -2646,14 +2646,14 @@ class OdtBriefSynopsis(OdtFile):
     fileFooter = OdtFile.CONTENT_XML_FOOTER
 
 
-class OdtVeryBriefSynopsis(OdtFile):
+class OdtChapterOverview(OdtFile):
     """ODT part and chapter summaries file representation.
 
     Export a very brief synopsis.
     """
 
-    DESCRIPTION = 'Chapter descriptions'
-    SUFFIX = '_parts'
+    DESCRIPTION = 'Chapter overview'
+    SUFFIX = '_chapter_overview'
 
     fileHeader = OdtFile.CONTENT_XML_HEADER
 
@@ -2672,8 +2672,8 @@ class OdtCharacterSheets(OdtFile):
     Export a character sheet.
     """
 
-    DESCRIPTION = 'Character descriptions'
-    SUFFIX = '_characters'
+    DESCRIPTION = 'Character sheets'
+    SUFFIX = '_character_sheets'
 
     fileHeader = OdtFile.CONTENT_XML_HEADER + '''<text:p text:style-name="Title">$Title</text:p>
 <text:p text:style-name="Subtitle">$AuthorName</text:p>
@@ -2722,8 +2722,8 @@ class OdtLocationSheets(OdtFile):
     Export a location sheet.
     """
 
-    DESCRIPTION = 'Location descriptions'
-    SUFFIX = '_locations'
+    DESCRIPTION = 'Location sheets'
+    SUFFIX = '_location_sheets'
 
     fileHeader = OdtFile.CONTENT_XML_HEADER + '''<text:p text:style-name="Title">$Title</text:p>
 <text:p text:style-name="Subtitle">$AuthorName</text:p>
@@ -3854,7 +3854,7 @@ class CsvConverter(YwCnvUi):
     EXPORT_SOURCE_CLASSES = [CsvTimeline]
     EXPORT_TARGET_CLASSES = [OdtFullSynopsis,
                              OdtBriefSynopsis,
-                             OdtVeryBriefSynopsis,
+                             OdtChapterOverview,
                              OdtCharacterSheets,
                              OdtLocationSheets,
                              OdtReport,
@@ -4002,32 +4002,32 @@ def open_csv(suffix, newExt):
         doc = desktop.loadComponentFromURL(newFile, "_blank", 0, ())
 
 
-def get_partdesc():
-    '''Import part descriptions from Aeon 3 to a Writer document. 
+def get_chapteroverview():
+    '''Import a chapter overview from Aeon 3 to a Writer document. 
     '''
-    open_csv(OdtVeryBriefSynopsis.SUFFIX, OdtVeryBriefSynopsis.EXTENSION)
+    open_csv(OdtChapterOverview.SUFFIX, OdtChapterOverview.EXTENSION)
 
 
-def get_chapterdesc():
-    '''Import chapter descriptions from Aeon 3 to a Writer document. 
+def get_briefsynopsis():
+    '''Import a brief synopsis from Aeon 3 to a Writer document. 
     '''
     open_csv(OdtBriefSynopsis.SUFFIX, OdtBriefSynopsis.EXTENSION)
 
 
-def get_scenedesc():
-    '''Import scene descriptions from Aeon 3 to a Writer document. 
+def get_fullsynopsis():
+    '''Import a full synopsis from Aeon 3 to a Writer document. 
     '''
     open_csv(OdtFullSynopsis.SUFFIX, OdtFullSynopsis.EXTENSION)
 
 
-def get_chardesc():
-    '''Import character descriptions from Aeon 3 to a Writer document.
+def get_charactersheets():
+    '''Import character sheets from Aeon 3 to a Writer document.
     '''
     open_csv(OdtCharacterSheets.SUFFIX, OdtCharacterSheets.EXTENSION)
 
 
-def get_locdesc():
-    '''Import location descriptions from Aeon 3 to a Writer document.
+def get_locationsheets():
+    '''Import location sheets from Aeon 3 to a Writer document.
     '''
     open_csv(OdtLocationSheets.SUFFIX, OdtLocationSheets.EXTENSION)
 

@@ -11,7 +11,7 @@ of ODT documents.
 
 -   Generate a **brief synopsis** containing scene titles.
 
--   Generate a **very brief synopsis** containing chapter titles.
+-   Generate a **chapter overview** containing chapter titles.
 
 -   Generate **character sheets** containing character data.
 

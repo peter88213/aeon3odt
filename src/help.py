@@ -15,9 +15,3 @@ def show_help():
     scriptLocation = os.path.dirname(__file__)
     helpFile = scriptLocation + '/help.html'
     webbrowser.open(helpFile)
-
-
-def show_adv_help():
-    scriptLocation = os.path.dirname(__file__)
-    helpFile = scriptLocation + '/help-adv.html'
-    webbrowser.open(helpFile)

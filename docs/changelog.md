@@ -4,6 +4,13 @@
 
 ## Changelog
 
+### v0.2.1 Alpha release
+
+- Rename "Very brief synopsis" --> "Chapter overview".
+- Refactor the code.
+
+Based on PyWriter v3.24.3 and pywaeon v0.2.2
+
 ### v0.2.0 Alpha release
 
 Some features of this version only work to a limited extent.

@@ -10,7 +10,7 @@
 
 -   [Full synopsis](#full-synopsis)
 -   [Brief synopsis](#brief-synopsis)
--   [Very brief synopsis](#very-brief-synopsis)
+-   [Chapter overview](#chapter-overview)
 -   [Character sheets](#character-sheets)
 -   [Location sheets](#location-sheets)
 -   [Project report](#project-report)
@@ -24,7 +24,7 @@ and chapter titles and scene summaries.
 
 Scene titles are inserted as navigable comments.
 
-File name suffix is `_scenes`.
+File name suffix is `_full_synopsis`.
 
 [Top of page](#top)
 
@@ -35,18 +35,18 @@ File name suffix is `_scenes`.
 This will generate a new OpenDocument text document (odt) containing part
 and chapter titles and scene titles. 
 
-File name suffix is `_chapters`.
+File name suffix is `_brief_synopsis`.
 
 [Top of page](#top)
 
 ------------------------------------------------------------------------
 
-## Very brief synopsis
+## Chapter overview
 
 This will generate a new OpenDocument text document (odt) containing part
 and chapter titles. 
 
-File name suffix is `_parts`.
+File name suffix is `_chapter_overview`.
 
 [Top of page](#top)
 
