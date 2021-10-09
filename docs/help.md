@@ -10,7 +10,7 @@ In the "Narrative" settings select "Outline Style" as numbering system. Make sur
 
 ## csv export from Aeon Timeline 3
 
-- The csv file exported by Aeon Timeline 3 must be **comma**-separated.
+The csv file exported by Aeon Timeline 3 must be **comma**-separated.
 
 ## Command reference
 

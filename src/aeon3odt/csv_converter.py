@@ -5,7 +5,7 @@ For further information see https://github.com/peter88213/aeon3odt
 Published under the MIT License (https://opensource.org/licenses/mit-license.php)
 """
 from pywriter.converter.yw_cnv_ui import YwCnvUi
-from pywaeon3.csv_timeline import CsvTimeline
+from paeon.csv_timeline import CsvTimeline
 
 from aeon3odt.odt_full_synopsis import OdtFullSynopsis
 from aeon3odt.odt_brief_synopsis import OdtBriefSynopsis
