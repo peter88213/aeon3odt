@@ -25,6 +25,7 @@ def main():
         pass
 
     inliner.run(SOURCE_FILE, TARGET_FILE, 'libreoffice', '../src/')
+    inliner.run(TARGET_FILE, TARGET_FILE, 'aeon3odt', '../src/')
     inliner.run(TARGET_FILE, TARGET_FILE, 'paeon', '../../paeon/src/')
     inliner.run(TARGET_FILE, TARGET_FILE, 'pywriter', '../../PyWriter/src/')
     print('Done.')
