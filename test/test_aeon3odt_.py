@@ -26,12 +26,14 @@ NORMAL_CSV = TEST_DATA_PATH + 'normal.csv'
 PARTS_CONTENT = TEST_DATA_PATH + 'parts.xml'
 CHAPTERS_CONTENT = TEST_DATA_PATH + 'chapters.xml'
 SCENES_CONTENT = TEST_DATA_PATH + 'scenes.xml'
+CHARACTERS_CONTENT = TEST_DATA_PATH + 'characters.xml'
 
 # Test data
 TEST_CSV = TEST_EXEC_PATH + 'yw7 Sample Project.csv'
 TEST_PARTS = TEST_EXEC_PATH + 'yw7 Sample Project_chapter_overview.odt'
 TEST_CHAPTERS = TEST_EXEC_PATH + 'yw7 Sample Project_brief_synopsis.odt'
 TEST_SCENES = TEST_EXEC_PATH + 'yw7 Sample Project_full_synopsis.odt'
+TEST_CHARACTERS = TEST_EXEC_PATH + 'yw7 Sample Project_character_sheets.odt'
 ODF_CONTENT = 'content.xml'
 
 
@@ -65,6 +67,11 @@ def remove_all_testfiles():
 
     try:
         os.remove(TEST_CHAPTERS)
+    except:
+        pass
+
+    try:
+        os.remove(TEST_CHARACTERS)
     except:
         pass
 
@@ -119,6 +126,17 @@ class NormalOperation(unittest.TestCase):
 
         self.assertEqual(read_file(TEST_EXEC_PATH + ODF_CONTENT),
                          read_file(SCENES_CONTENT))
+
+    def test_character_sheets(self):
+        copyfile(NORMAL_CSV, TEST_CSV)
+        cnvaeon_stub_.convert_csv(TEST_CSV, '_character_sheets')
+
+        with zipfile.ZipFile(TEST_CHARACTERS, 'r') as myzip:
+            myzip.extract(ODF_CONTENT, TEST_EXEC_PATH)
+            myzip.close
+
+        self.assertEqual(read_file(TEST_EXEC_PATH + ODF_CONTENT),
+                         read_file(CHARACTERS_CONTENT))
 
     def tearDown(self):
         remove_all_testfiles()

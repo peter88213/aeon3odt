@@ -1,6 +1,6 @@
 """Convert Aeon Timeline 3 project data to odt. 
 
-Version 0.2.3
+Version 0.2.4
 
 Copyright (c) 2021 Peter Triesberger
 For further information see https://github.com/peter88213/aeon3odt
@@ -2675,29 +2675,24 @@ class OdtCharacterSheets(OdtFile):
     DESCRIPTION = 'Character sheets'
     SUFFIX = '_character_sheets'
 
-    fileHeader = OdtFile.CONTENT_XML_HEADER + '''<text:p text:style-name="Title">$Title</text:p>
-<text:p text:style-name="Subtitle">$AuthorName</text:p>
-'''
+    fileHeader = OdtFile.CONTENT_XML_HEADER
 
     characterTemplate = '''<text:h text:style-name="Heading_20_2" text:outline-level="2">$Title$FullName$AKA</text:h>
-<text:section text:style-name="Sect1" text:name="CrID:$ID">
-<text:h text:style-name="Heading_20_3" text:outline-level="3">Description</text:h>
-<text:section text:style-name="Sect1" text:name="CrID_desc:$ID">
-<text:p text:style-name="Text_20_body">$Desc</text:p>
-</text:section>
-<text:h text:style-name="Heading_20_3" text:outline-level="3">Bio</text:h>
-<text:section text:style-name="Sect1" text:name="CrID_bio:$ID">
+
+<text:p text:style-name="Text_20_body"><text:span text:style-name="Emphasis">$Tags</text:span></text:p>
+
+<text:p text:style-name="Text_20_body" />
 <text:p text:style-name="Text_20_body">$Bio</text:p>
-</text:section>
-<text:h text:style-name="Heading_20_3" text:outline-level="3">Goals</text:h>
-<text:section text:style-name="Sect1" text:name="CrID_goals:$ID">
+
+<text:p text:style-name="Text_20_body" />
 <text:p text:style-name="Text_20_body">$Goals</text:p>
-</text:section>
-<text:h text:style-name="Heading_20_3" text:outline-level="3">Notes</text:h>
-<text:section text:style-name="Sect1" text:name="CrID_notes:$ID">
-<text:p text:style-name="Text_20_body">$Notes</text:p>
-</text:section>
-</text:section>
+
+<text:p text:style-name="Text_20_body" />
+<text:p text:style-name="Text_20_body">$Desc</text:p>
+
+<text:p text:style-name="Text_20_body" />
+<text:p text:style-name="Text_20_body"><text:span text:style-name="Emphasis">$Notes</text:span></text:p>
+
 '''
 
     fileFooter = OdtFile.CONTENT_XML_FOOTER
@@ -2725,14 +2720,13 @@ class OdtLocationSheets(OdtFile):
     DESCRIPTION = 'Location sheets'
     SUFFIX = '_location_sheets'
 
-    fileHeader = OdtFile.CONTENT_XML_HEADER + '''<text:p text:style-name="Title">$Title</text:p>
-<text:p text:style-name="Subtitle">$AuthorName</text:p>
-'''
+    fileHeader = OdtFile.CONTENT_XML_HEADER
 
     locationTemplate = '''<text:h text:style-name="Heading_20_2" text:outline-level="2">$Title$AKA</text:h>
-<text:section text:style-name="Sect1" text:name="LcID:$ID">
+<text:p text:style-name="Text_20_body"><text:span text:style-name="Emphasis">$Tags</text:span></text:p>
+
+<text:p text:style-name="Text_20_body" />
 <text:p text:style-name="Text_20_body">$Desc</text:p>
-</text:section>
 '''
 
     fileFooter = OdtFile.CONTENT_XML_FOOTER
@@ -3507,25 +3501,40 @@ def fix_iso_dt(dateTimeStr):
     return dateTimeStr
 
 
-class AeonTimeline(FileExport):
+class CsvTimeline(FileExport):
     """File representation of a csv file exported by Aeon Timeline 3. 
 
     Represents a csv file with a record per scene.
     - Records are separated by line breaks.
-    - Data fields are delimited by the _SEPARATOR character.
+    - Data fields are delimited by commas.
     """
+
+    EXTENSION = '.csv'
+    DESCRIPTION = 'Aeon Timeline CSV export'
+    SUFFIX = ''
+
+    _SEPARATOR = ','
 
     # Aeon 3 csv export structure (fix part)
 
-    _SCENE_MARKER = 'Scene'
-    _CHAPTER_MARKER = 'Chapter'
+    # Types
+
+    _TYPE_EVENT = 'Event'
+    _TYPE_NARRATIVE = 'Narrative Folder'
+
+    # Field names
+
+    _LABEL_FIELD = 'Label'
+    _TYPE_FIELD = 'Type'
+    _SCENE_FIELD = 'Narrative Position'
+    _START_DATE_TIME_FIELD = 'Start Date'
+    _END_DATE_TIME_FIELD = 'End Date'
+
+    # Narrative position markers
+
     _PART_MARKER = 'Part'
-    _SCENE_LABEL = 'Narrative Position'
-    _TYPE_LABEL = 'Type'
-    _EVENT_MARKER = 'Event'
-    _STRUCT_MARKER = 'Narrative Folder'
-    _START_DATE_TIME_LABEL = 'Start Date'
-    _END_DATE_TIME_LABEL = 'End Date'
+    _CHAPTER_MARKER = 'Chapter'
+    _SCENE_MARKER = 'Scene'
 
     NULL_DATE = '0001-01-01'
     NULL_TIME = '00:00:00'
@@ -3539,7 +3548,6 @@ class AeonTimeline(FileExport):
         """
         FileExport.__init__(self, filePath, **kwargs)
         self.labels = []
-        self.entities = []
         self.partNrPrefix = kwargs['part_number_prefix']
 
         if self.partNrPrefix:
@@ -3550,16 +3558,25 @@ class AeonTimeline(FileExport):
         if self.chapterNrPrefix:
             self.chapterNrPrefix += ' '
 
-        self.partDescLabel = kwargs['part_desc_label']
-        self.chapterDescLabel = kwargs['chapter_desc_label']
-        self.sceneDescLabel = kwargs['scene_desc_label']
-        self.sceneTitleLabel = kwargs['scene_title_label']
-        self.notesLabel = kwargs['notes_label']
-        self.tagLabel = kwargs['tag_label']
-        self.locationLabel = kwargs['location_label']
-        self.itemLabel = kwargs['item_label']
-        self.characterLabel = kwargs['character_label']
-        self.viewpointLabel = kwargs['viewpoint_label']
+        self.typeLocation = kwargs['type_location']
+        self.typeItem = kwargs['type_item']
+        self.typeCharacter = kwargs['type_character']
+        self.partDescField = kwargs['part_desc_label']
+        self.chapterDescField = kwargs['chapter_desc_label']
+        self.sceneDescField = kwargs['scene_desc_label']
+        self.sceneTitleField = kwargs['scene_title_label']
+        self.notesField = kwargs['notes_label']
+        self.tagField = kwargs['tag_label']
+        self.itemField = kwargs['item_label']
+        self.characterField = kwargs['character_label']
+        self.viewpointField = kwargs['viewpoint_label']
+        self.locationField = kwargs['location_label']
+        self.characterDescField1 = kwargs['character_desc_label1']
+        self.characterDescField2 = kwargs['character_desc_label2']
+        self.characterDescField3 = kwargs['character_desc_label3']
+        self.characterBioField = kwargs['character_bio_label']
+        self.characterAkaField = kwargs['character_aka_label']
+        self.locationDescField = kwargs['location_desc_label']
 
     def read(self):
         """Parse the timeline structure.
@@ -3577,17 +3594,6 @@ class AeonTimeline(FileExport):
                 if lcTitle in self.locIdsByTitle:
                     lcIds.append(self.locIdsByTitle[lcTitle])
 
-                elif lcTitle:
-                    # Add a new location to the project.
-
-                    self.locationCount += 1
-                    lcId = str(self.locationCount)
-                    self.locIdsByTitle[lcTitle] = lcId
-                    self.locations[lcId] = WorldElement()
-                    self.locations[lcId].title = lcTitle
-                    self.srtLocations.append(lcId)
-                    lcIds.append(lcId)
-
                 else:
                     return None
 
@@ -3603,26 +3609,10 @@ class AeonTimeline(FileExport):
                 if itTitle in self.itmIdsByTitle:
                     itIds.append(self.itmIdsByTitle[itTitle])
 
-                elif itTitle:
-                    # Add a new item to the project.
-
-                    self.itemCount += 1
-                    itId = str(self.itemCount)
-                    self.itmIdsByTitle[itTitle] = itId
-                    self.items[itId] = WorldElement()
-                    self.items[itId].title = itTitle
-                    self.srtItems.append(itId)
-                    itIds.append(itId)
-
                 else:
                     return None
 
             return itIds
-
-        self.characterCount = 0
-        self.chrIdsByTitle = {}
-        # key = character title
-        # value = character ID
 
         def get_crIds(crTitles):
             """Return a list of character IDs; Add new characters to the project.
@@ -3634,39 +3624,119 @@ class AeonTimeline(FileExport):
                 if crTitle in self.chrIdsByTitle:
                     crIds.append(self.chrIdsByTitle[crTitle])
 
-                elif crTitle:
-                    # Add a new character to the project.
-
-                    self.characterCount += 1
-                    crId = str(self.characterCount)
-                    self.chrIdsByTitle[crTitle] = crId
-                    self.characters[crId] = Character()
-                    self.characters[crId].title = crTitle
-                    self.srtCharacters.append(crId)
-                    crIds.append(crId)
-
                 else:
                     return None
 
             return crIds
 
-        self.locationCount = 0
-        self.locIdsByTitle = {}
-        # key = location title
-        # value = location ID
-
-        self.itemCount = 0
-        self.itmIdsByTitle = {}
-        # key = item title
-        # value = item ID
+        #--- Read the csv file.
 
         internalDelimiter = ','
+
+        try:
+            with open(self.filePath, newline='', encoding='utf-8') as f:
+                reader = csv.DictReader(f, delimiter=self._SEPARATOR)
+
+                for label in reader.fieldnames:
+                    self.labels.append(label)
+
+                eventsAndFolders = []
+
+                characterCount = 0
+                self.chrIdsByTitle = {}
+                # key = character title
+                # value = character ID
+
+                locationCount = 0
+                self.locIdsByTitle = {}
+                # key = location title
+                # value = location ID
+
+                itemCount = 0
+                self.itmIdsByTitle = {}
+                # key = item title
+                # value = item ID
+
+                for row in reader:
+                    aeonEntity = {}
+
+                    for label in row:
+                        aeonEntity[label] = row[label]
+
+                    if self._TYPE_EVENT == aeonEntity[self._TYPE_FIELD]:
+                        eventsAndFolders.append(aeonEntity)
+
+                    elif self._TYPE_NARRATIVE == aeonEntity[self._TYPE_FIELD]:
+                        eventsAndFolders.append(aeonEntity)
+
+                    elif self.typeCharacter == aeonEntity[self._TYPE_FIELD]:
+                        characterCount += 1
+                        crId = str(characterCount)
+                        self.chrIdsByTitle[aeonEntity[self._LABEL_FIELD]] = crId
+                        self.characters[crId] = Character()
+                        self.characters[crId].title = aeonEntity[self._LABEL_FIELD]
+
+                        charDesc = []
+
+                        if self.characterDescField1 in aeonEntity:
+                            charDesc.append(aeonEntity[self.characterDescField1])
+
+                        if self.characterDescField2 and self.characterDescField2 in aeonEntity:
+                            charDesc.append(aeonEntity[self.characterDescField2])
+
+                        if self.characterDescField3 and self.characterDescField3 in aeonEntity:
+                            charDesc.append(aeonEntity[self.characterDescField3])
+
+                        self.characters[crId].desc = ('\n').join(charDesc)
+
+                        if self.characterBioField in aeonEntity:
+                            self.characters[crId].bio = aeonEntity[self.characterBioField]
+
+                        if self.characterAkaField in aeonEntity:
+                            self.characters[crId].aka = aeonEntity[self.characterAkaField]
+
+                        if self.tagField in aeonEntity and aeonEntity[self.tagField] != '':
+                            self.characters[crId].tags = aeonEntity[self.tagField].split(internalDelimiter)
+
+                        if self.notesField in aeonEntity:
+                            self.characters[crId].notes = aeonEntity[self.notesField]
+
+                        self.srtCharacters.append(crId)
+
+                    elif self.typeLocation == aeonEntity[self._TYPE_FIELD]:
+                        locationCount += 1
+                        lcId = str(locationCount)
+                        self.locIdsByTitle[aeonEntity[self._LABEL_FIELD]] = lcId
+                        self.locations[lcId] = WorldElement()
+                        self.locations[lcId].title = aeonEntity[self._LABEL_FIELD]
+                        self.srtLocations.append(lcId)
+
+                        if 'Summary' in aeonEntity:
+                            self.locations[lcId].desc = aeonEntity['Summary']
+
+                        if self.tagField in aeonEntity:
+                            self.locations[lcId].tags = aeonEntity[self.tagField].split(internalDelimiter)
+
+                    elif self.typeItem == aeonEntity[self._TYPE_FIELD]:
+                        itemCount += 1
+                        itId = str(itemCount)
+                        self.itmIdsByTitle[aeonEntity[self._LABEL_FIELD]] = itId
+                        self.items[itId] = WorldElement()
+                        self.items[itId].title = aeonEntity[self._LABEL_FIELD]
+                        self.srtItems.append(itId)
+
+        except(FileNotFoundError):
+            return 'ERROR: "' + os.path.normpath(self.filePath) + '" not found.'
+
+        except:
+            return 'ERROR: Can not parse csv file "' + os.path.normpath(self.filePath) + '".'
+
         try:
 
-            for label in [self._SCENE_LABEL, self.sceneTitleLabel, self._START_DATE_TIME_LABEL, self._END_DATE_TIME_LABEL]:
+            for label in [self._SCENE_FIELD, self.sceneTitleField, self._START_DATE_TIME_FIELD, self._END_DATE_TIME_FIELD]:
 
                 if not label in self.labels:
-                    return 'ERROR: Property "' + label + '" is missing.'
+                    return 'ERROR: Label "' + label + '" is missing.'
 
             scIdsByStruc = {}
             chIdsByStruc = {}
@@ -3674,10 +3744,10 @@ class AeonTimeline(FileExport):
             eventCount = 0
             chapterCount = 0
 
-            for aeonEntity in self.entities:
+            for aeonEntity in eventsAndFolders:
 
-                if aeonEntity[self._SCENE_LABEL]:
-                    narrativeType, narrativePosition = aeonEntity[self._SCENE_LABEL].split(' ')
+                if aeonEntity[self._SCENE_FIELD]:
+                    narrativeType, narrativePosition = aeonEntity[self._SCENE_FIELD].split(' ')
 
                     # Make the narrative position a sortable string.
 
@@ -3691,7 +3761,7 @@ class AeonTimeline(FileExport):
                     narrativeType = ''
                     narrativePosition = ''
 
-                if aeonEntity[self._TYPE_LABEL] == self._STRUCT_MARKER:
+                if aeonEntity[self._TYPE_FIELD] == self._TYPE_NARRATIVE:
 
                     if narrativeType == self._CHAPTER_MARKER:
                         chapterCount += 1
@@ -3700,8 +3770,8 @@ class AeonTimeline(FileExport):
                         self.chapters[chId] = Chapter()
                         self.chapters[chId].chLevel = 0
 
-                        if self.chapterDescLabel:
-                            self.chapters[chId].desc = aeonEntity[self.chapterDescLabel]
+                        if self.chapterDescField:
+                            self.chapters[chId].desc = aeonEntity[self.chapterDescField]
 
                     elif narrativeType == self._PART_MARKER:
                         chapterCount += 1
@@ -3711,12 +3781,12 @@ class AeonTimeline(FileExport):
                         self.chapters[chId].chLevel = 1
                         narrativePosition += '.0000'
 
-                        if self.partDescLabel:
-                            self.chapters[chId].desc = aeonEntity[self.partDescLabel]
+                        if self.partDescField:
+                            self.chapters[chId].desc = aeonEntity[self.partDescField]
 
                     continue
 
-                elif aeonEntity[self._TYPE_LABEL] != self._EVENT_MARKER:
+                elif aeonEntity[self._TYPE_FIELD] != self._TYPE_EVENT:
                     continue
 
                 eventCount += 1
@@ -3731,15 +3801,15 @@ class AeonTimeline(FileExport):
                     self.scenes[scId].isNotesScene = True
                     otherEvents.append(scId)
 
-                self.scenes[scId].title = aeonEntity[self.sceneTitleLabel]
+                self.scenes[scId].title = aeonEntity[self.sceneTitleField]
 
-                startDateTimeStr = fix_iso_dt(aeonEntity[self._START_DATE_TIME_LABEL])
+                startDateTimeStr = fix_iso_dt(aeonEntity[self._START_DATE_TIME_FIELD])
 
                 if startDateTimeStr is not None:
                     startDateTime = startDateTimeStr.split(' ')
                     self.scenes[scId].date = startDateTime[0]
                     self.scenes[scId].time = startDateTime[1]
-                    endDateTimeStr = fix_iso_dt(aeonEntity[self._END_DATE_TIME_LABEL])
+                    endDateTimeStr = fix_iso_dt(aeonEntity[self._END_DATE_TIME_FIELD])
 
                     if endDateTimeStr is not None:
 
@@ -3759,23 +3829,23 @@ class AeonTimeline(FileExport):
                     self.scenes[scId].date = self.NULL_DATE
                     self.scenes[scId].time = self.NULL_TIME
 
-                if self.sceneDescLabel in aeonEntity:
-                    self.scenes[scId].desc = aeonEntity[self.sceneDescLabel]
+                if self.sceneDescField in aeonEntity:
+                    self.scenes[scId].desc = aeonEntity[self.sceneDescField]
 
-                if self.notesLabel in aeonEntity:
-                    self.scenes[scId].sceneNotes = aeonEntity[self.notesLabel]
+                if self.notesField in aeonEntity:
+                    self.scenes[scId].sceneNotes = aeonEntity[self.notesField]
 
-                if self.tagLabel in aeonEntity and aeonEntity[self.tagLabel] != '':
-                    self.scenes[scId].tags = aeonEntity[self.tagLabel].split(internalDelimiter)
+                if self.tagField in aeonEntity and aeonEntity[self.tagField] != '':
+                    self.scenes[scId].tags = aeonEntity[self.tagField].split(internalDelimiter)
 
-                if self.locationLabel in aeonEntity:
-                    self.scenes[scId].locations = get_lcIds(aeonEntity[self.locationLabel].split(internalDelimiter))
+                if self.locationField in aeonEntity:
+                    self.scenes[scId].locations = get_lcIds(aeonEntity[self.locationField].split(internalDelimiter))
 
-                if self.characterLabel in aeonEntity:
-                    self.scenes[scId].characters = get_crIds(aeonEntity[self.characterLabel].split(internalDelimiter))
+                if self.characterField in aeonEntity:
+                    self.scenes[scId].characters = get_crIds(aeonEntity[self.characterField].split(internalDelimiter))
 
-                if self.viewpointLabel in aeonEntity:
-                    vpIds = get_crIds([aeonEntity[self.viewpointLabel]])
+                if self.viewpointField in aeonEntity:
+                    vpIds = get_crIds([aeonEntity[self.viewpointField]])
 
                     if vpIds is not None:
                         vpId = vpIds[0]
@@ -3788,8 +3858,8 @@ class AeonTimeline(FileExport):
 
                         self.scenes[scId].characters.insert(0, vpId)
 
-                if self.itemLabel in aeonEntity:
-                    self.scenes[scId].items = get_itIds(aeonEntity[self.itemLabel].split(internalDelimiter))
+                if self.itemField in aeonEntity:
+                    self.scenes[scId].items = get_itIds(aeonEntity[self.itemField].split(internalDelimiter))
 
                 # Set scene status = "Outline".
 
@@ -3843,53 +3913,6 @@ class AeonTimeline(FileExport):
         self.srtChapters.append(chId)
 
         return 'SUCCESS: Data read from "' + os.path.normpath(self.filePath) + '".'
-
-
-class CsvTimeline(AeonTimeline):
-    """File representation of a csv file exported by Aeon Timeline 3. 
-
-    Represents a csv file with a record per scene.
-    - Records are separated by line breaks.
-    - Data fields are delimited by commas.
-    """
-
-    EXTENSION = '.csv'
-    DESCRIPTION = 'Aeon Timeline CSV export'
-    SUFFIX = ''
-
-    _SEPARATOR = ','
-
-    def read(self):
-        """Parse the csv file located at filePath, fetching the relevant data.
-        Extend the superclass.
-
-        Return a message beginning with SUCCESS or ERROR.
-        """
-
-        #--- Read the csv file.
-
-        try:
-            with open(self.filePath, newline='', encoding='utf-8') as f:
-                reader = csv.DictReader(f, delimiter=self._SEPARATOR)
-
-                for label in reader.fieldnames:
-                    self.labels.append(label)
-
-                for row in reader:
-                    aeonEntity = {}
-
-                    for label in row:
-                        aeonEntity[label] = row[label]
-
-                    self.entities.append(aeonEntity)
-
-        except(FileNotFoundError):
-            return 'ERROR: "' + os.path.normpath(self.filePath) + '" not found.'
-
-        except:
-            return 'ERROR: Can not parse csv file "' + os.path.normpath(self.filePath) + '".'
-
-        return AeonTimeline.read(self)
 
 
 
@@ -3961,6 +3984,9 @@ INI_FILE = 'openyw.ini'
 SETTINGS = dict(
     part_number_prefix='Part',
     chapter_number_prefix='Chapter',
+    type_character='Character',
+    type_location='Location',
+    type_item='Item',
     part_desc_label='Label',
     chapter_desc_label='Label',
     scene_desc_label='Summary',
@@ -3971,6 +3997,12 @@ SETTINGS = dict(
     item_label='Item',
     character_label='Participant',
     viewpoint_label='Viewpoint',
+    character_bio_label='Summary',
+    character_aka_label='Nickname',
+    character_desc_label1='Characteristics',
+    character_desc_label2='Traits',
+    character_desc_label3='',
+    location_desc_label='Summary',
 )
 
 

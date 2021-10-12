@@ -4,6 +4,12 @@
 
 ## Changelog
 
+### v0.2.4 Alpha release
+
+- Revise character and location sheets.
+
+Based on PyWriter v3.24.3 and paeon v0.6.0
+
 ### v0.2.3 Alpha bugfix release
 
 - Fix a bug where incomplete date/time stamps as possible with Aeon Timeline 3 cause a "Wrong date/time format" error.

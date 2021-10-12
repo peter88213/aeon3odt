@@ -16,14 +16,13 @@ class OdtLocationSheets(OdtFile):
     DESCRIPTION = 'Location sheets'
     SUFFIX = '_location_sheets'
 
-    fileHeader = OdtFile.CONTENT_XML_HEADER + '''<text:p text:style-name="Title">$Title</text:p>
-<text:p text:style-name="Subtitle">$AuthorName</text:p>
-'''
+    fileHeader = OdtFile.CONTENT_XML_HEADER
 
     locationTemplate = '''<text:h text:style-name="Heading_20_2" text:outline-level="2">$Title$AKA</text:h>
-<text:section text:style-name="Sect1" text:name="LcID:$ID">
+<text:p text:style-name="Text_20_body"><text:span text:style-name="Emphasis">$Tags</text:span></text:p>
+
+<text:p text:style-name="Text_20_body" />
 <text:p text:style-name="Text_20_body">$Desc</text:p>
-</text:section>
 '''
 
     fileFooter = OdtFile.CONTENT_XML_FOOTER

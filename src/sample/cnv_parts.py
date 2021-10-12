@@ -1,4 +1,4 @@
-"""Import Aeon Timeline 3 part descriptions. 
+"""Import Aeon Timeline 3 chapter titles. 
 
 Copyright (c) 2021 Peter Triesberger
 For further information see https://github.com/peter88213/aeon3odt
@@ -9,6 +9,9 @@ SUFFIX = '_chapter_overview'
 SETTINGS = dict(
     part_number_prefix='Part',
     chapter_number_prefix='Chapter',
+    type_character='Character',
+    type_location='Location',
+    type_item='Item',
     part_desc_label='Label',
     chapter_desc_label='Label',
     scene_desc_label='Summary',
@@ -19,6 +22,12 @@ SETTINGS = dict(
     item_label='Item',
     character_label='Participant',
     viewpoint_label='Viewpoint',
+    character_bio_label='Summary',
+    character_aka_label='Nickname',
+    character_desc_label1='Characteristics',
+    character_desc_label2='Traits',
+    character_desc_label3='',
+    location_desc_label='Summary',
 )
 
 import sys

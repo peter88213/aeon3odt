@@ -1,10 +1,10 @@
-"""Import Aeon Timeline 3 scene titles. 
+"""Import Aeon Timeline 3 character sheets. 
 
 Copyright (c) 2021 Peter Triesberger
 For further information see https://github.com/peter88213/aeon3odt
 Published under the MIT License (https://opensource.org/licenses/mit-license.php)
 """
-SUFFIX = '_brief_synopsis'
+SUFFIX = '_character_sheets'
 
 SETTINGS = dict(
     part_number_prefix='Part',
