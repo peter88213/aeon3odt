@@ -6,7 +6,6 @@ For more information, see the [project homepage](https://peter88213.github.io/ae
 ## Credits
 
 - [OpenOffice Extension Compiler](https://wiki.openoffice.org/wiki/Extensions_Packager#Extension_Compiler) by Bernard Marcelly.
-- Frederik Lundh published the [xml pretty print algorithm](http://effbot.org/zone/element-lib.htm#prettyprint).
 
 ## License
 

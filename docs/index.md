@@ -60,8 +60,6 @@ This extension is currently under development. It is best to let the Extension M
 Compiler](https://wiki.openoffice.org/wiki/Extensions_Packager#Extension_Compiler)
 by Bernard Marcelly.
 
-Frederik Lundh published the [xml pretty print algorithm](http://effbot.org/zone/element-lib.htm#prettyprint).
-
 ## License
 
 This extension is distributed under the [MIT
