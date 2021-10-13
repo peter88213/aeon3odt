@@ -19,7 +19,24 @@
 <hr />
 <h1 id="aeon-timeline-3-import">Aeon Timeline 3 import</h1>
 <h2 id="set-up-your-timeline-for-export">Set up your timeline for export</h2>
-<p>In the "Narrative" settings select "Outline Style" as numbering system. Make sure that at least chapters are auto assigned to "folders", and scenes are auto assigned to "other types".</p>
+<p>The <em>aeon3odt</em> extension uses the type designations as defined in Aeon's novel template:</p>
+<h3 id="types-and-roles">Types and roles</h3>
+<ul>
+<li><strong>Summary</strong> as deteiled description.</li>
+<li><strong>Character</strong> as item type for persons.</li>
+<li><strong>Location</strong> as item type for places.</li>
+<li><strong>Participant</strong> as character role for scenes.</li>
+<li><strong>Location</strong> as scene location.</li>
+</ul>
+<h3 id="datetime">Date/Time</h3>
+<ul>
+<li>Scene dates with years that are outside the range of 100--9999 are not shown in the report.</li>
+<li>If there is no scene time set, <em>00:00:00</em> may be shown in the reoprt as a substitute.</li>
+<li>If the scene date has no day, <em>01</em> may be shown in the report as a substitute.</li>
+<li>If the scene date has no month, <em>01</em> may be shown in the report as a substitute.</li>
+</ul>
+<h3 id="important">Important!</h3>
+<p>In the "Narrative" settings select <strong>Outline Style</strong> as numbering system. Make sure that at least chapters are auto assigned to <em>folders</em>, and scenes are auto assigned to <em>other types</em>.</p>
 <h2 id="csv-export-from-aeon-timeline-3">csv export from Aeon Timeline 3</h2>
 <p>The csv file exported by Aeon Timeline 3 must be <strong>comma</strong>-separated.</p>
 <h2 id="command-reference">Command reference</h2>
@@ -50,12 +67,12 @@
 <p><a href="#top">Top of page</a></p>
 <hr />
 <h2 id="character-sheets">Character sheets</h2>
-<p>This will generate a new OpenDocument text document (odt) containing character descriptions, bio, goals, and notes.</p>
+<p>This will generate a new OpenDocument text document (odt) containing character tags, summary, characteristics, traits, and notes.</p>
 <p>File name suffix is <code>_character_sheets</code>.</p>
 <p><a href="#top">Top of page</a></p>
 <hr />
 <h2 id="location-sheets">Location sheets</h2>
-<p>This will generate a new OpenDocument text document (odt) containing location descriptions.</p>
+<p>This will generate a new OpenDocument text document (odt) containing location tags and summaries.</p>
 <p>File name suffix is <code>_location_sheets</code>.</p>
 <p><a href="#top">Top of page</a></p>
 <hr />

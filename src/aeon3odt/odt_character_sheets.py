@@ -4,10 +4,10 @@ Copyright (c) 2021 Peter Triesberger
 For further information see https://github.com/peter88213/aeon3odt
 Published under the MIT License (https://opensource.org/licenses/mit-license.php)
 """
-from pywriter.odt.odt_file import OdtFile
+from aeon3odt.odt_aeon import OdtAeon
 
 
-class OdtCharacterSheets(OdtFile):
+class OdtCharacterSheets(OdtAeon):
     """ODT character descriptions file representation.
 
     Export a character sheet.
@@ -15,8 +15,6 @@ class OdtCharacterSheets(OdtFile):
 
     DESCRIPTION = 'Character sheets'
     SUFFIX = '_character_sheets'
-
-    fileHeader = OdtFile.CONTENT_XML_HEADER
 
     characterTemplate = '''<text:h text:style-name="Heading_20_2" text:outline-level="2">$Title$FullName$AKA</text:h>
 
@@ -35,18 +33,3 @@ class OdtCharacterSheets(OdtFile):
 <text:p text:style-name="Text_20_body"><text:span text:style-name="Emphasis">$Notes</text:span></text:p>
 
 '''
-
-    fileFooter = OdtFile.CONTENT_XML_FOOTER
-
-    def get_characterMapping(self, crId):
-        """Return a mapping dictionary for a character section. 
-        """
-        characterMapping = OdtFile.get_characterMapping(self, crId)
-
-        if self.characters[crId].aka:
-            characterMapping['AKA'] = ' ("' + self.characters[crId].aka + '")'
-
-        if self.characters[crId].fullName:
-            characterMapping['FullName'] = '/' + self.characters[crId].fullName
-
-        return characterMapping

@@ -4,10 +4,10 @@ Copyright (c) 2021 Peter Triesberger
 For further information see https://github.com/peter88213/aeon3odt
 Published under the MIT License (https://opensource.org/licenses/mit-license.php)
 """
-from pywriter.odt.odt_file import OdtFile
+from aeon3odt.odt_aeon import OdtAeon
 
 
-class OdtReport(OdtFile):
+class OdtReport(OdtAeon):
     """ODT scene summaries file representation.
 
     Export a full synopsis.
@@ -16,21 +16,36 @@ class OdtReport(OdtFile):
     DESCRIPTION = 'Project report'
     SUFFIX = '_report'
 
-    fileHeader = OdtFile.CONTENT_XML_HEADER
-
-    partTemplate = '''<text:h text:style-name="Heading_20_1" text:outline-level="1">$Title</text:h>
+    partTemplate = '''<text:h text:style-name="Heading_20_1" text:outline-level="1">$Title – $Desc</text:h>
 '''
 
-    chapterTemplate = '''<text:h text:style-name="Heading_20_2" text:outline-level="2">$Title</text:h>
+    chapterTemplate = '''<text:h text:style-name="Heading_20_2" text:outline-level="2">$Title – $Desc</text:h>
+'''
+
+    sceneTemplate = '''<text:h text:style-name="Heading_20_3" text:outline-level="3">Scene $SceneNumber – ${Title}</text:h>
+<text:p text:style-name="Text_20_body_20_indent"><text:span text:style-name="Strong_20_Emphasis">Tags: </text:span>$Tags</text:p>
+<text:p text:style-name="Text_20_body_20_indent"><text:span text:style-name="Strong_20_Emphasis">Location: </text:span>$Locations</text:p>
+<text:p text:style-name="Text_20_body_20_indent"><text:span text:style-name="Strong_20_Emphasis">Date/Time/Duration: </text:span>$ScDate $ScTime $Duration</text:p>
+<text:p text:style-name="Text_20_body_20_indent"><text:span text:style-name="Strong_20_Emphasis">Participants: </text:span>$Characters</text:p>
+<text:p text:style-name="Text_20_body">$Desc</text:p>
+<text:p text:style-name="Text_20_body_20_indent"><text:span text:style-name="Strong_20_Emphasis">Notes:</text:span>$Notes</text:p>
+'''
+
+    characterSectionHeading = '''<text:h text:style-name="Heading_20_1" text:outline-level="1">Characters</text:h>
+'''
+
+    characterTemplate = '''<text:h text:style-name="Heading_20_2" text:outline-level="2">$Title$FullName$AKA</text:h>
+<text:p text:style-name="Text_20_body_20_indent"><text:span text:style-name="Strong_20_Emphasis">Tags: </text:span>$Tags</text:p>
+<text:p text:style-name="Text_20_body">$Bio</text:p>
+<text:p text:style-name="Text_20_body">$Goals</text:p>
+<text:p text:style-name="Text_20_body">$Desc</text:p>
+<text:p text:style-name="Text_20_body_20_indent"><text:span text:style-name="Strong_20_Emphasis">Notes: </text:span>$Notes</text:p>
+'''
+
+    locationSectionHeading = '''<text:h text:style-name="Heading_20_1" text:outline-level="1">Locations</text:h>
+'''
+
+    locationTemplate = '''<text:h text:style-name="Heading_20_2" text:outline-level="2">$Title$AKA</text:h>
+<text:p text:style-name="Text_20_body_20_indent"><text:span text:style-name="Strong_20_Emphasis">Tags: </text:span>$Tags</text:p>
 <text:p text:style-name="Text_20_body">$Desc</text:p>
 '''
-
-    sceneTemplate = '''<text:h text:style-name="Heading_20_3" text:outline-level="3"> ${Title}</text:h>
-<text:p>$Desc</text:p>
-'''
-
-    appendedSceneTemplate = '''<text:h text:style-name="Heading_20_3" text:outline-level="3"> ${Title}</text:h>
-<text:p>$Desc</text:p>
-'''
-
-    fileFooter = OdtFile.CONTENT_XML_FOOTER

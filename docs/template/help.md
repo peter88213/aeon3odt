@@ -6,7 +6,26 @@
 
 ## Set up your timeline for export
 
-In the "Narrative" settings select "Outline Style" as numbering system. Make sure that at least chapters are auto assigned to "folders", and scenes are auto assigned to "other types". 
+The *aeon3odt* extension uses the type designations as defined in Aeon's novel template:
+
+### Types and roles
+
+- **Summary** as deteiled description. 
+- **Character** as item type for persons.
+- **Location** as item type for places.
+- **Participant** as character role for scenes.
+- **Location** as scene location.
+
+### Date/Time
+
+- Scene dates with years that are outside the range of 100--9999 are not shown in the report.
+- If there is no scene time set, *00:00:00* may be shown in the reoprt as a substitute.
+- If the scene date has no day, *01* may be shown in the report as a substitute. 
+- If the scene date has no month, *01* may be shown in the report as a substitute. 
+
+### Important! 
+
+In the "Narrative" settings select **Outline Style** as numbering system. Make sure that at least chapters are auto assigned to *folders*, and scenes are auto assigned to *other types*.
 
 ## csv export from Aeon Timeline 3
 
@@ -63,7 +82,7 @@ File name suffix is `_chapter_overview`.
 ## Character sheets
 
 This will generate a new OpenDocument text document (odt) containing
-character descriptions, bio, goals, and notes. 
+character tags, summary, characteristics, traits, and notes. 
 
 File name suffix is
 `_character_sheets`.
@@ -75,7 +94,7 @@ File name suffix is
 ## Location sheets
 
 This will generate a new OpenDocument text document (odt) containing
-location descriptions. 
+location tags and summaries. 
 
 File name suffix is `_location_sheets`.
 

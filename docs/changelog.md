@@ -4,6 +4,12 @@
 
 ## Changelog
 
+v0.2.6 Beta release: Feature complete 
+
+Now all document types are exported.
+
+Based on paeon v0.6.2 and PyWriter v3.26.1
+
 ### v0.2.4 Alpha release
 
 - Revise character and location sheets.

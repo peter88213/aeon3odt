@@ -4,10 +4,10 @@ Copyright (c) 2021 Peter Triesberger
 For further information see https://github.com/peter88213/aeon3odt
 Published under the MIT License (https://opensource.org/licenses/mit-license.php)
 """
-from pywriter.odt.odt_file import OdtFile
+from aeon3odt.odt_aeon import OdtAeon
 
 
-class OdtFullSynopsis(OdtFile):
+class OdtFullSynopsis(OdtAeon):
     """ODT scene summaries file representation.
 
     Export a full synopsis.
@@ -15,8 +15,6 @@ class OdtFullSynopsis(OdtFile):
 
     DESCRIPTION = 'Full synopsis'
     SUFFIX = '_full_synopsis'
-
-    fileHeader = OdtFile.CONTENT_XML_HEADER
 
     partTemplate = '''<text:h text:style-name="Heading_20_1" text:outline-level="1">$Title</text:h>
 '''
@@ -33,5 +31,3 @@ class OdtFullSynopsis(OdtFile):
 
     sceneDivider = '''<text:p text:style-name="Heading_20_4">* * *</text:p>
 '''
-
-    fileFooter = OdtFile.CONTENT_XML_FOOTER
