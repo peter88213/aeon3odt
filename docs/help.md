@@ -10,7 +10,7 @@ The *aeon3odt* extension uses the type designations as defined in Aeon's novel t
 
 ### Types and roles
 
-- **Summary** as deteiled description. 
+- **Summary** as detailed description. 
 - **Character** as item type for persons.
 - **Location** as item type for places.
 - **Participant** as character role for scenes.
