@@ -27,9 +27,15 @@ The *aeon3odt* extension uses the type designations as defined in Aeon's novel t
 
 In the "Narrative" settings select **Outline Style** as numbering system. Make sure that at least chapters are auto assigned to *folders*, and scenes are auto assigned to *other types*.
 
+![Screenshot: Narrative settings](https://raw.githubusercontent.com/peter88213/aeon3odt/main/docs/Screenshots/narrative_settings.png)
+
+
 ## csv export from Aeon Timeline 3
 
-The csv file exported by Aeon Timeline 3 must be **comma**-separated.
+- The csv file exported by Aeon Timeline 3 must be **comma**-separated.
+- Make sure all *Item Types for Export* checkboxes are ticked.
+
+![Screenshot: Aeon 3 Export settings](https://raw.githubusercontent.com/peter88213/aeon3odt/main/docs/Screenshots/csv_export.png)
 
 ## Command reference
 

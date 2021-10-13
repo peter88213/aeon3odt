@@ -19,7 +19,6 @@ of ODT documents.
 
 -   Generate a **project report** containing a full description of the narrative part, the characters and the locations.
 
-You can find more information on the [help pages](help).
 
 ## Requirements
 
@@ -43,6 +42,17 @@ __Please note:__  _This extension can not be installed on OpenOffice._
     "Files" menu, please look at the "Tools" > "Extensions" menu.
 
 [Changelog](changelog)
+
+## Instructions for use
+
+You can find more information on the [help pages](help).
+
+## Get updates
+
+This extension is currently under development. It is best to let the Extension Manager check for updates from time to time.
+
+![Screenshot: Check for updates](Screenshots/check_updates.png)
+
 
 ## Credits
 
