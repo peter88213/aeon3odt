@@ -4,7 +4,7 @@
 
 ## Changelog
 
-v0.2.6 Beta release: Feature complete 
+### v0.2.6 Beta release: Feature complete 
 
 Now all document types are exported.
 
