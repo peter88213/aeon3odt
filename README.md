@@ -2,6 +2,7 @@
 
 For more information, see the [project homepage](https://peter88213.github.io/aeon3odt) with description and download instructions.
 
+This is a *PyDev* project meant to be developed within the *Eclipse* IDE, and built with *Apache ant*.
 
 ## Credits
 
