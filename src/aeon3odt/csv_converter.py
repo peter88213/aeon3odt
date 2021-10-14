@@ -24,10 +24,3 @@ class CsvConverter(YwCnvUi):
                              OdtLocationSheets,
                              OdtReport,
                              ]
-
-    def __init__(self):
-        """Initialize instance variables.
-        Extend the superclass constructor by
-        changing the newProjectFactory strategy.
-        """
-        YwCnvUi.__init__(self)
