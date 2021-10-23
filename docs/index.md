@@ -49,7 +49,7 @@ You can find more information on the [help pages](help).
 
 ## Get updates
 
-This extension supports the update mechanism of OpenOffice/LibreOffice. You can let the Extension Manager check for updates from time to time to get the latest release.
+This extension supports the update mechanism of LibreOffice. You can let the Extension Manager check for updates from time to time to get the latest release.
 
 ## Credits
 
