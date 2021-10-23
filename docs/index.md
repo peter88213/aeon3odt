@@ -49,10 +49,7 @@ You can find more information on the [help pages](help).
 
 ## Get updates
 
-This extension is currently under development. It is best to let the Extension Manager check for updates from time to time.
-
-![Screenshot: Check for updates](Screenshots/check_updates.png)
-
+This extension supports the update mechanism of OpenOffice/LibreOffice. You can let the Extension Manager check for updates from time to time to get the latest release.
 
 ## Credits
 
