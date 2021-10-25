@@ -7,4 +7,4 @@ Since Python scripts placed in LibreOffice extensions are very limited in import
 
 It is advised to clone these projects at the same directory level as the  *aeon3odt*  project and set a project reference to it. So the build scripts can generate the  *cnvaeon*  script.
 
-The *cnvaeon* macro only works in the LibreOffice Python context. In order to execute tests in the development environment, there is the *cnvaeon_stub_* script that has to be kept up date with the *cnvaeon_* script.
+The *cnvaeon* macro only works in the LibreOffice *UNO* context. In order to execute tests in the development environment, there is the *cnvaeon_stub_* script that has to be kept up date with the *cnvaeon_* script.
