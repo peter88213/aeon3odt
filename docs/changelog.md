@@ -8,6 +8,12 @@
 
 See the [GitHub "features" project](https://github.com/peter88213/aeon3odt/projects/1).
 
+### v0.2.7 Optional update
+
+Apply paeon update to minimize the amount of unused code.
+
+Based on paeon v0.10.1 and PyWriter v3.26.1
+
 ### v0.2.6 Beta release: Feature complete 
 
 Now all document types are exported.

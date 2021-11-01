@@ -1,6 +1,6 @@
 """Convert Aeon Timeline 3 project data to odt. 
 
-Version 0.2.6
+Version 0.2.7
 
 Copyright (c) 2021 Peter Triesberger
 For further information see https://github.com/peter88213/aeon3odt
@@ -4449,7 +4449,7 @@ def fix_iso_dt(dateTimeStr):
     return dateTimeStr
 
 
-class CsvTimeline(FileExport):
+class CsvTimeline3(Novel):
     """File representation of a csv file exported by Aeon Timeline 3. 
 
     Represents a csv file with a record per scene.
@@ -4484,17 +4484,14 @@ class CsvTimeline(FileExport):
     _CHAPTER_MARKER = 'Chapter'
     _SCENE_MARKER = 'Scene'
 
-    NULL_DATE = '0001-01-01'
-    NULL_TIME = '00:00:00'
-
-    # Events assigned to the "varrative" become
+    # Events assigned to the "narrative" become
     # regular scenes, the others become Notes scenes.
 
     def __init__(self, filePath, **kwargs):
         """Extend the superclass constructor,
         defining instance variables.
         """
-        FileExport.__init__(self, filePath, **kwargs)
+        Novel.__init__(self, filePath, **kwargs)
         self.labels = []
         self.partNrPrefix = kwargs['part_number_prefix']
 
@@ -4774,8 +4771,8 @@ class CsvTimeline(FileExport):
                         self.scenes[scId].lastsMinutes = str(lastsMinutes)
 
                 else:
-                    self.scenes[scId].date = self.NULL_DATE
-                    self.scenes[scId].time = self.NULL_TIME
+                    self.scenes[scId].date = Scene.NULL_DATE
+                    self.scenes[scId].time = Scene.NULL_TIME
 
                 if self.sceneDescField in aeonEntity:
                     self.scenes[scId].desc = aeonEntity[self.sceneDescField]
@@ -4865,7 +4862,7 @@ class CsvTimeline(FileExport):
 
 
 class CsvConverter(YwCnvUi):
-    EXPORT_SOURCE_CLASSES = [CsvTimeline]
+    EXPORT_SOURCE_CLASSES = [CsvTimeline3]
     EXPORT_TARGET_CLASSES = [OdtFullSynopsis,
                              OdtBriefSynopsis,
                              OdtChapterOverview,
@@ -4873,13 +4870,6 @@ class CsvConverter(YwCnvUi):
                              OdtLocationSheets,
                              OdtReport,
                              ]
-
-    def __init__(self):
-        """Initialize instance variables.
-        Extend the superclass constructor by
-        changing the newProjectFactory strategy.
-        """
-        YwCnvUi.__init__(self)
 
 
 class CsvCnvUno(CsvConverter):
