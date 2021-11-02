@@ -1,4 +1,4 @@
-"""Convert Aeon Timeline 3 project data to odt. 
+"""Convert Aeon Timeline project data to odt. 
 
 Version @release
 
@@ -52,9 +52,9 @@ SETTINGS = dict(
 )
 
 
-def open_csv(suffix, newExt):
+def open_src(suffix, newExt):
 
-    # Set last opened yWriter project as default (if existing).
+    # Set last opened Aeon project as default (if existing).
 
     scriptLocation = os.path.dirname(__file__)
     inifile = uno.fileUrlToSystemPath(scriptLocation + '/' + INI_FILE)
@@ -63,7 +63,7 @@ def open_csv(suffix, newExt):
 
     try:
         config.read(inifile)
-        csvLastOpen = config.get('FILES', 'csv_last_open')
+        csvLastOpen = config.get('FILES', 'src_last_open')
 
         if os.path.isfile(csvLastOpen):
             defaultFile = uno.systemPathToFileUrl(csvLastOpen)
@@ -73,22 +73,27 @@ def open_csv(suffix, newExt):
 
     # Ask for csv file to open:
 
-    csvFile = FilePicker(path=defaultFile)
+    srcFile = FilePicker(path=defaultFile)
 
-    if csvFile is None:
+    if srcFile is None:
         return
 
-    sourcePath = uno.fileUrlToSystemPath(csvFile)
+    sourcePath = uno.fileUrlToSystemPath(srcFile)
     aeonExt = os.path.splitext(sourcePath)[1]
+    converter = CsvCnvUno()
+    extensions = []
 
-    if not aeonExt in ['.csv']:
-        msgbox('Please choose a csv file exported by Aeon Timeline 3.',
-               'Import from yWriter', type_msg=ERRORBOX)
+    for srcClass in converter.EXPORT_SOURCE_CLASSES:
+        extensions.append(srcClass.EXTENSION)
+
+    if not aeonExt in extensions:
+        msgbox('Please choose a csv file exported by Aeon Timeline 3, or an .aeonzip file.',
+               'Import from Aeon timeline', type_msg=ERRORBOX)
         return
 
     # Store selected yWriter project as "last opened".
 
-    newFile = csvFile.replace(aeonExt, suffix + newExt)
+    newFile = srcFile.replace(aeonExt, suffix + newExt)
     dirName, filename = os.path.split(newFile)
     lockFile = uno.fileUrlToSystemPath(
         dirName + '/') + '.~lock.' + filename + '#'
@@ -96,7 +101,7 @@ def open_csv(suffix, newExt):
     if not config.has_section('FILES'):
         config.add_section('FILES')
 
-    config.set('FILES', 'csv_last_open', uno.fileUrlToSystemPath(csvFile))
+    config.set('FILES', 'src_last_open', uno.fileUrlToSystemPath(srcFile))
 
     with open(inifile, 'w') as f:
         config.write(f)
@@ -105,15 +110,14 @@ def open_csv(suffix, newExt):
 
     if os.path.isfile(lockFile):
         msgbox('Please close "' + filename + '" first.',
-               'Import from Aeon Timeline 3', type_msg=ERRORBOX)
+               'Import from Aeon Timeline', type_msg=ERRORBOX)
         return
 
     # Open yWriter project and convert data.
 
     workdir = os.path.dirname(sourcePath)
     os.chdir(workdir)
-    converter = CsvCnvUno()
-    converter.ui = UiUno('Import from Aeon Timeline 3')
+    converter.ui = UiUno('Import from Aeon Timeline')
     kwargs = {'suffix': suffix}
     kwargs.update(SETTINGS)
     converter.run(sourcePath, **kwargs)
@@ -124,36 +128,36 @@ def open_csv(suffix, newExt):
 
 
 def get_chapteroverview():
-    '''Import a chapter overview from Aeon 3 to a Writer document. 
+    '''Import a chapter overview from Aeon Timeline to a Writer document. 
     '''
-    open_csv(OdtChapterOverview.SUFFIX, OdtChapterOverview.EXTENSION)
+    open_src(OdtChapterOverview.SUFFIX, OdtChapterOverview.EXTENSION)
 
 
 def get_briefsynopsis():
-    '''Import a brief synopsis from Aeon 3 to a Writer document. 
+    '''Import a brief synopsis from Aeon Timeline to a Writer document. 
     '''
-    open_csv(OdtBriefSynopsis.SUFFIX, OdtBriefSynopsis.EXTENSION)
+    open_src(OdtBriefSynopsis.SUFFIX, OdtBriefSynopsis.EXTENSION)
 
 
 def get_fullsynopsis():
-    '''Import a full synopsis from Aeon 3 to a Writer document. 
+    '''Import a full synopsis from Aeon Timeline to a Writer document. 
     '''
-    open_csv(OdtFullSynopsis.SUFFIX, OdtFullSynopsis.EXTENSION)
+    open_src(OdtFullSynopsis.SUFFIX, OdtFullSynopsis.EXTENSION)
 
 
 def get_charactersheets():
-    '''Import character sheets from Aeon 3 to a Writer document.
+    '''Import character sheets from Aeon Timeline to a Writer document.
     '''
-    open_csv(OdtCharacterSheets.SUFFIX, OdtCharacterSheets.EXTENSION)
+    open_src(OdtCharacterSheets.SUFFIX, OdtCharacterSheets.EXTENSION)
 
 
 def get_locationsheets():
-    '''Import location sheets from Aeon 3 to a Writer document.
+    '''Import location sheets from Aeon Timeline to a Writer document.
     '''
-    open_csv(OdtLocationSheets.SUFFIX, OdtLocationSheets.EXTENSION)
+    open_src(OdtLocationSheets.SUFFIX, OdtLocationSheets.EXTENSION)
 
 
 def get_report():
-    '''Import a full report of the narrative from Aeon 3 to a Writer document.
+    '''Import a full report of the narrative from Aeon Timeline to a Writer document.
     '''
-    open_csv(OdtReport.SUFFIX, OdtReport.EXTENSION)
+    open_src(OdtReport.SUFFIX, OdtReport.EXTENSION)
