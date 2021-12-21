@@ -22,7 +22,7 @@ from com.sun.star.awt.MessageBoxType import MESSAGEBOX, INFOBOX, WARNINGBOX, ERR
 from com.sun.star.beans import PropertyValue
 
 from libreoffice.uno_tools import *
-from libreoffice.csv_cnv_uno import CsvCnvUno
+from libreoffice.aeon3odt_cnv_uno import Aeon3odtCnvUno
 from libreoffice.ui_uno import UiUno
 
 INI_FILE = 'openyw.ini'
@@ -30,18 +30,19 @@ INI_FILE = 'openyw.ini'
 SETTINGS = dict(
     part_number_prefix='Part',
     chapter_number_prefix='Chapter',
+    type_event='Event',
     type_character='Character',
     type_location='Location',
     type_item='Item',
+    character_label='Participant',
+    location_label='Location',
+    item_label='Item',
     part_desc_label='Label',
     chapter_desc_label='Label',
     scene_desc_label='Summary',
     scene_title_label='Label',
     notes_label='Notes',
     tag_label='Tags',
-    location_label='Location',
-    item_label='Item',
-    character_label='Participant',
     viewpoint_label='Viewpoint',
     character_bio_label='Summary',
     character_aka_label='Nickname',
@@ -63,15 +64,15 @@ def open_src(suffix, newExt):
 
     try:
         config.read(inifile)
-        csvLastOpen = config.get('FILES', 'src_last_open')
+        srcLastOpen = config.get('FILES', 'src_last_open')
 
-        if os.path.isfile(csvLastOpen):
-            defaultFile = uno.systemPathToFileUrl(csvLastOpen)
+        if os.path.isfile(srcLastOpen):
+            defaultFile = uno.systemPathToFileUrl(srcLastOpen)
 
     except:
         pass
 
-    # Ask for csv file to open:
+    # Ask for source file to open:
 
     srcFile = FilePicker(path=defaultFile)
 
@@ -80,14 +81,14 @@ def open_src(suffix, newExt):
 
     sourcePath = uno.fileUrlToSystemPath(srcFile)
     aeonExt = os.path.splitext(sourcePath)[1]
-    converter = CsvCnvUno()
+    converter = Aeon3odtCnvUno()
     extensions = []
 
     for srcClass in converter.EXPORT_SOURCE_CLASSES:
         extensions.append(srcClass.EXTENSION)
 
     if not aeonExt in extensions:
-        msgbox('Please choose a csv file exported by Aeon Timeline 3, or an .aeonzip file.',
+        msgbox('Please choose a csv file exported by Aeon Timeline 3, or an .aeon file.',
                'Import from Aeon timeline', type_msg=ERRORBOX)
         return
 

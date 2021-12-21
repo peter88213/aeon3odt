@@ -30,6 +30,6 @@ class OdtCharacterSheets(OdtAeon):
 <text:p text:style-name="Text_20_body">$Desc</text:p>
 
 <text:p text:style-name="Text_20_body" />
-<text:p text:style-name="Text_20_body"><text:span text:style-name="Emphasis">$Notes</text:span></text:p>
+<text:p text:style-name="Text_20_body">$Notes</text:p>
 
 '''

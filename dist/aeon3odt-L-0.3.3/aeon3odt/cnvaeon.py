@@ -1,6 +1,6 @@
-"""Convert Aeon Timeline 3 project data to odt. 
+"""Convert Aeon Timeline project data to odt. 
 
-Version 0.2.7
+Version 0.3.3
 
 Copyright (c) 2021 Peter Triesberger
 For further information see https://github.com/peter88213/aeon3odt
@@ -3653,7 +3653,7 @@ class OdtCharacterSheets(OdtAeon):
 <text:p text:style-name="Text_20_body">$Desc</text:p>
 
 <text:p text:style-name="Text_20_body" />
-<text:p text:style-name="Text_20_body"><text:span text:style-name="Emphasis">$Notes</text:span></text:p>
+<text:p text:style-name="Text_20_body">$Notes</text:p>
 
 '''
 
@@ -3785,6 +3785,7 @@ def FilePicker(path=None, mode=0):
         filepicker.setDisplayDirectory(path)
 
     filepicker.initialize((mode,))
+    filepicker.appendFilter("Aeon Timeline 3 Files", "*.aeon")
     filepicker.appendFilter("CSV Files", "*.csv")
 
     if filepicker.execute():
@@ -4858,11 +4859,433 @@ class CsvTimeline3(Novel):
         self.srtChapters.append(chId)
 
         return 'SUCCESS: Data read from "' + os.path.normpath(self.filePath) + '".'
+import json
+from datetime import datetime
+from datetime import timedelta
+
+
+import codecs
+
+
+def scan_file(filePath):
+    """Read and scan the project file.
+    Return a string containing either the JSON part or an error message.
+    """
+
+    try:
+        with open(filePath, 'rb') as f:
+            binInput = f.read()
+
+    except(FileNotFoundError):
+        return 'ERROR: "' + os.path.normpath(filePath) + '" not found.'
+
+    except:
+        return 'ERROR: Cannot read "' + os.path.normpath(filePath) + '".'
+
+    # JSON part: all characters between the first and last curly bracket.
+
+    chrData = []
+    opening = ord('{')
+    closing = ord('}')
+    level = 0
+
+    for c in binInput:
+
+        if c == opening:
+            level += 1
+
+        if level > 0:
+            chrData.append(c)
+
+            if c == closing:
+                level -= 1
+
+                if level == 0:
+                    break
+
+    if level != 0:
+        return 'ERROR: Corrupted data.'
+
+    try:
+        jsonStr = codecs.decode(bytes(chrData), encoding='utf-8')
+
+    except:
+        return 'ERROR: Cannot decode "' + os.path.normpath(filePath) + '".'
+
+    return jsonStr
+
+
+class JsonTimeline3(Novel):
+    """File representation of an Aeon Timeline 3 project. 
+
+    Represents the JSON part of the project file.
+    """
+
+    EXTENSION = '.aeon'
+    DESCRIPTION = 'Aeon Timeline 3 project'
+    SUFFIX = ''
+
+    DATE_LIMIT = (datetime(100, 1, 1) - datetime.min).total_seconds()
+    # Dates before 100-01-01 can not be displayed properly in yWriter
+
+    def __init__(self, filePath, **kwargs):
+        """Extend the superclass constructor,
+        defining instance variables.
+        """
+        Novel.__init__(self, filePath, **kwargs)
+
+        # JSON[definitions][types][byId]
+
+        self.labelEventType = kwargs['type_event']
+        self.labelCharacterType = kwargs['type_character']
+        self.labelLocationType = kwargs['type_location']
+        self.labelItemType = kwargs['type_item']
+
+        # JSON[definitions][references][byId]
+
+        self.labelParticipantRef = kwargs['character_label']
+        self.labelLocationRef = kwargs['location_label']
+        self.labelItemRef = kwargs['item_label']
+
+        # Misc.
+
+        self.partHdPrefix = kwargs['part_number_prefix']
+        self.chapterHdPrefix = kwargs['chapter_number_prefix']
+
+    def read(self):
+        """Extract the JSON part of the Aeon Timeline 3 file located at filePath, 
+        fetching the relevant data.
+        Extend the superclass.
+
+        Return a message beginning with SUCCESS or ERROR.
+        """
+
+        jsonPart = scan_file(self.filePath)
+
+        if not jsonPart:
+            return 'ERROR: No JSON part found.'
+
+        elif jsonPart.startswith('ERROR'):
+            return jsonPart
+
+        try:
+            jsonData = json.loads(jsonPart)
+
+        except('JSONDecodeError'):
+            return 'ERROR: Invalid JSON data.'
+
+        #--- Find types.
+
+        typeEvent = None
+        typeCharacter = None
+        typeLocation = None
+        typeItem = None
+        NarrativeFolderTypes = []
+
+        for uid in jsonData['definitions']['types']['byId']:
+
+            if jsonData['definitions']['types']['byId'][uid]['isNarrativeFolder']:
+                NarrativeFolderTypes.append(uid)
+
+            elif jsonData['definitions']['types']['byId'][uid]['label'] == self.labelEventType:
+                typeEvent = uid
+
+            elif jsonData['definitions']['types']['byId'][uid]['label'] == self.labelCharacterType:
+                typeCharacter = uid
+
+            elif jsonData['definitions']['types']['byId'][uid]['label'] == self.labelLocationType:
+                typeLocation = uid
+
+            elif jsonData['definitions']['types']['byId'][uid]['label'] == self.labelItemType:
+                typeItem = uid
+
+        #--- Find references.
+
+        refParticipant = None
+        refLocation = None
+
+        for uid in jsonData['definitions']['references']['byId']:
+
+            if jsonData['definitions']['references']['byId'][uid]['label'] == self.labelParticipantRef:
+                refParticipant = uid
+
+            elif jsonData['definitions']['references']['byId'][uid]['label'] == self.labelLocationRef:
+                refLocation = uid
+
+        #--- Read items.
+
+        crIdsByGuid = {}
+        lcIdsByGuid = {}
+        itIdsByGuid = {}
+        scIdsByGuid = {}
+        chIdsByGuid = {}
+        characterCount = 0
+        locationCount = 0
+        itemCount = 0
+        eventCount = 0
+        chapterCount = 0
+
+        for uid in jsonData['data']['items']['byId']:
+            dataItem = jsonData['data']['items']['byId'][uid]
+
+            if dataItem['type'] == typeEvent:
+
+                #--- Create scenes.
+
+                eventCount += 1
+                scId = str(eventCount)
+                scIdsByGuid[uid] = scId
+                self.scenes[scId] = Scene()
+                self.scenes[scId].status = 1
+                # Set scene status = "Outline"
+                self.scenes[scId].isNotesScene = True
+                # Will be set to False later if it is part of the narrative.
+                self.scenes[scId].title = dataItem['label']
+                self.scenes[scId].desc = dataItem['summary']
+                timestamp = dataItem['startDate']['timestamp']
+
+                #--- Get scene tags
+
+                for tagId in dataItem['tags']:
+
+                    if self.scenes[scId].tags is None:
+                        self.scenes[scId].tags = []
+
+                    self.scenes[scId].tags.append(jsonData['data']['tags'][tagId])
+
+                #--- Get scene date, time, and duration.
+
+                if timestamp is not None and timestamp >= self.DATE_LIMIT:
+                    # Restrict date/time calculation to dates within yWriter's range
+
+                    sceneStart = datetime.min + timedelta(seconds=timestamp)
+                    startDateTime = sceneStart.isoformat().split('T')
+                    self.scenes[scId].date = startDateTime[0]
+                    self.scenes[scId].time = startDateTime[1]
+
+                    # Calculate duration
+
+                    if dataItem['duration']['years'] > 0 or dataItem['duration']['months'] > 0:
+                        endYear = sceneStart.year + dataItem['duration']['years']
+                        endMonth = sceneStart.month
+
+                        if dataItem['duration']['months'] > 0:
+                            endMonth += dataItem['duration']['months']
+
+                            while endMonth > 12:
+                                endMonth -= 12
+                                endYear += 1
+
+                        sceneDuration = datetime(endYear, endMonth, sceneStart.day) - \
+                            datetime(sceneStart.year, sceneStart.month, sceneStart.day)
+                        lastsDays = sceneDuration.days
+                        lastsHours = sceneDuration.seconds // 3600
+                        lastsMinutes = (sceneDuration.seconds % 3600) // 60
+
+                    else:
+                        lastsDays = 0
+                        lastsHours = 0
+                        lastsMinutes = 0
+
+                    lastsDays += dataItem['duration']['weeks'] * 7
+                    lastsDays += dataItem['duration']['days']
+                    lastsDays += dataItem['duration']['hours'] // 24
+                    lastsHours += dataItem['duration']['hours'] % 24
+                    lastsHours += dataItem['duration']['minutes'] // 60
+                    lastsMinutes += dataItem['duration']['minutes'] % 60
+                    lastsMinutes += dataItem['duration']['seconds'] // 60
+                    lastsHours += lastsMinutes // 60
+                    lastsMinutes %= 60
+                    lastsDays += lastsHours // 24
+                    lastsHours %= 24
+                    self.scenes[scId].lastsDays = str(lastsDays)
+                    self.scenes[scId].lastsHours = str(lastsHours)
+                    self.scenes[scId].lastsMinutes = str(lastsMinutes)
+
+            elif dataItem['type'] in NarrativeFolderTypes:
+
+                #--- Create chapters.
+
+                chapterCount += 1
+                chId = str(chapterCount)
+                chIdsByGuid[uid] = chId
+                self.chapters[chId] = Chapter()
+                self.chapters[chId].desc = dataItem['label']
+
+            elif dataItem['type'] == typeCharacter:
+
+                #--- Create characters.
+
+                characterCount += 1
+                crId = str(characterCount)
+                crIdsByGuid[uid] = crId
+                self.characters[crId] = Character()
+
+                if dataItem['shortLabel']:
+                    self.characters[crId].title = dataItem['shortLabel']
+
+                else:
+                    self.characters[crId].title = dataItem['label']
+
+                self.characters[crId].fullName = dataItem['label']
+                self.characters[crId].desc = dataItem['summary']
+                self.characters[crId].bio = dataItem['summary']
+                self.characters[crId].aka = dataItem['summary']
+                self.characters[crId].notes = dataItem['summary']
+                self.srtCharacters.append(crId)
+
+                #--- Get character tags.
+
+                for tagId in dataItem['tags']:
+
+                    if self.characters[crId].tags is None:
+                        self.characters[crId].tags = []
+
+                    self.characters[crId].tags.append(jsonData['data']['tags'][tagId])
+
+            elif dataItem['type'] == typeLocation:
+
+                #--- Create locations.
+
+                locationCount += 1
+                lcId = str(locationCount)
+                lcIdsByGuid[uid] = lcId
+                self.locations[lcId] = WorldElement()
+                self.locations[lcId].title = dataItem['label']
+                self.locations[lcId].desc = dataItem['summary']
+                self.srtLocations.append(lcId)
+
+                #--- Get location tags.
+
+                for tagId in dataItem['tags']:
+
+                    if self.locations[lcId].tags is None:
+                        self.locations[lcId].tags = []
+
+                    self.locations[lcId].tags.append(jsonData['data']['tags'][tagId])
+
+            elif dataItem['type'] == typeItem:
+
+                #--- Create items.
+
+                itemCount += 1
+                itId = str(itemCount)
+                itIdsByGuid[uid] = itId
+                self.items[itId] = WorldElement()
+                self.items[itId].title = dataItem['label']
+                self.items[itId].desc = dataItem['summary']
+                self.srtItems.append(itId)
+
+                #--- Get item tags.
+
+                for tagId in dataItem['tags']:
+
+                    if self.items[itId].tags is None:
+                        self.items[itId].tags = []
+
+                    self.items[itId].tags.append(jsonData['data']['tags'][tagId])
+
+        #--- Read relationships.
+
+        for uid in jsonData['data']['relationships']['byId']:
+
+            if jsonData['data']['relationships']['byId'][uid]['reference'] == refParticipant:
+
+                #--- Assign characters.
+
+                try:
+                    scId = scIdsByGuid[jsonData['data']['relationships']['byId'][uid]['subject']]
+                    crId = crIdsByGuid[jsonData['data']['relationships']['byId'][uid]['object']]
+
+                    if self.scenes[scId].characters is None:
+                        self.scenes[scId].characters = []
+
+                    self.scenes[scId].characters.append(crId)
+
+                except:
+                    pass
+
+            elif jsonData['data']['relationships']['byId'][uid]['reference'] == refLocation:
+
+                #--- Assign locations.
+
+                try:
+                    scId = scIdsByGuid[jsonData['data']['relationships']['byId'][uid]['subject']]
+                    lcId = lcIdsByGuid[jsonData['data']['relationships']['byId'][uid]['object']]
+
+                    if self.scenes[scId].locations is None:
+                        self.scenes[scId].locations = []
+
+                    self.scenes[scId].locations.append(lcId)
+
+                except:
+                    pass
+
+        #--- Build a narrative structure with 2 or 3 levels.
+
+        for narrative0 in jsonData['data']['narrative']['children']:
+
+            if narrative0['id'] in chIdsByGuid:
+                self.srtChapters.append(chIdsByGuid[narrative0['id']])
+
+            for narrative1 in narrative0['children']:
+
+                if narrative1['id'] in chIdsByGuid:
+                    self.srtChapters.append(chIdsByGuid[narrative1['id']])
+                    self.chapters[chIdsByGuid[narrative0['id']]].chLevel = 1
+
+                    for narrative2 in narrative1['children']:
+
+                        if narrative2['id'] in scIdsByGuid:
+                            self.chapters[chIdsByGuid[narrative1['id']]].srtScenes.append(
+                                scIdsByGuid[narrative2['id']])
+                            self.scenes[scIdsByGuid[narrative2['id']]].isNotesScene = False
+                            self.chapters[chIdsByGuid[narrative1['id']]].chLevel = 0
+
+                elif narrative1['id'] in scIdsByGuid:
+                    self.chapters[chIdsByGuid[narrative0['id']]].srtScenes.append(scIdsByGuid[narrative1['id']])
+                    self.scenes[scIdsByGuid[narrative1['id']]].isNotesScene = False
+                    self.chapters[chIdsByGuid[narrative0['id']]].chLevel = 0
+
+        #--- Auto-number untitled chapters.
+
+        partCount = 0
+        chapterCount = 0
+
+        for chId in self.srtChapters:
+
+            if self.chapters[chId].chLevel == 1:
+                partCount += 1
+
+                if not self.chapters[chId].title:
+                    self.chapters[chId].title = self.partHdPrefix + ' ' + str(partCount)
+
+            else:
+                chapterCount += 1
+
+                if not self.chapters[chId].title:
+                    self.chapters[chId].title = self.chapterHdPrefix + ' ' + str(chapterCount)
+
+        #--- Create a "Notes" chapter for non-narrative scenes.
+
+        chId = str(partCount + chapterCount + 1)
+        self.chapters[chId] = Chapter()
+        self.chapters[chId].title = 'Other events'
+        self.chapters[chId].desc = 'Scenes generated from events that ar not assigned to the narrative structure.'
+        self.chapters[chId].chType = 1
+        self.srtChapters.append(chId)
+
+        for scId in self.scenes:
+
+            if self.scenes[scId].isNotesScene:
+                self.chapters[chId].srtScenes.append(scId)
+
+        return 'SUCCESS: Data read from "' + os.path.normpath(self.filePath) + '".'
 
 
 
-class CsvConverter(YwCnvUi):
-    EXPORT_SOURCE_CLASSES = [CsvTimeline3]
+class Aeon3odtConverter(YwCnvUi):
+    EXPORT_SOURCE_CLASSES = [CsvTimeline3, JsonTimeline3]
     EXPORT_TARGET_CLASSES = [OdtFullSynopsis,
                              OdtBriefSynopsis,
                              OdtChapterOverview,
@@ -4872,7 +5295,7 @@ class CsvConverter(YwCnvUi):
                              ]
 
 
-class CsvCnvUno(CsvConverter):
+class Aeon3odtCnvUno(Aeon3odtConverter):
     """Converter for yWriter project files.
     Variant with UNO UI.
     """
@@ -4922,18 +5345,19 @@ INI_FILE = 'openyw.ini'
 SETTINGS = dict(
     part_number_prefix='Part',
     chapter_number_prefix='Chapter',
+    type_event='Event',
     type_character='Character',
     type_location='Location',
     type_item='Item',
+    character_label='Participant',
+    location_label='Location',
+    item_label='Item',
     part_desc_label='Label',
     chapter_desc_label='Label',
     scene_desc_label='Summary',
     scene_title_label='Label',
     notes_label='Notes',
     tag_label='Tags',
-    location_label='Location',
-    item_label='Item',
-    character_label='Participant',
     viewpoint_label='Viewpoint',
     character_bio_label='Summary',
     character_aka_label='Nickname',
@@ -4944,9 +5368,9 @@ SETTINGS = dict(
 )
 
 
-def open_csv(suffix, newExt):
+def open_src(suffix, newExt):
 
-    # Set last opened yWriter project as default (if existing).
+    # Set last opened Aeon project as default (if existing).
 
     scriptLocation = os.path.dirname(__file__)
     inifile = uno.fileUrlToSystemPath(scriptLocation + '/' + INI_FILE)
@@ -4955,32 +5379,37 @@ def open_csv(suffix, newExt):
 
     try:
         config.read(inifile)
-        csvLastOpen = config.get('FILES', 'csv_last_open')
+        srcLastOpen = config.get('FILES', 'src_last_open')
 
-        if os.path.isfile(csvLastOpen):
-            defaultFile = uno.systemPathToFileUrl(csvLastOpen)
+        if os.path.isfile(srcLastOpen):
+            defaultFile = uno.systemPathToFileUrl(srcLastOpen)
 
     except:
         pass
 
-    # Ask for csv file to open:
+    # Ask for source file to open:
 
-    csvFile = FilePicker(path=defaultFile)
+    srcFile = FilePicker(path=defaultFile)
 
-    if csvFile is None:
+    if srcFile is None:
         return
 
-    sourcePath = uno.fileUrlToSystemPath(csvFile)
+    sourcePath = uno.fileUrlToSystemPath(srcFile)
     aeonExt = os.path.splitext(sourcePath)[1]
+    converter = Aeon3odtCnvUno()
+    extensions = []
 
-    if not aeonExt in ['.csv']:
-        msgbox('Please choose a csv file exported by Aeon Timeline 3.',
-               'Import from yWriter', type_msg=ERRORBOX)
+    for srcClass in converter.EXPORT_SOURCE_CLASSES:
+        extensions.append(srcClass.EXTENSION)
+
+    if not aeonExt in extensions:
+        msgbox('Please choose a csv file exported by Aeon Timeline 3, or an .aeon file.',
+               'Import from Aeon timeline', type_msg=ERRORBOX)
         return
 
     # Store selected yWriter project as "last opened".
 
-    newFile = csvFile.replace(aeonExt, suffix + newExt)
+    newFile = srcFile.replace(aeonExt, suffix + newExt)
     dirName, filename = os.path.split(newFile)
     lockFile = uno.fileUrlToSystemPath(
         dirName + '/') + '.~lock.' + filename + '#'
@@ -4988,7 +5417,7 @@ def open_csv(suffix, newExt):
     if not config.has_section('FILES'):
         config.add_section('FILES')
 
-    config.set('FILES', 'csv_last_open', uno.fileUrlToSystemPath(csvFile))
+    config.set('FILES', 'src_last_open', uno.fileUrlToSystemPath(srcFile))
 
     with open(inifile, 'w') as f:
         config.write(f)
@@ -4997,15 +5426,14 @@ def open_csv(suffix, newExt):
 
     if os.path.isfile(lockFile):
         msgbox('Please close "' + filename + '" first.',
-               'Import from Aeon Timeline 3', type_msg=ERRORBOX)
+               'Import from Aeon Timeline', type_msg=ERRORBOX)
         return
 
     # Open yWriter project and convert data.
 
     workdir = os.path.dirname(sourcePath)
     os.chdir(workdir)
-    converter = CsvCnvUno()
-    converter.ui = UiUno('Import from Aeon Timeline 3')
+    converter.ui = UiUno('Import from Aeon Timeline')
     kwargs = {'suffix': suffix}
     kwargs.update(SETTINGS)
     converter.run(sourcePath, **kwargs)
@@ -5016,36 +5444,36 @@ def open_csv(suffix, newExt):
 
 
 def get_chapteroverview():
-    '''Import a chapter overview from Aeon 3 to a Writer document. 
+    '''Import a chapter overview from Aeon Timeline to a Writer document. 
     '''
-    open_csv(OdtChapterOverview.SUFFIX, OdtChapterOverview.EXTENSION)
+    open_src(OdtChapterOverview.SUFFIX, OdtChapterOverview.EXTENSION)
 
 
 def get_briefsynopsis():
-    '''Import a brief synopsis from Aeon 3 to a Writer document. 
+    '''Import a brief synopsis from Aeon Timeline to a Writer document. 
     '''
-    open_csv(OdtBriefSynopsis.SUFFIX, OdtBriefSynopsis.EXTENSION)
+    open_src(OdtBriefSynopsis.SUFFIX, OdtBriefSynopsis.EXTENSION)
 
 
 def get_fullsynopsis():
-    '''Import a full synopsis from Aeon 3 to a Writer document. 
+    '''Import a full synopsis from Aeon Timeline to a Writer document. 
     '''
-    open_csv(OdtFullSynopsis.SUFFIX, OdtFullSynopsis.EXTENSION)
+    open_src(OdtFullSynopsis.SUFFIX, OdtFullSynopsis.EXTENSION)
 
 
 def get_charactersheets():
-    '''Import character sheets from Aeon 3 to a Writer document.
+    '''Import character sheets from Aeon Timeline to a Writer document.
     '''
-    open_csv(OdtCharacterSheets.SUFFIX, OdtCharacterSheets.EXTENSION)
+    open_src(OdtCharacterSheets.SUFFIX, OdtCharacterSheets.EXTENSION)
 
 
 def get_locationsheets():
-    '''Import location sheets from Aeon 3 to a Writer document.
+    '''Import location sheets from Aeon Timeline to a Writer document.
     '''
-    open_csv(OdtLocationSheets.SUFFIX, OdtLocationSheets.EXTENSION)
+    open_src(OdtLocationSheets.SUFFIX, OdtLocationSheets.EXTENSION)
 
 
 def get_report():
-    '''Import a full report of the narrative from Aeon 3 to a Writer document.
+    '''Import a full report of the narrative from Aeon Timeline to a Writer document.
     '''
-    open_csv(OdtReport.SUFFIX, OdtReport.EXTENSION)
+    open_src(OdtReport.SUFFIX, OdtReport.EXTENSION)

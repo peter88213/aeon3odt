@@ -71,6 +71,7 @@ def FilePicker(path=None, mode=0):
         filepicker.setDisplayDirectory(path)
 
     filepicker.initialize((mode,))
+    filepicker.appendFilter("Aeon Timeline 3 Files", "*.aeon")
     filepicker.appendFilter("CSV Files", "*.csv")
 
     if filepicker.execute():

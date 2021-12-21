@@ -7,23 +7,24 @@ For further information see https://github.com/peter88213/aeon3odt
 Published under the MIT License (https://opensource.org/licenses/mit-license.php)
 """
 from pywriter.ui.ui import Ui
-from aeon3odt.csv_converter import CsvConverter
+from aeon3odt.aeon3odt_converter import Aeon3odtConverter
 
 SETTINGS = dict(
     part_number_prefix='Part',
     chapter_number_prefix='Chapter',
+    type_event='Event',
     type_character='Character',
     type_location='Location',
     type_item='Item',
+    character_label='Participant',
+    location_label='Location',
+    item_label='Item',
     part_desc_label='Label',
     chapter_desc_label='Label',
     scene_desc_label='Summary',
     scene_title_label='Label',
     notes_label='Notes',
     tag_label='Tags',
-    location_label='Location',
-    item_label='Item',
-    character_label='Participant',
     viewpoint_label='Viewpoint',
     character_bio_label='Summary',
     character_aka_label='Nickname',
@@ -36,7 +37,7 @@ SETTINGS = dict(
 
 def convert_csv(sourcePath, suffix=''):
     ui = Ui('')
-    converter = CsvConverter()
+    converter = Aeon3odtConverter()
     converter.ui = ui
     kwargs = {'suffix': suffix}
     kwargs.update(SETTINGS)
