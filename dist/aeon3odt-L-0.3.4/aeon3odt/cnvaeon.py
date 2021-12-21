@@ -1,6 +1,6 @@
 """Convert Aeon Timeline project data to odt. 
 
-Version 0.3.3
+Version 0.3.4
 
 Copyright (c) 2021 Peter Triesberger
 For further information see https://github.com/peter88213/aeon3odt
@@ -5200,7 +5200,8 @@ class JsonTimeline3(Novel):
                     if self.scenes[scId].characters is None:
                         self.scenes[scId].characters = []
 
-                    self.scenes[scId].characters.append(crId)
+                    if not crId in self.scenes[scId].characters:
+                        self.scenes[scId].characters.append(crId)
 
                 except:
                     pass
@@ -5216,7 +5217,8 @@ class JsonTimeline3(Novel):
                     if self.scenes[scId].locations is None:
                         self.scenes[scId].locations = []
 
-                    self.scenes[scId].locations.append(lcId)
+                    if not lcId in self.scenes[scId].locations:
+                        self.scenes[scId].locations.append(lcId)
 
                 except:
                     pass

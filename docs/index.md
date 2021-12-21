@@ -30,7 +30,7 @@ __Please note:__  _This extension can not be installed on OpenOffice._
 
 ## Download and install {#download}
 
-[Download the latest release (version 0.3.3)](https://raw.githubusercontent.com/peter88213/aeon3odt/master/dist/aeon3odt-L-0.3.3.oxt)
+[Download the latest release (version 0.3.4)](https://raw.githubusercontent.com/peter88213/aeon3odt/master/dist/aeon3odt-L-0.3.4.oxt)
 
 -   Installation right at download, by double-clicking on the downloaded 
     file, or via the LibreOffice Extension Manager. Instructions can be found [here](https://wiki.documentfoundation.org/Documentation/HowTo/install_extension).
