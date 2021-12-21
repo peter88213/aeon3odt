@@ -1,6 +1,6 @@
 """Convert Aeon Timeline project data to odt. 
 
-Version 0.3.4
+Version 0.3.5
 
 Copyright (c) 2021 Peter Triesberger
 For further information see https://github.com/peter88213/aeon3odt
@@ -4941,6 +4941,15 @@ class JsonTimeline3(Novel):
         self.labelLocationType = kwargs['type_location']
         self.labelItemType = kwargs['type_item']
 
+        # JSON[definitions][properties][byId]
+
+        self.labelNotesProperty = kwargs['notes_label']
+        self.labelChrDesc1Property = kwargs['character_desc_label1']
+        self.labelChrDesc2Property = kwargs['character_desc_label2']
+        self.labelChrDesc3Property = kwargs['character_desc_label3']
+        self.labelAkaProperty = kwargs['character_aka_label']
+        self.labelViewpointProperty = kwargs['viewpoint_label']
+
         # JSON[definitions][references][byId]
 
         self.labelParticipantRef = kwargs['character_label']
@@ -4976,10 +4985,10 @@ class JsonTimeline3(Novel):
 
         #--- Find types.
 
-        typeEvent = None
-        typeCharacter = None
-        typeLocation = None
-        typeItem = None
+        typeEventUid = None
+        typeCharacterUid = None
+        typeLocationUid = None
+        typeItemUid = None
         NarrativeFolderTypes = []
 
         for uid in jsonData['definitions']['types']['byId']:
@@ -4988,16 +4997,45 @@ class JsonTimeline3(Novel):
                 NarrativeFolderTypes.append(uid)
 
             elif jsonData['definitions']['types']['byId'][uid]['label'] == self.labelEventType:
-                typeEvent = uid
+                typeEventUid = uid
 
             elif jsonData['definitions']['types']['byId'][uid]['label'] == self.labelCharacterType:
-                typeCharacter = uid
+                typeCharacterUid = uid
 
             elif jsonData['definitions']['types']['byId'][uid]['label'] == self.labelLocationType:
-                typeLocation = uid
+                typeLocationUid = uid
 
             elif jsonData['definitions']['types']['byId'][uid]['label'] == self.labelItemType:
-                typeItem = uid
+                typeItemUid = uid
+
+        #--- Find properties.
+
+        propNotesUid = None
+        propChrDesc1Uid = None
+        propChrDesc2Uid = None
+        propChrDesc3Uid = None
+        propAkaUid = None
+        propViewpointUid = None
+
+        for uid in jsonData['definitions']['properties']['byId']:
+
+            if jsonData['definitions']['properties']['byId'][uid]['label'] == self.labelNotesProperty:
+                typeNotesUid = uid
+
+            elif jsonData['definitions']['properties']['byId'][uid]['label'] == self.labelChrDesc1Property:
+                propChrDesc1Uid = uid
+
+            elif jsonData['definitions']['properties']['byId'][uid]['label'] == self.labelChrDesc2Property:
+                propChrDesc2Uid = uid
+
+            elif jsonData['definitions']['properties']['byId'][uid]['label'] == self.labelChrDesc3Property:
+                propChrDesc3Uid = uid
+
+            elif jsonData['definitions']['properties']['byId'][uid]['label'] == self.labelAkaProperty:
+                propAkaUid = uid
+
+            elif jsonData['definitions']['properties']['byId'][uid]['label'] == self.labelViewpointProperty:
+                propViewpointUid = uid
 
         #--- Find references.
 
@@ -5024,11 +5062,12 @@ class JsonTimeline3(Novel):
         itemCount = 0
         eventCount = 0
         chapterCount = 0
+        vpGuidByScId = {}
 
         for uid in jsonData['data']['items']['byId']:
             dataItem = jsonData['data']['items']['byId'][uid]
 
-            if dataItem['type'] == typeEvent:
+            if dataItem['type'] == typeEventUid:
 
                 #--- Create scenes.
 
@@ -5044,7 +5083,7 @@ class JsonTimeline3(Novel):
                 self.scenes[scId].desc = dataItem['summary']
                 timestamp = dataItem['startDate']['timestamp']
 
-                #--- Get scene tags
+                #--- Get scene tags.
 
                 for tagId in dataItem['tags']:
 
@@ -5052,6 +5091,16 @@ class JsonTimeline3(Novel):
                         self.scenes[scId].tags = []
 
                     self.scenes[scId].tags.append(jsonData['data']['tags'][tagId])
+
+                #--- Get scene properties.
+
+                for propId in dataItem['propertyValues']:
+
+                    if propId == propNotesUid:
+                        self.scenes[scId].sceneNotes = dataItem['propertyValues'][propId]
+
+                    elif propId == propViewpointUid:
+                        vpGuidByScId[scId] = dataItem['propertyValues'][propId]
 
                 #--- Get scene date, time, and duration.
 
@@ -5063,7 +5112,7 @@ class JsonTimeline3(Novel):
                     self.scenes[scId].date = startDateTime[0]
                     self.scenes[scId].time = startDateTime[1]
 
-                    # Calculate duration
+                    # Calculate duration.
 
                     if dataItem['duration']['years'] > 0 or dataItem['duration']['months'] > 0:
                         endYear = sceneStart.year + dataItem['duration']['years']
@@ -5112,7 +5161,7 @@ class JsonTimeline3(Novel):
                 self.chapters[chId] = Chapter()
                 self.chapters[chId].desc = dataItem['label']
 
-            elif dataItem['type'] == typeCharacter:
+            elif dataItem['type'] == typeCharacterUid:
 
                 #--- Create characters.
 
@@ -5128,10 +5177,7 @@ class JsonTimeline3(Novel):
                     self.characters[crId].title = dataItem['label']
 
                 self.characters[crId].fullName = dataItem['label']
-                self.characters[crId].desc = dataItem['summary']
                 self.characters[crId].bio = dataItem['summary']
-                self.characters[crId].aka = dataItem['summary']
-                self.characters[crId].notes = dataItem['summary']
                 self.srtCharacters.append(crId)
 
                 #--- Get character tags.
@@ -5143,7 +5189,30 @@ class JsonTimeline3(Novel):
 
                     self.characters[crId].tags.append(jsonData['data']['tags'][tagId])
 
-            elif dataItem['type'] == typeLocation:
+                #--- Get character properties.
+
+                charDesc = []
+
+                for propId in dataItem['propertyValues']:
+
+                    if propId == propNotesUid:
+                        self.characters[crId].notes = dataItem['propertyValues'][propId]
+
+                    elif propId == propAkaUid:
+                        self.characters[crId].aka = dataItem['propertyValues'][propId]
+
+                    elif propId == propChrDesc1Uid:
+                        charDesc.append(dataItem['propertyValues'][propId])
+
+                    elif propId == propChrDesc2Uid:
+                        charDesc.append(dataItem['propertyValues'][propId])
+
+                    elif propId == propChrDesc3Uid:
+                        charDesc.append(dataItem['propertyValues'][propId])
+
+                self.characters[crId].desc = ('\n').join(charDesc)
+
+            elif dataItem['type'] == typeLocationUid:
 
                 #--- Create locations.
 
@@ -5164,7 +5233,7 @@ class JsonTimeline3(Novel):
 
                     self.locations[lcId].tags.append(jsonData['data']['tags'][tagId])
 
-            elif dataItem['type'] == typeItem:
+            elif dataItem['type'] == typeItemUid:
 
                 #--- Create items.
 
@@ -5222,6 +5291,21 @@ class JsonTimeline3(Novel):
 
                 except:
                     pass
+
+        #--- Set scene viewpoints.
+
+        for scId in vpGuidByScId:
+
+            if vpGuidByScId[scId] in crIdsByGuid:
+                vpId = crIdsByGuid[vpGuidByScId[scId]]
+
+                if self.scenes[scId].characters is None:
+                    self.scenes[scId].characters = []
+
+                elif vpId in self.scenes[scId].characters:
+                    self.scenes[scId].characters.remove[vpId]
+
+                self.scenes[scId].characters.insert(0, vpId)
 
         #--- Build a narrative structure with 2 or 3 levels.
 
