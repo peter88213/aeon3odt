@@ -110,7 +110,7 @@ class NormalOperation(unittest.TestCase):
 
     def test_chapter_overview(self):
         copyfile(NORMAL_CSV, TEST_CSV)
-        cnvaeon_stub_.convert_csv(TEST_CSV, '_chapter_overview')
+        cnvaeon_stub_.run(TEST_CSV, '_chapter_overview')
 
         with zipfile.ZipFile(TEST_PARTS, 'r') as myzip:
             myzip.extract(ODF_CONTENT, TEST_EXEC_PATH)
@@ -121,7 +121,7 @@ class NormalOperation(unittest.TestCase):
 
     def test_brief_synopsis(self):
         copyfile(NORMAL_CSV, TEST_CSV)
-        cnvaeon_stub_.convert_csv(TEST_CSV, '_brief_synopsis')
+        cnvaeon_stub_.run(TEST_CSV, '_brief_synopsis')
 
         with zipfile.ZipFile(TEST_CHAPTERS, 'r') as myzip:
             myzip.extract(ODF_CONTENT, TEST_EXEC_PATH)
@@ -132,7 +132,7 @@ class NormalOperation(unittest.TestCase):
 
     def test_full_synopsis(self):
         copyfile(NORMAL_CSV, TEST_CSV)
-        cnvaeon_stub_.convert_csv(TEST_CSV, '_full_synopsis')
+        cnvaeon_stub_.run(TEST_CSV, '_full_synopsis')
 
         with zipfile.ZipFile(TEST_SCENES, 'r') as myzip:
             myzip.extract(ODF_CONTENT, TEST_EXEC_PATH)
@@ -143,7 +143,7 @@ class NormalOperation(unittest.TestCase):
 
     def test_character_sheets(self):
         copyfile(NORMAL_CSV, TEST_CSV)
-        cnvaeon_stub_.convert_csv(TEST_CSV, '_character_sheets')
+        cnvaeon_stub_.run(TEST_CSV, '_character_sheets')
 
         with zipfile.ZipFile(TEST_CHARACTERS, 'r') as myzip:
             myzip.extract(ODF_CONTENT, TEST_EXEC_PATH)
@@ -155,7 +155,7 @@ class NormalOperation(unittest.TestCase):
     @unittest.skip('No example available')
     def test_location_sheets(self):
         copyfile(NORMAL_CSV, TEST_CSV)
-        cnvaeon_stub_.convert_csv(TEST_CSV, '_location_sheets')
+        cnvaeon_stub_.run(TEST_CSV, '_location_sheets')
 
         with zipfile.ZipFile(TEST_LOCATIONS, 'r') as myzip:
             myzip.extract(ODF_CONTENT, TEST_EXEC_PATH)
@@ -166,7 +166,7 @@ class NormalOperation(unittest.TestCase):
 
     def test_report(self):
         copyfile(NORMAL_CSV, TEST_CSV)
-        cnvaeon_stub_.convert_csv(TEST_CSV, '_report')
+        cnvaeon_stub_.run(TEST_CSV, '_report')
 
         with zipfile.ZipFile(TEST_REPORT, 'r') as myzip:
             myzip.extract(ODF_CONTENT, TEST_EXEC_PATH)

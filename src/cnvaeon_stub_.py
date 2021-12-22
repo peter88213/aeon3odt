@@ -6,7 +6,11 @@ Copyright (c) 2021 Peter Triesberger
 For further information see https://github.com/peter88213/aeon3odt
 Published under the MIT License (https://opensource.org/licenses/mit-license.php)
 """
+import sys
+import os
+
 from pywriter.ui.ui import Ui
+from pywriter.config.configuration import Configuration
 from aeon3odt.aeon3odt_converter import Aeon3odtConverter
 
 SETTINGS = dict(
@@ -35,10 +39,34 @@ SETTINGS = dict(
 )
 
 
-def convert_csv(sourcePath, suffix=''):
+def run(sourcePath, suffix='', installDir=''):
     ui = Ui('')
     converter = Aeon3odtConverter()
     converter.ui = ui
+
+    iniFileName = 'aeon3yw.ini'
+    sourceDir = os.path.dirname(sourcePath)
+
+    if sourceDir == '':
+        sourceDir = './'
+
+    else:
+        sourceDir += '/'
+
+    iniFiles = [installDir + iniFileName, sourceDir + iniFileName]
+
+    configuration = Configuration(SETTINGS)
+
+    for iniFile in iniFiles:
+        configuration.read(iniFile)
+
     kwargs = {'suffix': suffix}
-    kwargs.update(SETTINGS)
+    kwargs.update(configuration.settings)
+    kwargs.update(configuration.options)
+
     converter.run(sourcePath, **kwargs)
+
+
+if __name__ == '__main__':
+    installDir = os.getenv('APPDATA').replace('\\', '/') + '/pyWriter/aeon3yw/config/'
+    run(sys.argv[1], sys.argv[2], installDir)

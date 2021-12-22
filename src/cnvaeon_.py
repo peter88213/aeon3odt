@@ -10,6 +10,8 @@ import os
 
 from configparser import ConfigParser
 
+from pywriter.config.configuration import Configuration
+
 from aeon3odt.odt_full_synopsis import OdtFullSynopsis
 from aeon3odt.odt_brief_synopsis import OdtBriefSynopsis
 from aeon3odt.odt_chapter_overview import OdtChapterOverview
@@ -26,6 +28,8 @@ from libreoffice.aeon3odt_cnv_uno import Aeon3odtCnvUno
 from libreoffice.ui_uno import UiUno
 
 INI_FILE = 'openyw.ini'
+CONFIG_PROJECT = 'aeon3yw'
+# cnvaeon uses the aeon3yw configuration file, if any.
 
 SETTINGS = dict(
     part_number_prefix='Part',
@@ -114,13 +118,33 @@ def open_src(suffix, newExt):
                'Import from Aeon Timeline', type_msg=ERRORBOX)
         return
 
+    workdir = os.path.dirname(sourcePath)
+
+    # Read the aeon3yw configuration.
+
+    iniFileName = CONFIG_PROJECT + '.ini'
+    globalConfiguration = os.getenv('APPDATA').replace('\\', '/') + '/pyWriter/' + \
+        CONFIG_PROJECT + '/config/' + iniFileName
+
+    if workdir == '':
+        localConfiguration = './' + iniFileName
+
+    else:
+        localConfiguration = workdir + '/' + iniFileName
+
+    iniFiles = [globalConfiguration, localConfiguration]
+
+    configuration = Configuration(SETTINGS)
+
+    for iniFile in iniFiles:
+        configuration.read(iniFile)
+
     # Open yWriter project and convert data.
 
-    workdir = os.path.dirname(sourcePath)
     os.chdir(workdir)
     converter.ui = UiUno('Import from Aeon Timeline')
     kwargs = {'suffix': suffix}
-    kwargs.update(SETTINGS)
+    kwargs.update(configuration.settings)
     converter.run(sourcePath, **kwargs)
 
     if converter.newFile:

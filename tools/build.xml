@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="aeon3odt" basedir=".">
-	<property name="release" value="0.3.5" />
+	<property name="release" value="0.3.7" />
 	<property name="project-name" value="${ant.project.name}" />
 	<property name="release-name" value="${project-name}-${release}" />
 	<property name="release-name-L" value="${project-name}-L-${release}" />
@@ -26,8 +26,10 @@
 	</target>
 
 	<target name="test" description="unit tests">
+		<copy file="${test}/test_${ant.project.name}_.py" tofile="${test}/test_${ant.project.name}.py" />
+		<replace encoding="utf-8" file="${test}/test_${ant.project.name}.py" token="cnvaeon_stub_" value="cnvaeon_stub" />
 		<exec executable="python" failonerror="true">
-		    <arg value="${test}/test_aeon3odt.py"/>
+		    <arg value="${test}/test_${ant.project.name}.py"/>
 		</exec>
 	</target>
 
@@ -104,6 +106,7 @@
 		
 		<delete file="${test}/cnvaeon.py" />
 		<delete file="${test}/cnvaeon_stub.py" />
+		<delete file="${test}/test_${ant.project.name}.py" />
 		
 	</target>
 	
