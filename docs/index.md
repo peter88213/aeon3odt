@@ -1,8 +1,6 @@
 ![screenshot](Screenshots/lo_menu.png)
 
-[Aeon Timeline 3](https://timeline.app/) exports its project data in a comprehensive CSV text file.
-The *aeon3odt* extension for LibreOffice extracts the narrative part and generates several types 
-of ODT documents.
+The *aeon3odt* extension for LibreOffice extracts the narrative part of an [Aeon Timeline 3](https://timeline.app/) project and generates several types of ODT documents.
 
 ## Features
 
@@ -30,7 +28,7 @@ __Please note:__  _This extension can not be installed on OpenOffice._
 
 ## Download and install {#download}
 
-[Download the latest release (version 0.3.7)](https://raw.githubusercontent.com/peter88213/aeon3odt/master/dist/aeon3odt-L-0.3.7.oxt)
+[Download the latest release (version 0.4.0)](https://raw.githubusercontent.com/peter88213/aeon3odt/master/dist/aeon3odt-L-0.4.0.oxt)
 
 -   Installation right at download, by double-clicking on the downloaded 
     file, or via the LibreOffice Extension Manager. Instructions can be found [here](https://wiki.documentfoundation.org/Documentation/HowTo/install_extension).

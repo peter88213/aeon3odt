@@ -8,6 +8,13 @@
 
 See the [GitHub "features" project](https://github.com/peter88213/aeon3odt/projects/1).
 
+### v0.4.0 Beta release: Read the .aeon file format 
+
+- Read the native .aeon file format. CSV is optional.
+- Use [aeon3yw](https://peter88213.github.io/aeon3yw/) configuration files, if any.
+
+Based on PyWriter v3.28.1 and aeon3yw v0.6.0
+
 ### v0.2.7 Optional update
 
 Apply paeon update to minimize the amount of unused code.

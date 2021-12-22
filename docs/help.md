@@ -4,7 +4,29 @@
 
 # Aeon Timeline 3 import
 
-## Set up your timeline for export
+## Document hierarchy
+
+In the narrative of an **".aeon" project file**, the top three levels of hierarchy are considered. There are two alternatives:
+
+### 1. Three level narrative structure
+
+- First narrative level (narrative folder) = first document level (part).
+- Second narrative level (narrative folder) = second document level (chapter).
+- Third narrative level (event) = third document level (scene).
+
+### 2. Two level narrative structure
+
+- First narrative level (narrative folder) = second document level (chapter).
+- Second narrative level (event) = third document level (scene).
+
+When using a **".csv" export file** instead, the document structure is given by the label in the *Narrative Position* row:
+
+- **Part** = first document level (part).
+- **Chapter** = second document level (chapter).
+- **Scene** = third document level (scene). 
+
+
+## Set up your timeline
 
 The *aeon3odt* extension uses the type designations as defined in Aeon's novel template:
 
@@ -14,7 +36,9 @@ The *aeon3odt* extension uses the type designations as defined in Aeon's novel t
 - **Character** as item type for persons.
 - **Location** as item type for places.
 - **Participant** as character role for scenes.
-- **Location** as scene location.
+- **Location** as location role for scenes.
+
+If you use labels other than the ones listed above, you can customize this extension by providing an *aeon3yw.ini* configuration file as described in the [aeon3yw](https://peter88213.github.io/aeon3yw/) project.
 
 ### Date/Time
 
@@ -23,14 +47,13 @@ The *aeon3odt* extension uses the type designations as defined in Aeon's novel t
 - If the scene date has no day, *01* may be shown in the report as a substitute. 
 - If the scene date has no month, *01* may be shown in the report as a substitute. 
 
-### Important! 
+## csv export from Aeon Timeline 3 (optional)
 
-In the "Narrative" settings select **Outline Style** as numbering system. Make sure that at least chapters are auto assigned to *folders*, and scenes are auto assigned to *other types*.
+Instead of an *.aeon* file, you can optionally select a *.csv* file exported by Aeon Timeline 3.
+
+- In the "Narrative" settings select **Outline Style** as numbering system. Make sure that at least chapters are auto assigned to *folders*, and scenes are auto assigned to *other types*.
 
 ![Screenshot: Narrative settings](https://raw.githubusercontent.com/peter88213/aeon3odt/main/docs/Screenshots/narrative_settings.png)
-
-
-## csv export from Aeon Timeline 3
 
 - The csv file exported by Aeon Timeline 3 must be **comma**-separated.
 - Make sure all *Item Types for Export* checkboxes are ticked.

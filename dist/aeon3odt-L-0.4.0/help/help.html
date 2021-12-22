@@ -18,7 +18,26 @@
 <p><a href="https://peter88213.github.io/aeon3odt/">Project home page</a> &gt; Main help page</p>
 <hr />
 <h1 id="aeon-timeline-3-import">Aeon Timeline 3 import</h1>
-<h2 id="set-up-your-timeline-for-export">Set up your timeline for export</h2>
+<h2 id="document-hierarchy">Document hierarchy</h2>
+<p>In the narrative of an <strong>".aeon" project file</strong>, the top three levels of hierarchy are considered. There are two alternatives:</p>
+<h3 id="three-level-narrative-structure">1. Three level narrative structure</h3>
+<ul>
+<li>First narrative level (narrative folder) = first document level (part).</li>
+<li>Second narrative level (narrative folder) = second document level (chapter).</li>
+<li>Third narrative level (event) = third document level (scene).</li>
+</ul>
+<h3 id="two-level-narrative-structure">2. Two level narrative structure</h3>
+<ul>
+<li>First narrative level (narrative folder) = second document level (chapter).</li>
+<li>Second narrative level (event) = third document level (scene).</li>
+</ul>
+<p>When using a <strong>".csv" export file</strong> instead, the document structure is given by the label in the <em>Narrative Position</em> row:</p>
+<ul>
+<li><strong>Part</strong> = first document level (part).</li>
+<li><strong>Chapter</strong> = second document level (chapter).</li>
+<li><strong>Scene</strong> = third document level (scene).</li>
+</ul>
+<h2 id="set-up-your-timeline">Set up your timeline</h2>
 <p>The <em>aeon3odt</em> extension uses the type designations as defined in Aeon's novel template:</p>
 <h3 id="types-and-roles">Types and roles</h3>
 <ul>
@@ -26,8 +45,9 @@
 <li><strong>Character</strong> as item type for persons.</li>
 <li><strong>Location</strong> as item type for places.</li>
 <li><strong>Participant</strong> as character role for scenes.</li>
-<li><strong>Location</strong> as scene location.</li>
+<li><strong>Location</strong> as location role for scenes.</li>
 </ul>
+<p>If you use labels other than the ones listed above, you can customize this extension by providing an <em>aeon3yw.ini</em> configuration file as described in the <a href="https://peter88213.github.io/aeon3yw/">aeon3yw</a> project.</p>
 <h3 id="datetime">Date/Time</h3>
 <ul>
 <li>Scene dates with years that are outside the range of 100--9999 are not shown in the report.</li>
@@ -35,12 +55,14 @@
 <li>If the scene date has no day, <em>01</em> may be shown in the report as a substitute.</li>
 <li>If the scene date has no month, <em>01</em> may be shown in the report as a substitute.</li>
 </ul>
-<h3 id="important">Important!</h3>
-<p>In the "Narrative" settings select <strong>Outline Style</strong> as numbering system. Make sure that at least chapters are auto assigned to <em>folders</em>, and scenes are auto assigned to <em>other types</em>.</p>
+<h2 id="csv-export-from-aeon-timeline-3-optional">csv export from Aeon Timeline 3 (optional)</h2>
+<p>Instead of an <em>.aeon</em> file, you can optionally select a <em>.csv</em> file exported by Aeon Timeline 3.</p>
+<ul>
+<li>In the "Narrative" settings select <strong>Outline Style</strong> as numbering system. Make sure that at least chapters are auto assigned to <em>folders</em>, and scenes are auto assigned to <em>other types</em>.</li>
+</ul>
 <figure>
 <img src="https://raw.githubusercontent.com/peter88213/aeon3odt/main/docs/Screenshots/narrative_settings.png" alt="Screenshot: Narrative settings" /><figcaption aria-hidden="true">Screenshot: Narrative settings</figcaption>
 </figure>
-<h2 id="csv-export-from-aeon-timeline-3">csv export from Aeon Timeline 3</h2>
 <ul>
 <li>The csv file exported by Aeon Timeline 3 must be <strong>comma</strong>-separated.</li>
 <li>Make sure all <em>Item Types for Export</em> checkboxes are ticked.</li>
