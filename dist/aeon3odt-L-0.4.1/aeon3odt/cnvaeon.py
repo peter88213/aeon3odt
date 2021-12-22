@@ -1,6 +1,6 @@
 """Convert Aeon Timeline project data to odt. 
 
-Version 0.4.0
+Version 0.4.1
 
 Copyright (c) 2021 Peter Triesberger
 For further information see https://github.com/peter88213/aeon3odt
@@ -5606,8 +5606,15 @@ def open_src(suffix, newExt):
     # Read the aeon3yw configuration.
 
     iniFileName = CONFIG_PROJECT + '.ini'
-    globalConfiguration = os.getenv('APPDATA').replace('\\', '/') + '/pyWriter/' + \
-        CONFIG_PROJECT + '/config/' + iniFileName
+    iniFiles = []
+
+    try:
+        globalConfiguration = os.getenv('APPDATA').replace('\\', '/') + '/pyWriter/' + \
+            CONFIG_PROJECT + '/config/' + iniFileName
+        iniFiles.append(globalConfiguration)
+
+    except:
+        pass
 
     if workdir == '':
         localConfiguration = './' + iniFileName
@@ -5615,7 +5622,7 @@ def open_src(suffix, newExt):
     else:
         localConfiguration = workdir + '/' + iniFileName
 
-    iniFiles = [globalConfiguration, localConfiguration]
+    iniFiles.append(localConfiguration)
 
     configuration = Configuration(SETTINGS)
 

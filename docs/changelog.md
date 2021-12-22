@@ -8,6 +8,13 @@
 
 See the [GitHub "features" project](https://github.com/peter88213/aeon3odt/projects/1).
 
+### v0.4.1 beta release
+
+- Catch an exception that is thrown when evaluating a Windows environment variable under Linux.
+
+Based on PyWriter v3.28.1 and aeon3yw v0.6.0
+
+
 ### v0.4.0 Beta release: Read the .aeon file format 
 
 - Read the native .aeon file format. CSV is optional.
