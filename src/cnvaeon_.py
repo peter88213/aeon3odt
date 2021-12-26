@@ -7,8 +7,8 @@ For further information see https://github.com/peter88213/aeon3odt
 Published under the MIT License (https://opensource.org/licenses/mit-license.php)
 """
 import os
-
 from configparser import ConfigParser
+from pathlib import Path
 
 from pywriter.config.configuration import Configuration
 
@@ -126,7 +126,7 @@ def open_src(suffix, newExt):
     iniFiles = []
 
     try:
-        globalConfiguration = os.getenv('APPDATA').replace('\\', '/') + '/pyWriter/' + \
+        globalConfiguration = str(Path.home()).replace('\\', '/') + '/pyWriter/' + \
             CONFIG_PROJECT + '/config/' + iniFileName
         iniFiles.append(globalConfiguration)
 
