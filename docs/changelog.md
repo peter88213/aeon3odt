@@ -10,7 +10,7 @@ See the [GitHub "features" project](https://github.com/peter88213/aeon3odt/proje
 
 ### v0.4.4 beta release
 
-- Fix the aeon3yw configuration path.
+- Fix the aeon3yw configuration path and update help text.
 
 Based on PyWriter v3.28.1 and aeon3yw v0.6.2
 
