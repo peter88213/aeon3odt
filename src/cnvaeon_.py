@@ -126,7 +126,7 @@ def open_src(suffix, newExt):
     iniFiles = []
 
     try:
-        globalConfiguration = str(Path.home()).replace('\\', '/') + '/pyWriter/' + \
+        globalConfiguration = str(Path.home()).replace('\\', '/') + '/.pyWriter/' + \
             CONFIG_PROJECT + '/config/' + iniFileName
         iniFiles.append(globalConfiguration)
 

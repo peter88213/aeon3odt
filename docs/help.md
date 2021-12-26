@@ -40,6 +40,9 @@ The *aeon3odt* extension uses the type designations as defined in Aeon's novel t
 
 If you use labels other than the ones listed above, you can customize this extension by providing an *aeon3yw.ini* configuration file as described in the [aeon3yw](https://peter88213.github.io/aeon3yw/) project.
 
+- Global configuration file on Windows: `c:\Users\<user name>\.pywriter\aeon3yw\config\aeon3yw.ini`
+- Local project configuration file name on Windows: `<project directory>\aeon3yw.ini`
+
 ### Date/Time
 
 - Scene dates with years that are outside the range of 100--9999 are not shown in the report.

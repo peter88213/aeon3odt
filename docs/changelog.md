@@ -8,6 +8,12 @@
 
 See the [GitHub "features" project](https://github.com/peter88213/aeon3odt/projects/1).
 
+### v0.4.4 beta release
+
+- Fix the aeon3yw configuration path.
+
+Based on PyWriter v3.28.1 and aeon3yw v0.6.2
+
 ### v0.4.2 beta release
 
 - Change the aeon3yw configuration path.

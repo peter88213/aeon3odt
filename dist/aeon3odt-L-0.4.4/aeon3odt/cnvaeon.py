@@ -1,6 +1,6 @@
 """Convert Aeon Timeline project data to odt. 
 
-Version 0.4.2
+Version 0.4.4
 
 Copyright (c) 2021 Peter Triesberger
 For further information see https://github.com/peter88213/aeon3odt
@@ -5609,7 +5609,7 @@ def open_src(suffix, newExt):
     iniFiles = []
 
     try:
-        globalConfiguration = str(Path.home()).replace('\\', '/') + '/pyWriter/' + \
+        globalConfiguration = str(Path.home()).replace('\\', '/') + '/.pyWriter/' + \
             CONFIG_PROJECT + '/config/' + iniFileName
         iniFiles.append(globalConfiguration)
 
