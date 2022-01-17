@@ -1,9 +1,6 @@
-"""UNO tools for Aeon Timeline 3 import in LibreOffice. 
+"""Provide Python wrappers for UNO widgets.
 
-Python wrappers for UNO widgets.
-
-Part of the aeon3odt project.
-Copyright (c) 2020 Peter Triesberger
+Copyright (c) 2022 Peter Triesberger
 For further information see https://github.com/peter88213/aeon3odt
 Published under the MIT License (https://opensource.org/licenses/mit-license.php)
 """

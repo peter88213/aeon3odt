@@ -1,6 +1,6 @@
-"""Provide a class for ODT export.
+"""Provide a base class for ODT export from Aeon Timeline 3.
 
-Copyright (c) 2021 Peter Triesberger
+Copyright (c) 2022 Peter Triesberger
 For further information see https://github.com/peter88213/aeon3odt
 Published under the MIT License (https://opensource.org/licenses/mit-license.php)
 """
@@ -943,7 +943,7 @@ class OdtAeon(OdtFile):
     def get_characterMapping(self, crId):
         """Return a mapping dictionary for a character section. 
         """
-        characterMapping = OdtFile.get_characterMapping(self, crId)
+        characterMapping = super().get_characterMapping(crId)
 
         if self.characters[crId].aka:
             characterMapping['AKA'] = ' ("' + self.characters[crId].aka + '")'
@@ -956,7 +956,7 @@ class OdtAeon(OdtFile):
     def get_locationMapping(self, lcId):
         """Return a mapping dictionary for a location section. 
         """
-        locationMapping = OdtFile.get_locationMapping(self, lcId)
+        locationMapping = super().get_locationMapping(lcId)
 
         if self.locations[lcId].aka:
             locationMapping['AKA'] = ' ("' + self.locations[lcId].aka + '")'

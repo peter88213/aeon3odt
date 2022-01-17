@@ -1037,8 +1037,8 @@
 <text:h text:style-name="Heading_20_2" text:outline-level="2">M. Bouc</text:h>
 <text:p text:style-name="Text_20_body_20_indent"><text:span text:style-name="Strong_20_Emphasis">Tags: </text:span></text:p>
 <text:p text:style-name="Text_20_body">A friend of Poirot’s who formerly worked for Belgian police, and is now Director of the company running the Orient Express.</text:p>
-<text:p text:style-name="First_20_line_20_indent"></text:p>
-<text:p text:style-name="First_20_line_20_indent">He prematurely seizes on circumstancial evidence, acting as a “Dr Watson” within the plot. His primary purpose is to have Poirot correct him and explain his thoughts to him.</text:p>
+<text:p text:style-name="First_20_line_20_indent" />
+<text:p text:style-name="Text_20_body">He prematurely seizes on circumstancial evidence, acting as a “Dr Watson” within the plot. His primary purpose is to have Poirot correct him and explain his thoughts to him.</text:p>
 <text:p text:style-name="Text_20_body"></text:p>
 <text:p text:style-name="Text_20_body">Racist, distrusts italians</text:p>
 <text:p text:style-name="First_20_line_20_indent">Prematurely seizes on circumstancial evidence, acts in a “Doctor Watson” role that allows Poirot to talk to the reader by correcting him.</text:p>

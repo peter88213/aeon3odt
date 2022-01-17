@@ -4,7 +4,7 @@ Copyright (c) 2021 Peter Triesberger
 For further information see https://github.com/peter88213/aeon3odt
 Published under the MIT License (https://opensource.org/licenses/mit-license.php)
 """
-from pywriter.converter.yw_cnv_ui import YwCnvUi
+from pywriter.converter.yw_cnv_ff import YwCnvFf
 from pywaeon3.csv_timeline3 import CsvTimeline3
 from pywaeon3.json_timeline3 import JsonTimeline3
 
@@ -16,7 +16,7 @@ from aeon3odt.odt_location_sheets import OdtLocationSheets
 from aeon3odt.odt_report import OdtReport
 
 
-class Aeon3odtConverter(YwCnvUi):
+class Aeon3odtConverter(YwCnvFf):
     EXPORT_SOURCE_CLASSES = [CsvTimeline3, JsonTimeline3]
     EXPORT_TARGET_CLASSES = [OdtFullSynopsis,
                              OdtBriefSynopsis,

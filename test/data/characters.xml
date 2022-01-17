@@ -167,8 +167,8 @@
 
 <text:p text:style-name="Text_20_body" />
 <text:p text:style-name="Text_20_body">A friend of Poirot’s who formerly worked for Belgian police, and is now Director of the company running the Orient Express.</text:p>
-<text:p text:style-name="First_20_line_20_indent"></text:p>
-<text:p text:style-name="First_20_line_20_indent">He prematurely seizes on circumstancial evidence, acting as a “Dr Watson” within the plot. His primary purpose is to have Poirot correct him and explain his thoughts to him.</text:p>
+<text:p text:style-name="First_20_line_20_indent" />
+<text:p text:style-name="Text_20_body">He prematurely seizes on circumstancial evidence, acting as a “Dr Watson” within the plot. His primary purpose is to have Poirot correct him and explain his thoughts to him.</text:p>
 
 <text:p text:style-name="Text_20_body" />
 <text:p text:style-name="Text_20_body"></text:p>
