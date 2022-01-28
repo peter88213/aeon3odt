@@ -62,7 +62,7 @@ def open_src(suffix, newExt):
     # Set last opened Aeon project as default (if existing).
 
     scriptLocation = os.path.dirname(__file__)
-    inifile = uno.fileUrlToSystemPath(scriptLocation + '/' + INI_FILE)
+    inifile = uno.fileUrlToSystemPath('{}/{}'.format(scriptLocation, INI_FILE))
     defaultFile = None
     config = ConfigParser()
 
@@ -114,7 +114,7 @@ def open_src(suffix, newExt):
     # Check if import file is already open in LibreOffice:
 
     if os.path.isfile(lockFile):
-        msgbox('Please close "' + filename + '" first.',
+        msgbox('Please close "{}" first.'.format(filename),
                'Import from Aeon Timeline', type_msg=ERRORBOX)
         return
 
@@ -126,21 +126,20 @@ def open_src(suffix, newExt):
     iniFiles = []
 
     try:
-        globalConfiguration = str(Path.home()).replace('\\', '/') + '/.pyWriter/' + \
-            CONFIG_PROJECT + '/config/' + iniFileName
+        globalConfiguration = '{}/.pyWriter/{}/config/{}'.format(
+            str(Path.home()).replace('\\', '/'), CONFIG_PROJECT, iniFileName)
         iniFiles.append(globalConfiguration)
 
     except:
         pass
 
     if workdir == '':
-        localConfiguration = './' + iniFileName
+        localConfiguration = './{}'.format(iniFileName)
 
     else:
-        localConfiguration = workdir + '/' + iniFileName
+        localConfiguration = '{}/{}'.format(workdir, iniFileName)
 
     iniFiles.append(localConfiguration)
-
     configuration = Configuration(SETTINGS)
 
     for iniFile in iniFiles:
