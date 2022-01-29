@@ -98,10 +98,10 @@ def open_src(suffix, newExt):
 
     # Store selected yWriter project as "last opened".
 
-    newFile = srcFile.replace(aeonExt, suffix + newExt)
-    dirName, filename = os.path.split(newFile)
-    lockFile = uno.fileUrlToSystemPath(
-        dirName + '/') + '.~lock.' + filename + '#'
+    newFile = srcFile.replace(aeonExt, f'{suffix}{newExt}')
+    dirName, fileName = os.path.split(newFile)
+    thisDir = uno.fileUrlToSystemPath(f'{dirName}/')
+    lockFile = f'{thisDir}.~lock.{fileName}#'
 
     if not config.has_section('FILES'):
         config.add_section('FILES')
@@ -114,7 +114,7 @@ def open_src(suffix, newExt):
     # Check if import file is already open in LibreOffice:
 
     if os.path.isfile(lockFile):
-        msgbox('Please close "{}" first.'.format(filename),
+        msgbox('Please close "{}" first.'.format(fileName),
                'Import from Aeon Timeline', type_msg=ERRORBOX)
         return
 
@@ -122,7 +122,7 @@ def open_src(suffix, newExt):
 
     # Read the aeon3yw configuration.
 
-    iniFileName = CONFIG_PROJECT + '.ini'
+    iniFileName = f'{CONFIG_PROJECT}.ini'
     iniFiles = []
 
     try:

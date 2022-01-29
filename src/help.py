@@ -13,5 +13,5 @@ import webbrowser
 
 def show_help():
     scriptLocation = os.path.dirname(__file__)
-    helpFile = scriptLocation + '/help.html'
+    helpFile = f'{scriptLocation}/help.html'
     webbrowser.open(helpFile)

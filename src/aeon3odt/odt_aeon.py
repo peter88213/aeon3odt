@@ -946,10 +946,10 @@ class OdtAeon(OdtFile):
         characterMapping = super().get_characterMapping(crId)
 
         if self.characters[crId].aka:
-            characterMapping['AKA'] = ' ("' + self.characters[crId].aka + '")'
+            characterMapping['AKA'] = f' ("{self.characters[crId].aka}")'
 
         if self.characters[crId].fullName:
-            characterMapping['FullName'] = '/' + self.characters[crId].fullName
+            characterMapping['FullName'] = f'/{self.characters[crId].fullName}'
 
         return characterMapping
 
@@ -959,6 +959,6 @@ class OdtAeon(OdtFile):
         locationMapping = super().get_locationMapping(lcId)
 
         if self.locations[lcId].aka:
-            locationMapping['AKA'] = ' ("' + self.locations[lcId].aka + '")'
+            locationMapping['AKA'] = f' ("{self.locations[lcId].aka}")'
 
         return locationMapping
