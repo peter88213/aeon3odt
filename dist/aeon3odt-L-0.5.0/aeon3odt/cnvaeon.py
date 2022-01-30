@@ -1,6 +1,6 @@
 """Convert Aeon Timeline project data to odt. 
 
-Version 0.4.4
+Version 0.5.0
 
 Copyright (c) 2021 Peter Triesberger
 For further information see https://github.com/peter88213/aeon3odt
@@ -37,6 +37,8 @@ class Configuration():
         self.set(settings, options)
 
     def set(self, settings=None, options=None):
+        """Set the entire configuration without writing the INI file.
+        """
 
         if settings is not None:
             self.settings = settings.copy()
@@ -96,6 +98,8 @@ class Configuration():
 
 import re
 
+
+ERROR = '!'
 import zipfile
 import locale
 import tempfile
@@ -144,7 +148,7 @@ class Character(WorldElement):
     MINOR_MARKER = 'Minor'
 
     def __init__(self):
-        WorldElement.__init__(self)
+        super().__init__()
 
         self.notes = None
         # str
@@ -173,6 +177,8 @@ class Scene():
     """
 
     # Emulate an enumeration for the scene status
+    # Since the items are used to replace text,
+    # they may contain spaces. This is why Enum cannot be used here.
 
     STATUS = [None, 'Outline', 'Draft', '1st Edit', '2nd Edit', 'Done']
     ACTION_MARKER = 'A'
@@ -226,7 +232,14 @@ class Scene():
         # xml: <ExportCondSpecific><ExportWhenRTF>
 
         self.status = None
-        # int # xml: <Status>
+        # int
+        # xml: <Status>
+        # 1 - Outline
+        # 2 - Draft
+        # 3 - 1st Edit
+        # 4 - 2nd Edit
+        # 5 - Done
+        # See also the STATUS list for conversion.
 
         self.sceneNotes = None
         # str
@@ -358,12 +371,8 @@ class Novel():
     of the information included in an yWriter project file).
 
     Public methods: 
-        read() -- Parse the file and store selected properties.
-        merge(novel) -- Copy required attributes of the novel object.
-        write() -- Write selected properties to the file.
         convert_to_yw(text) -- Return text, converted from source format to yw7 markup.
         convert_from_yw(text) -- Return text, converted from yw7 markup to target format.
-        file_exists() -- Return True, if the file specified by filePath exists.
 
     Instance variables:
         title -- str; title
@@ -509,33 +518,11 @@ class Novel():
         else:
             suffix = ''
 
-        if filePath.lower().endswith((suffix + self.EXTENSION).lower()):
+        if filePath.lower().endswith(f'{suffix}{self.EXTENSION}'.lower()):
             self._filePath = filePath
             head, tail = os.path.split(os.path.realpath(filePath))
             self.projectPath = quote(head.replace('\\', '/'), '/:')
-            self.projectName = quote(tail.replace(
-                suffix + self.EXTENSION, ''))
-
-    def read(self):
-        """Parse the file and store selected properties.
-        Return a message beginning with SUCCESS or ERROR.
-        This is a stub to be overridden by subclass methods.
-        """
-        return 'ERROR: read method is not implemented.'
-
-    def merge(self, source):
-        """Copy required attributes of the source object.
-        Return a message beginning with SUCCESS or ERROR.
-        This is a stub to be overridden by subclass methods.
-        """
-        return 'ERROR: merge method is not implemented.'
-
-    def write(self):
-        """Write selected properties to the file.
-        Return a message beginning with SUCCESS or ERROR.
-        This is a stub to be overridden by subclass methods.
-        """
-        return 'ERROR: write method is not implemented.'
+            self.projectName = quote(tail.replace(f'{suffix}{self.EXTENSION}', ''))
 
     def convert_to_yw(self, text):
         """Return text, converted from source format to yw7 markup.
@@ -548,47 +535,6 @@ class Novel():
         This is a stub to be overridden by subclass methods.
         """
         return text
-
-    def file_exists(self):
-        """Return True, if the file specified by filePath exists. 
-        Otherwise, return False.
-        """
-        if os.path.isfile(self.filePath):
-            return True
-
-        else:
-            return False
-
-    def back_up(self, single=True):
-        """Create a backup file from filePath. Return True, if successful.
-        Otherwise, return False.
-
-        Parameter: single
-        True - Overwrite existing backup file. Extension = .bak
-        False - Create a new, numbered backup file. Extension = .bkxxxx
-        """
-        if os.path.isfile(self.filePath):
-
-            if single:
-                backupFile = self.filePath + '.bak'
-
-            else:
-                i = 0
-                backupFile = self.filePath + '.bk0000'
-
-                while os.path.isfile(backupFile):
-                    i += 1
-                    backupFile = self.filePath + '.bk' + str(i).zfill(4)
-
-            try:
-                copy2(self.filePath, backupFile)
-                return True
-
-            except:
-                return False
-
-        else:
-            return False
 
 
 class Filter():
@@ -641,7 +587,7 @@ class FileExport(Novel):
         """Extend the superclass constructor,
         initializing a filter class.
         """
-        Novel.__init__(self, filePath, **kwargs)
+        super().__init__(filePath, **kwargs)
         self.sceneFilter = Filter()
         self.chapterFilter = Filter()
         self.characterFilter = Filter()
@@ -650,7 +596,7 @@ class FileExport(Novel):
 
     def merge(self, source):
         """Copy required attributes of the source object.
-        Return a message beginning with SUCCESS or ERROR.
+        Return a message beginning with the ERROR constant in case of error.
         """
 
         if source.title is not None:
@@ -716,7 +662,7 @@ class FileExport(Novel):
             self.srtItems = source.srtItems
             self.items = source.items
 
-        return 'SUCCESS'
+        return 'Export data updated from novel.'
 
     def get_fileHeaderMapping(self):
         """Return a mapping dictionary for the project section. 
@@ -826,7 +772,7 @@ class FileExport(Novel):
 
             if self.scenes[scId].day is not None:
                 day = self.scenes[scId].day
-                scDate = 'Day ' + self.scenes[scId].day
+                scDate = f'Day {self.scenes[scId].day}'
 
             else:
                 day = ''
@@ -857,7 +803,7 @@ class FileExport(Novel):
                 else:
                     minute = '00'
 
-                scTime = hour.zfill(2) + ':' + minute.zfill(2)
+                scTime = f'{hour:02}:{minute:02}'
 
             else:
                 hour = ''
@@ -868,7 +814,7 @@ class FileExport(Novel):
 
         if self.scenes[scId].lastsDays is not None and self.scenes[scId].lastsDays != '0':
             lastsDays = self.scenes[scId].lastsDays
-            days = self.scenes[scId].lastsDays + 'd '
+            days = f'{self.scenes[scId].lastsDays}d '
 
         else:
             lastsDays = ''
@@ -876,7 +822,7 @@ class FileExport(Novel):
 
         if self.scenes[scId].lastsHours is not None and self.scenes[scId].lastsHours != '0':
             lastsHours = self.scenes[scId].lastsHours
-            hours = self.scenes[scId].lastsHours + 'h '
+            hours = f'{self.scenes[scId].lastsHours}h '
 
         else:
             lastsHours = ''
@@ -884,13 +830,13 @@ class FileExport(Novel):
 
         if self.scenes[scId].lastsMinutes is not None and self.scenes[scId].lastsMinutes != '0':
             lastsMinutes = self.scenes[scId].lastsMinutes
-            minutes = self.scenes[scId].lastsMinutes + 'min'
+            minutes = f'{self.scenes[scId].lastsMinutes}min'
 
         else:
             lastsMinutes = ''
             minutes = ''
 
-        duration = days + hours + minutes
+        duration = f'{days}{hours}{minutes}'
 
         sceneMapping = dict(
             ID=scId,
@@ -1288,7 +1234,7 @@ class FileExport(Novel):
         return lines
 
     def get_text(self):
-        """Assemple the whole text applying the templates.
+        """Assemble the whole text applying the templates.
         Return a string to be written to the output file.
         """
         lines = self.get_fileHeader()
@@ -1301,18 +1247,30 @@ class FileExport(Novel):
 
     def write(self):
         """Create a template-based output file. 
-        Return a message string starting with 'SUCCESS' or 'ERROR'.
+        Return a message beginning with the ERROR constant in case of error.
         """
         text = self.get_text()
 
+        if os.path.isfile(self.filePath):
+            os.replace(self.filePath, f'{self.filePath}.bak')
+            backedUp = True
+
+        else:
+            backedUp = False
+
         try:
+
             with open(self.filePath, 'w', encoding='utf-8') as f:
                 f.write(text)
 
         except:
-            return 'ERROR: Cannot write "' + os.path.normpath(self.filePath) + '".'
 
-        return 'SUCCESS: "' + os.path.normpath(self.filePath) + '" written.'
+            if backedUp:
+                os.replace(f'{self.filePath}.bak', self.filePath)
+
+            return f'{ERROR}Cannot write "{os.path.normpath(self.filePath)}".'
+
+        return f'"{os.path.normpath(self.filePath)}" written.'
 
     def get_string(self, elements):
         """Return a string which is the concatenation of the 
@@ -1349,7 +1307,7 @@ class OdfFile(FileExport):
         """Extend the superclass constructor, 
         creating a temporary directory.
         """
-        FileExport.__init__(self, filePath, **kwargs)
+        super().__init__(filePath, **kwargs)
         self.tempDir = tempfile.mkdtemp(suffix='.tmp', prefix='odf_')
         self.originalPath = self._filePath
 
@@ -1379,34 +1337,34 @@ class OdfFile(FileExport):
         try:
             self.tear_down()
             os.mkdir(self.tempDir)
-            os.mkdir(self.tempDir + '/META-INF')
+            os.mkdir(f'{self.tempDir}/META-INF')
 
         except:
-            return 'ERROR: Cannot create "' + os.path.normpath(self.tempDir) + '".'
+            return f'{ERROR}Cannot create "{os.path.normpath(self.tempDir)}".'
 
         # Generate mimetype.
 
         try:
-            with open(self.tempDir + '/mimetype', 'w', encoding='utf-8') as f:
+            with open(f'{self.tempDir}/mimetype', 'w', encoding='utf-8') as f:
                 f.write(self._MIMETYPE)
         except:
-            return 'ERROR: Cannot write "mimetype"'
+            return f'{ERROR}Cannot write "mimetype"'
 
         # Generate settings.xml.
 
         try:
-            with open(self.tempDir + '/settings.xml', 'w', encoding='utf-8') as f:
+            with open(f'{self.tempDir}/settings.xml', 'w', encoding='utf-8') as f:
                 f.write(self._SETTINGS_XML)
         except:
-            return 'ERROR: Cannot write "settings.xml"'
+            return f'{ERROR}Cannot write "settings.xml"'
 
         # Generate META-INF\manifest.xml.
 
         try:
-            with open(self.tempDir + '/META-INF/manifest.xml', 'w', encoding='utf-8') as f:
+            with open(f'{self.tempDir}/META-INF/manifest.xml', 'w', encoding='utf-8') as f:
                 f.write(self._MANIFEST_XML)
         except:
-            return 'ERROR: Cannot write "manifest.xml"'
+            return f'{ERROR}Cannot write "manifest.xml"'
 
         # Generate styles.xml with system language set as document language.
 
@@ -1420,10 +1378,10 @@ class OdfFile(FileExport):
         text = template.safe_substitute(localeMapping)
 
         try:
-            with open(self.tempDir + '/styles.xml', 'w', encoding='utf-8') as f:
+            with open(f'{self.tempDir}/styles.xml', 'w', encoding='utf-8') as f:
                 f.write(text)
         except:
-            return 'ERROR: Cannot write "styles.xml"'
+            return f'{ERROR}Cannot write "styles.xml"'
 
         # Generate meta.xml with actual document metadata.
 
@@ -1432,23 +1390,20 @@ class OdfFile(FileExport):
         metaMapping = dict(
             Author=self.author,
             Title=self.title,
-            Summary='<![CDATA[' + self.desc + ']]>',
-            Date=str(dt.year) + '-' + str(dt.month).rjust(2, '0') +
-            '-' + str(dt.day).rjust(2, '0'),
-            Time=str(dt.hour).rjust(2, '0') +
-            ':' + str(dt.minute).rjust(2, '0') +
-            ':' + str(dt.second).rjust(2, '0'),
+            Summary=f'<![CDATA[{self.desc}]]>',
+            Date=f'{dt.year}-{dt.month:02}-{dt.day:02}',
+            Time=f'{dt.hour:02}:{dt.minute:02}:{dt.second:02}',
         )
         template = Template(self._META_XML)
         text = template.safe_substitute(metaMapping)
 
         try:
-            with open(self.tempDir + '/meta.xml', 'w', encoding='utf-8') as f:
+            with open(f'{self.tempDir}/meta.xml', 'w', encoding='utf-8') as f:
                 f.write(text)
         except:
-            return 'ERROR: Cannot write "meta.xml".'
+            return f'{ERROR}Cannot write "meta.xml".'
 
-        return 'SUCCESS: ODF structure generated.'
+        return 'ODF structure generated.'
 
     def write(self):
         """Extend the super class method, adding ZIP file operations."""
@@ -1458,26 +1413,33 @@ class OdfFile(FileExport):
 
         message = self.set_up()
 
-        if message.startswith('ERROR'):
+        if message.startswith(ERROR):
             return message
 
         # Add "content.xml" to the temporary directory.
 
         self.originalPath = self._filePath
 
-        self._filePath = self.tempDir + '/content.xml'
+        self._filePath = f'{self.tempDir}/content.xml'
 
-        message = FileExport.write(self)
+        message = super().write()
 
         self._filePath = self.originalPath
 
-        if message.startswith('ERROR'):
+        if message.startswith(ERROR):
             return message
 
         # Pack the contents of the temporary directory
         # into the ODF file.
 
         workdir = os.getcwd()
+
+        if os.path.isfile(self.filePath):
+            os.replace(self.filePath, f'{self.filePath}.bak')
+            backedUp = True
+
+        else:
+            backedUp = False
 
         try:
             with zipfile.ZipFile(self.filePath, 'w') as odfTarget:
@@ -1486,14 +1448,18 @@ class OdfFile(FileExport):
                 for file in self.ODF_COMPONENTS:
                     odfTarget.write(file, compress_type=zipfile.ZIP_DEFLATED)
         except:
+
+            if backedUp:
+                os.replace(f'{self.filePath}.bak', self.filePath)
+
             os.chdir(workdir)
-            return 'ERROR: Cannot generate "' + os.path.normpath(self.filePath) + '".'
+            return f'{ERROR}Cannot generate "{os.path.normpath(self.filePath)}".'
 
         # Remove temporary data.
 
         os.chdir(workdir)
         self.tear_down()
-        return 'SUCCESS: "' + os.path.normpath(self.filePath) + '" written.'
+        return f'"{os.path.normpath(self.filePath)}" written.'
 
 
 class OdtFile(OdfFile):
@@ -2610,20 +2576,20 @@ class OdtFile(OdfFile):
 
         # Generate the common ODF components.
 
-        message = OdfFile.set_up(self)
+        message = super().set_up()
 
-        if message.startswith('ERROR'):
+        if message.startswith(ERROR):
             return message
 
         # Generate manifest.rdf
 
         try:
-            with open(self.tempDir + '/manifest.rdf', 'w', encoding='utf-8') as f:
+            with open(f'{self.tempDir}/manifest.rdf', 'w', encoding='utf-8') as f:
                 f.write(self._MANIFEST_RDF)
         except:
-            return 'ERROR: Cannot write "manifest.rdf"'
+            return f'{ERROR}Cannot write "manifest.rdf"'
 
-        return 'SUCCESS: ODT structure generated.'
+        return 'ODT structure generated.'
 
     def convert_from_yw(self, text):
         """Convert yw7 raw markup to odt. Return an xml string.
@@ -2633,13 +2599,14 @@ class OdtFile(OdfFile):
             ['&', '&amp;'],
             ['>', '&gt;'],
             ['<', '&lt;'],
-            ['\n', '</text:p>\n<text:p text:style-name="First_20_line_20_indent">'],
+            ['\n\n', '</text:p>\r<text:p text:style-name="First_20_line_20_indent" />\r<text:p text:style-name="Text_20_body">'],
+            ['\n', '</text:p>\r<text:p text:style-name="First_20_line_20_indent">'],
+            ['\r', '\n'],
             ['[i]', '<text:span text:style-name="Emphasis">'],
             ['[/i]', '</text:span>'],
             ['[b]', '<text:span text:style-name="Strong_20_Emphasis">'],
             ['[/b]', '</text:span>'],
-            ['/*', '<office:annotation><dc:creator>' +
-                self.author + '</dc:creator><text:p>'],
+            ['/*', f'<office:annotation><dc:creator>{self.author}</dc:creator><text:p>'],
             ['*/', '</text:p></office:annotation>'],
         ]
 
@@ -2651,30 +2618,31 @@ class OdtFile(OdfFile):
             bold = False
             newlines = []
             lines = text.split('\n')
+
             for line in lines:
                 if italics:
-                    line = '[i]' + line
+                    line = f'[i]{line}'
                     italics = False
 
                 while line.count('[i]') > line.count('[/i]'):
-                    line += '[/i]'
+                    line = f'{line}[/i]'
                     italics = True
 
                 while line.count('[/i]') > line.count('[i]'):
-                    line = '[i]' + line
+                    line = f'[i]{line}'
 
                 line = line.replace('[i][/i]', '')
 
                 if bold:
-                    line = '[b]' + line
+                    line = f'[b]{line}'
                     bold = False
 
                 while line.count('[b]') > line.count('[/b]'):
-                    line += '[/b]'
+                    line = f'{line}[/b]'
                     bold = True
 
                 while line.count('[/b]') > line.count('[b]'):
-                    line = '[b]' + line
+                    line = f'[b]{line}'
 
                 line = line.replace('[b][/b]', '')
 
@@ -3632,23 +3600,23 @@ class OdtAeon(OdtFile):
     def get_characterMapping(self, crId):
         """Return a mapping dictionary for a character section. 
         """
-        characterMapping = OdtFile.get_characterMapping(self, crId)
+        characterMapping = super().get_characterMapping(crId)
 
         if self.characters[crId].aka:
-            characterMapping['AKA'] = ' ("' + self.characters[crId].aka + '")'
+            characterMapping['AKA'] = f' ("{self.characters[crId].aka}")'
 
         if self.characters[crId].fullName:
-            characterMapping['FullName'] = '/' + self.characters[crId].fullName
+            characterMapping['FullName'] = f'/{self.characters[crId].fullName}'
 
         return characterMapping
 
     def get_locationMapping(self, lcId):
         """Return a mapping dictionary for a location section. 
         """
-        locationMapping = OdtFile.get_locationMapping(self, lcId)
+        locationMapping = super().get_locationMapping(lcId)
 
         if self.locations[lcId].aka:
-            locationMapping['AKA'] = ' ("' + self.locations[lcId].aka + '")'
+            locationMapping['AKA'] = f' ("{self.locations[lcId].aka}")'
 
         return locationMapping
 
@@ -3876,6 +3844,7 @@ def FilePicker(path=None, mode=0):
         return filepicker.getFiles()[0]
 
 
+
 import sys
 import webbrowser
 
@@ -3911,11 +3880,13 @@ class Ui():
         """
 
 
+
 class YwCnv():
     """Base class for Novel file conversion.
 
     Public methods:
         convert(sourceFile, targetFile) -- Convert sourceFile into targetFile.
+        confirm_overwrite(fileName) -- Return boolean permission to overwrite the target file.
     """
 
     def convert(self, sourceFile, targetFile):
@@ -3927,7 +3898,7 @@ class YwCnv():
         1. Make the source object read the source file.
         2. Make the target object merge the source object's instance variables.
         3. Make the target object write the target file.
-        Return a message beginning with SUCCESS or ERROR.
+        Return a message beginning with the ERROR constant in case of error.
 
         Error handling:
         - Check if sourceFile and targetFile are correctly initialized.
@@ -3939,29 +3910,29 @@ class YwCnv():
         # Initial error handling.
 
         if sourceFile.filePath is None:
-            return 'ERROR: Source "' + os.path.normpath(sourceFile.filePath) + '" is not of the supported type.'
+            return f'{ERROR}Source "{os.path.normpath(sourceFile.filePath)}" is not of the supported type.'
 
-        if not sourceFile.file_exists():
-            return 'ERROR: "' + os.path.normpath(sourceFile.filePath) + '" not found.'
+        if not os.path.isfile(sourceFile.filePath):
+            return f'{ERROR}"{os.path.normpath(sourceFile.filePath)}" not found.'
 
         if targetFile.filePath is None:
-            return 'ERROR: Target "' + os.path.normpath(targetFile.filePath) + '" is not of the supported type.'
+            return f'{ERROR}Target "{os.path.normpath(targetFile.filePath)}" is not of the supported type.'
 
-        if targetFile.file_exists() and not self.confirm_overwrite(targetFile.filePath):
-            return 'ERROR: Action canceled by user.'
+        if os.path.isfile(targetFile.filePath) and not self.confirm_overwrite(targetFile.filePath):
+            return f'{ERROR}Action canceled by user.'
 
         # Make the source object read the source file.
 
         message = sourceFile.read()
 
-        if message.startswith('ERROR'):
+        if message.startswith(ERROR):
             return message
 
         # Make the target object merge the source object's instance variables.
 
         message = targetFile.merge(sourceFile)
 
-        if message.startswith('ERROR'):
+        if message.startswith(ERROR):
             return message
 
         # Make the source object write the target file.
@@ -3975,284 +3946,26 @@ class YwCnv():
         return True
 
 
-
-class FileFactory:
-    """Base class for conversion object factory classes.
-
-    Public methods:
-        make_file_objects(self, sourcePath, **kwargs) -- return conversion objects.
-
-    This class emulates a "FileFactory" Interface.
-    Instances can be used as stubs for factories instantiated at runtime.
-    """
-
-    def __init__(self, fileClasses=[]):
-        """Write the parameter to a private instance variable.
-
-        Positional arguments:
-            fileClasses -- list of classes from which an instance can be returned.
-        """
-        self.fileClasses = fileClasses
-
-    def make_file_objects(self, sourcePath, **kwargs):
-        """A factory method stub.
-
-        Positional arguments:
-            sourcePath -- string; path to the source file to convert.
-
-        Optional arguments:
-            suffix -- string; an indicator for the target file type.
-
-        Return a tuple with three elements:
-        - A message string starting with 'ERROR'
-        - sourceFile: None
-        - targetFile: None
-
-        Factory method to be overridden by subclasses.
-        Subclasses return a tuple with three elements:
-        - A message string starting with 'SUCCESS' or 'ERROR'
-        - sourceFile: a Novel subclass instance
-        - targetFile: a Novel subclass instance
-        """
-        return 'ERROR: File type of "' + os.path.normpath(sourcePath) + '" not supported.', None, None
-
-
-
-class ExportSourceFactory(FileFactory):
-    """A factory class that instantiates a yWriter object to read."""
-
-    def make_file_objects(self, sourcePath, **kwargs):
-        """Instantiate a source object for conversion from a yWriter project.
-        Override the superclass method.
-
-        Positional arguments:
-            sourcePath -- string; path to the source file to convert.
-
-        Return a tuple with three elements:
-        - A message string starting with 'SUCCESS' or 'ERROR'
-        - sourceFile: a YwFile subclass instance, or None in case of error
-        - targetFile: None
-        """
-        fileName, fileExtension = os.path.splitext(sourcePath)
-
-        for fileClass in self.fileClasses:
-
-            if fileClass.EXTENSION == fileExtension:
-                sourceFile = fileClass(sourcePath, **kwargs)
-                return 'SUCCESS', sourceFile, None
-
-        return 'ERROR: File type of "' + os.path.normpath(sourcePath) + '" not supported.', None, None
-
-
-
-class ExportTargetFactory(FileFactory):
-    """A factory class that instantiates a document object to write."""
-
-    def make_file_objects(self, sourcePath, **kwargs):
-        """Instantiate a target object for conversion from a yWriter project.
-        Override the superclass method.
-
-        Positional arguments:
-            sourcePath -- string; path to the source file to convert.
-
-        Optional arguments:
-            suffix -- string; an indicator for the target file type.
-
-        Return a tuple with three elements:
-        - A message string starting with 'SUCCESS' or 'ERROR'
-        - sourceFile: None
-        - targetFile: a FileExport subclass instance, or None in case of error 
-        """
-        fileName, fileExtension = os.path.splitext(sourcePath)
-        suffix = kwargs['suffix']
-
-        for fileClass in self.fileClasses:
-
-            if fileClass.SUFFIX == suffix:
-
-                if suffix is None:
-                    suffix = ''
-
-                targetFile = fileClass(
-                    fileName + suffix + fileClass.EXTENSION, **kwargs)
-                return 'SUCCESS', None, targetFile
-
-        return 'ERROR: File type of "' + os.path.normpath(sourcePath) + '" not supported.', None, None
-
-
-class ImportSourceFactory(FileFactory):
-    """A factory class that instantiates a documente object to read."""
-
-    def make_file_objects(self, sourcePath, **kwargs):
-        """Instantiate a source object for conversion to a yWriter project.       
-        Override the superclass method.
-
-        Positional arguments:
-            sourcePath -- string; path to the source file to convert.
-
-        Return a tuple with three elements:
-        - A message string starting with 'SUCCESS' or 'ERROR'
-        - sourceFile: a Novel subclass instance, or None in case of error
-        - targetFile: None
-        """
-
-        for fileClass in self.fileClasses:
-
-            if fileClass.SUFFIX is not None:
-
-                if sourcePath.endswith(fileClass.SUFFIX + fileClass.EXTENSION):
-                    sourceFile = fileClass(sourcePath, **kwargs)
-                    return 'SUCCESS', sourceFile, None
-
-        return 'ERROR: This document is not meant to be written back.', None, None
-
-
-
-class ImportTargetFactory(FileFactory):
-    """A factory class that instantiates a yWriter object to write."""
-
-    def make_file_objects(self, sourcePath, **kwargs):
-        """Instantiate a target object for conversion to a yWriter project.
-        Override the superclass method.
-
-        Positional arguments:
-            sourcePath -- string; path to the source file to convert.
-
-        Optional arguments:
-            suffix -- string; an indicator for the source file type.
-
-        Return a tuple with three elements:
-        - A message string starting with 'SUCCESS' or 'ERROR'
-        - sourceFile: None
-        - targetFile: a YwFile subclass instance, or None in case of error
-
-        """
-        fileName, fileExtension = os.path.splitext(sourcePath)
-        sourceSuffix = kwargs['suffix']
-
-        if sourceSuffix:
-            ywPathBasis = fileName.split(sourceSuffix)[0]
-
-        else:
-            ywPathBasis = fileName
-
-        # Look for an existing yWriter project to rewrite.
-
-        for fileClass in self.fileClasses:
-
-            if os.path.isfile(ywPathBasis + fileClass.EXTENSION):
-                targetFile = fileClass(
-                    ywPathBasis + fileClass.EXTENSION, **kwargs)
-                return 'SUCCESS', None, targetFile
-
-        return 'ERROR: No yWriter project to write.', None, None
-
-
 class YwCnvUi(YwCnv):
     """Base class for Novel file conversion with user interface.
 
     Public methods:
-        run(sourcePath, suffix) -- Create source and target objects and run conversion.
-
-    Class constants:
-        EXPORT_SOURCE_CLASSES -- List of YwFile subclasses from which can be exported.
-        EXPORT_TARGET_CLASSES -- List of FileExport subclasses to which export is possible.
-        IMPORT_SOURCE_CLASSES -- List of Novel subclasses from which can be imported.
-        IMPORT_TARGET_CLASSES -- List of YwFile subclasses to which import is possible.
-
-    All lists are empty and meant to be overridden by subclasses.
+        export_from_yw(sourceFile, targetFile) -- Convert from yWriter project to other file format.
+        import_to_yw(sourceFile, targetFile) -- Convert from any file format to yWriter project.
+        confirm_overwrite(fileName) -- Return boolean permission to overwrite the target file.
 
     Instance variables:
         ui -- Ui (can be overridden e.g. by subclasses).
-        exportSourceFactory -- ExportSourceFactory.
-        exportTargetFactory -- ExportTargetFactory.
-        importSourceFactory -- ImportSourceFactory.
-        importTargetFactory -- ImportTargetFactory.
-        newProjectFactory -- FileFactory (a stub to be overridden by subclasses).
         newFile -- string; path to the target file in case of success.   
     """
-
-    EXPORT_SOURCE_CLASSES = []
-    EXPORT_TARGET_CLASSES = []
-    IMPORT_SOURCE_CLASSES = []
-    IMPORT_TARGET_CLASSES = []
 
     def __init__(self):
         """Define instance variables."""
         self.ui = Ui('')
         # Per default, 'silent mode' is active.
 
-        self.exportSourceFactory = ExportSourceFactory(
-            self.EXPORT_SOURCE_CLASSES)
-        self.exportTargetFactory = ExportTargetFactory(
-            self.EXPORT_TARGET_CLASSES)
-        self.importSourceFactory = ImportSourceFactory(
-            self.IMPORT_SOURCE_CLASSES)
-        self.importTargetFactory = ImportTargetFactory(
-            self.IMPORT_TARGET_CLASSES)
-        self.newProjectFactory = FileFactory()
-
         self.newFile = None
         # Also indicates successful conversion.
-
-    def run(self, sourcePath, **kwargs):
-        """Create source and target objects and run conversion.
-
-        sourcePath -- str; the source file path.
-        suffix -- str; target file name suffix. 
-
-        This is a template method that calls primitive operations by case.
-        """
-        self.newFile = None
-
-        if not os.path.isfile(sourcePath):
-            self.ui.set_info_how(
-                'ERROR: File "' + os.path.normpath(sourcePath) + '" not found.')
-            return
-
-        message, sourceFile, dummy = self.exportSourceFactory.make_file_objects(
-            sourcePath, **kwargs)
-
-        if message.startswith('SUCCESS'):
-            # The source file is a yWriter project.
-
-            message, dummy, targetFile = self.exportTargetFactory.make_file_objects(
-                sourcePath, **kwargs)
-
-            if message.startswith('SUCCESS'):
-                self.export_from_yw(sourceFile, targetFile)
-
-            else:
-                self.ui.set_info_how(message)
-
-        else:
-            # The source file is not a yWriter project.
-
-            message, sourceFile, dummy = self.importSourceFactory.make_file_objects(
-                sourcePath, **kwargs)
-
-            if message.startswith('SUCCESS'):
-                kwargs['suffix'] = sourceFile.SUFFIX
-                message, dummy, targetFile = self.importTargetFactory.make_file_objects(
-                    sourcePath, **kwargs)
-
-                if message.startswith('SUCCESS'):
-                    self.import_to_yw(sourceFile, targetFile)
-
-                else:
-                    self.ui.set_info_how(message)
-
-            else:
-                # A new yWriter project might be required.
-
-                message, sourceFile, targetFile = self.newProjectFactory.make_file_objects(
-                    sourcePath, **kwargs)
-
-                if message.startswith('SUCCESS'):
-                    self.create_yw7(sourceFile, targetFile)
-
-                else:
-                    self.ui.set_info_how(message)
 
     def export_from_yw(self, sourceFile, targetFile):
         """Convert from yWriter project to other file format.
@@ -4273,8 +3986,8 @@ class YwCnvUi(YwCnv):
 
         # Send specific information about the conversion to the UI.
 
-        self.ui.set_info_what('Input: ' + sourceFile.DESCRIPTION + ' "' + os.path.normpath(
-            sourceFile.filePath) + '"\nOutput: ' + targetFile.DESCRIPTION + ' "' + os.path.normpath(targetFile.filePath) + '"')
+        self.ui.set_info_what(
+            f'Input: {sourceFile.DESCRIPTION} "{os.path.normpath(sourceFile.filePath)}"\nOutput: {targetFile.DESCRIPTION} "{os.path.normpath(targetFile.filePath)}"')
 
         # Convert sourceFile into targetFile.
 
@@ -4286,11 +3999,11 @@ class YwCnvUi(YwCnv):
 
         # Save the new file pathname.
 
-        if message.startswith('SUCCESS'):
-            self.newFile = targetFile.filePath
+        if message.startswith(ERROR):
+            self.newFile = None
 
         else:
-            self.newFile = None
+            self.newFile = targetFile.filePath
 
     def create_yw7(self, sourceFile, targetFile):
         """Create targetFile from sourceFile.
@@ -4314,11 +4027,10 @@ class YwCnvUi(YwCnv):
         # Send specific information about the conversion to the UI.
 
         self.ui.set_info_what(
-            'Create a yWriter project file from ' + sourceFile.DESCRIPTION + '\nNew project: "' + os.path.normpath(targetFile.filePath) + '"')
+            f'Create a yWriter project file from {sourceFile.DESCRIPTION}\nNew project: "{os.path.normpath(targetFile.filePath)}"')
 
-        if targetFile.file_exists():
-            self.ui.set_info_how(
-                'ERROR: "' + os.path.normpath(targetFile.filePath) + '" already exists.')
+        if os.path.isfile(targetFile.filePath):
+            self.ui.set_info_how(f'{ERROR}"{os.path.normpath(targetFile.filePath)}" already exists.')
 
         else:
             # Convert sourceFile into targetFile.
@@ -4331,11 +4043,11 @@ class YwCnvUi(YwCnv):
 
             # Save the new file pathname.
 
-            if message.startswith('SUCCESS'):
-                self.newFile = targetFile.filePath
+            if message.startswith(ERROR):
+                self.newFile = None
 
             else:
-                self.newFile = None
+                self.newFile = targetFile.filePath
 
     def import_to_yw(self, sourceFile, targetFile):
         """Convert from any file format to yWriter project.
@@ -4357,8 +4069,8 @@ class YwCnvUi(YwCnv):
 
         # Send specific information about the conversion to the UI.
 
-        self.ui.set_info_what('Input: ' + sourceFile.DESCRIPTION + ' "' + os.path.normpath(
-            sourceFile.filePath) + '"\nOutput: ' + targetFile.DESCRIPTION + ' "' + os.path.normpath(targetFile.filePath) + '"')
+        self.ui.set_info_what(
+            f'Input: {sourceFile.DESCRIPTION} "{os.path.normpath(sourceFile.filePath)}"\nOutput: {targetFile.DESCRIPTION} "{os.path.normpath(targetFile.filePath)}"')
 
         # Convert sourceFile into targetFile.
 
@@ -4374,15 +4086,15 @@ class YwCnvUi(YwCnv):
 
         # Save the new file pathname.
 
-        if message.startswith('SUCCESS'):
-            self.newFile = targetFile.filePath
+        if message.startswith(ERROR):
+            self.newFile = None
 
         else:
-            self.newFile = None
+            self.newFile = targetFile.filePath
 
     def confirm_overwrite(self, filePath):
         """Return boolean permission to overwrite the target file, overriding the superclass method."""
-        return self.ui.ask_yes_no('Overwrite existing file "' + os.path.normpath(filePath) + '"?')
+        return self.ui.ask_yes_no(f'Overwrite existing file "{os.path.normpath(filePath)}"?')
 
     def delete_tempfile(self, filePath):
         """Delete filePath if it is a temporary file no longer needed."""
@@ -4415,6 +4127,254 @@ class YwCnvUi(YwCnv):
         """Open the converted file for editing and exit the converter script."""
         webbrowser.open(self.newFile)
         sys.exit(0)
+
+
+class FileFactory:
+    """Base class for conversion object factory classes.
+    """
+
+    def __init__(self, fileClasses=[]):
+        """Write the parameter to a private instance variable.
+
+        Positional arguments:
+            fileClasses -- list of classes from which an instance can be returned.
+        """
+        self.fileClasses = fileClasses
+
+
+
+class ExportSourceFactory(FileFactory):
+    """A factory class that instantiates a yWriter object to read.
+
+    Public methods:
+        make_file_objects(self, sourcePath, **kwargs) -- return conversion objects.
+    """
+
+    def make_file_objects(self, sourcePath, **kwargs):
+        """Instantiate a source object for conversion from a yWriter project.
+
+        Positional arguments:
+            sourcePath -- string; path to the source file to convert.
+
+        Return a tuple with three elements:
+        - A message beginning with the ERROR constant in case of error
+        - sourceFile: a YwFile subclass instance, or None in case of error
+        - targetFile: None
+        """
+        fileName, fileExtension = os.path.splitext(sourcePath)
+
+        for fileClass in self.fileClasses:
+
+            if fileClass.EXTENSION == fileExtension:
+                sourceFile = fileClass(sourcePath, **kwargs)
+                return 'Source object created.', sourceFile, None
+
+        return f'{ERROR}File type of "{os.path.normpath(sourcePath)}" not supported.', None, None
+
+
+
+class ExportTargetFactory(FileFactory):
+    """A factory class that instantiates a document object to write.
+
+    Public methods:
+        make_file_objects(self, sourcePath, **kwargs) -- return conversion objects.
+    """
+
+    def make_file_objects(self, sourcePath, **kwargs):
+        """Instantiate a target object for conversion from a yWriter project.
+
+        Positional arguments:
+            sourcePath -- string; path to the source file to convert.
+
+        Optional arguments:
+            suffix -- string; an indicator for the target file type.
+
+        Return a tuple with three elements:
+        - A message beginning with the ERROR constant in case of error
+        - sourceFile: None
+        - targetFile: a FileExport subclass instance, or None in case of error 
+        """
+        fileName, fileExtension = os.path.splitext(sourcePath)
+        suffix = kwargs['suffix']
+
+        for fileClass in self.fileClasses:
+
+            if fileClass.SUFFIX == suffix:
+
+                if suffix is None:
+                    suffix = ''
+
+                targetFile = fileClass(f'{fileName}{suffix}{fileClass.EXTENSION}', **kwargs)
+                return 'Target object created.', None, targetFile
+
+        return f'{ERROR}File type of "{os.path.normpath(sourcePath)}" not supported.', None, None
+
+
+class ImportSourceFactory(FileFactory):
+    """A factory class that instantiates a documente object to read.
+
+    Public methods:
+        make_file_objects(self, sourcePath, **kwargs) -- return conversion objects.
+    """
+
+    def make_file_objects(self, sourcePath, **kwargs):
+        """Instantiate a source object for conversion to a yWriter project.       
+
+        Positional arguments:
+            sourcePath -- string; path to the source file to convert.
+
+        Return a tuple with three elements:
+        - A message beginning with the ERROR constant in case of error
+        - sourceFile: a Novel subclass instance, or None in case of error
+        - targetFile: None
+        """
+
+        for fileClass in self.fileClasses:
+
+            if fileClass.SUFFIX is not None:
+
+                if sourcePath.endswith(f'{fileClass.SUFFIX }{fileClass.EXTENSION}'):
+                    sourceFile = fileClass(sourcePath, **kwargs)
+                    return 'Source object created.', sourceFile, None
+
+        return f'{ERROR}This document is not meant to be written back.', None, None
+
+
+
+class ImportTargetFactory(FileFactory):
+    """A factory class that instantiates a yWriter object to write.
+
+    Public methods:
+        make_file_objects(self, sourcePath, **kwargs) -- return conversion objects.
+    """
+
+    def make_file_objects(self, sourcePath, **kwargs):
+        """Instantiate a target object for conversion to a yWriter project.
+
+        Positional arguments:
+            sourcePath -- string; path to the source file to convert.
+
+        Optional arguments:
+            suffix -- string; an indicator for the source file type.
+
+        Return a tuple with three elements:
+        - A message beginning with the ERROR constant in case of error
+        - sourceFile: None
+        - targetFile: a YwFile subclass instance, or None in case of error
+
+        """
+        fileName, fileExtension = os.path.splitext(sourcePath)
+        sourceSuffix = kwargs['suffix']
+
+        if sourceSuffix:
+            ywPathBasis = fileName.split(sourceSuffix)[0]
+
+        else:
+            ywPathBasis = fileName
+
+        # Look for an existing yWriter project to rewrite.
+
+        for fileClass in self.fileClasses:
+
+            if os.path.isfile(f'{ywPathBasis}{fileClass.EXTENSION}'):
+                targetFile = fileClass(f'{ywPathBasis}{fileClass.EXTENSION}', **kwargs)
+                return 'Target object created.', None, targetFile
+
+        return f'{ERROR}No yWriter project to write.', None, None
+
+
+class YwCnvFf(YwCnvUi):
+    """Class for Novel file conversion using factory methods 
+    to create target and source classes.
+
+    Public methods:
+        run(sourcePath, **kwargs) -- Create source and target objects and run conversion.
+
+    Class constants:
+        EXPORT_SOURCE_CLASSES -- List of YwFile subclasses from which can be exported.
+        EXPORT_TARGET_CLASSES -- List of FileExport subclasses to which export is possible.
+        IMPORT_SOURCE_CLASSES -- List of Novel subclasses from which can be imported.
+        IMPORT_TARGET_CLASSES -- List of YwFile subclasses to which import is possible.
+
+    All lists are empty and meant to be overridden by subclasses.
+
+    Instance variables:
+        exportSourceFactory -- ExportSourceFactory.
+        exportTargetFactory -- ExportTargetFactory.
+        importSourceFactory -- ImportSourceFactory.
+        importTargetFactory -- ImportTargetFactory.
+        newProjectFactory -- FileFactory (a stub to be overridden by subclasses).
+    """
+
+    EXPORT_SOURCE_CLASSES = []
+    EXPORT_TARGET_CLASSES = []
+    IMPORT_SOURCE_CLASSES = []
+    IMPORT_TARGET_CLASSES = []
+
+    def __init__(self):
+        """Define instance variables."""
+        super().__init__()
+
+        self.exportSourceFactory = ExportSourceFactory(self.EXPORT_SOURCE_CLASSES)
+        self.exportTargetFactory = ExportTargetFactory(self.EXPORT_TARGET_CLASSES)
+        self.importSourceFactory = ImportSourceFactory(self.IMPORT_SOURCE_CLASSES)
+        self.importTargetFactory = ImportTargetFactory(self.IMPORT_TARGET_CLASSES)
+        self.newProjectFactory = FileFactory()
+
+    def run(self, sourcePath, **kwargs):
+        """Create source and target objects and run conversion.
+
+        sourcePath -- str; the source file path.
+        Required keyword argument: 'suffix' -- str; target file name suffix.
+
+        This is a template method that calls primitive operations by case.
+        """
+        self.newFile = None
+
+        if not os.path.isfile(sourcePath):
+            self.ui.set_info_how(f'{ERROR}File "{os.path.normpath(sourcePath)}" not found.')
+            return
+
+        message, sourceFile, dummy = self.exportSourceFactory.make_file_objects(sourcePath, **kwargs)
+
+        if message.startswith(ERROR):
+            # The source file is not a yWriter project.
+
+            message, sourceFile, dummy = self.importSourceFactory.make_file_objects(sourcePath, **kwargs)
+
+            if message.startswith(ERROR):
+                # A new yWriter project might be required.
+
+                message, sourceFile, targetFile = self.newProjectFactory.make_file_objects(sourcePath, **kwargs)
+
+                if message.startswith(ERROR):
+                    self.ui.set_info_how(message)
+
+                else:
+                    self.create_yw7(sourceFile, targetFile)
+
+            else:
+                # Try to update an existing yWriter project.
+
+                kwargs['suffix'] = sourceFile.SUFFIX
+                message, dummy, targetFile = self.importTargetFactory.make_file_objects(sourcePath, **kwargs)
+
+                if message.startswith(ERROR):
+                    self.ui.set_info_how(message)
+
+                else:
+                    self.import_to_yw(sourceFile, targetFile)
+
+        else:
+            # The source file is a yWriter project.
+
+            message, dummy, targetFile = self.exportTargetFactory.make_file_objects(sourcePath, **kwargs)
+
+            if message.startswith(ERROR):
+                self.ui.set_info_how(message)
+
+            else:
+                self.export_from_yw(sourceFile, targetFile)
 import csv
 
 from datetime import datetime
@@ -4576,7 +4536,7 @@ class CsvTimeline3(Novel):
         """Extend the superclass constructor,
         defining instance variables.
         """
-        Novel.__init__(self, filePath, **kwargs)
+        super().__init__(filePath, **kwargs)
         self.labels = []
         self.partNrPrefix = kwargs['part_number_prefix']
 
@@ -4611,7 +4571,7 @@ class CsvTimeline3(Novel):
     def read(self):
         """Parse the timeline structure.
 
-        Return a message beginning with SUCCESS or ERROR.
+        Return a message beginning with the ERROR constant in case of error.
         """
 
         def get_lcIds(lcTitles):
@@ -4756,17 +4716,17 @@ class CsvTimeline3(Novel):
                         self.srtItems.append(itId)
 
         except(FileNotFoundError):
-            return 'ERROR: "' + os.path.normpath(self.filePath) + '" not found.'
+            return f'{ERROR}"{os.path.normpath(self.filePath)}" not found.'
 
         except:
-            return 'ERROR: Can not parse csv file "' + os.path.normpath(self.filePath) + '".'
+            return f'{ERROR}Can not parse csv file "{os.path.normpath(self.filePath)}".'
 
         try:
 
             for label in [self._SCENE_FIELD, self.sceneTitleField, self._START_DATE_TIME_FIELD, self._END_DATE_TIME_FIELD]:
 
                 if not label in self.labels:
-                    return 'ERROR: Label "' + label + '" is missing.'
+                    return f'{ERROR}Label "{label}" is missing.'
 
             scIdsByStruc = {}
             chIdsByStruc = {}
@@ -4896,16 +4856,16 @@ class CsvTimeline3(Novel):
                 self.scenes[scId].status = 1
 
         except(FileNotFoundError):
-            return 'ERROR: "' + os.path.normpath(self.filePath) + '" not found.'
+            return f'{ERROR}"{os.path.normpath(self.filePath)}" not found.'
 
         except(KeyError):
-            return 'ERROR: Wrong csv structure.'
+            return f'{ERROR}Wrong csv structure.'
 
         except(ValueError):
-            return 'ERROR: Wrong date/time format.'
+            return f'{ERROR}Wrong date/time format.'
 
         except:
-            return 'ERROR: Can not parse "' + os.path.normpath(self.filePath) + '".'
+            return f'{ERROR}Can not parse "{os.path.normpath(self.filePath)}".'
 
         # Build the chapter structure as defined with Aeon v3.
 
@@ -4942,13 +4902,14 @@ class CsvTimeline3(Novel):
         self.chapters[chId].srtScenes = otherEvents
         self.srtChapters.append(chId)
 
-        return 'SUCCESS: Data read from "' + os.path.normpath(self.filePath) + '".'
+        return 'Timeline data converted to novel structure.'
 import json
 from datetime import datetime
 from datetime import timedelta
 
 
 import codecs
+
 
 
 def scan_file(filePath):
@@ -4961,10 +4922,10 @@ def scan_file(filePath):
             binInput = f.read()
 
     except(FileNotFoundError):
-        return 'ERROR: "' + os.path.normpath(filePath) + '" not found.'
+        return f'{ERROR}"{os.path.normpath(filePath)}" not found.'
 
     except:
-        return 'ERROR: Cannot read "' + os.path.normpath(filePath) + '".'
+        return f'{ERROR}Cannot read "{os.path.normpath(filePath)}".'
 
     # JSON part: all characters between the first and last curly bracket.
 
@@ -4988,13 +4949,13 @@ def scan_file(filePath):
                     break
 
     if level != 0:
-        return 'ERROR: Corrupted data.'
+        return f'{ERROR}Corrupted data.'
 
     try:
         jsonStr = codecs.decode(bytes(chrData), encoding='utf-8')
 
     except:
-        return 'ERROR: Cannot decode "' + os.path.normpath(filePath) + '".'
+        return f'{ERROR}Cannot decode "{os.path.normpath(filePath)}".'
 
     return jsonStr
 
@@ -5016,7 +4977,7 @@ class JsonTimeline3(Novel):
         """Extend the superclass constructor,
         defining instance variables.
         """
-        Novel.__init__(self, filePath, **kwargs)
+        super().__init__(filePath, **kwargs)
 
         # JSON[definitions][types][byId]
 
@@ -5050,22 +5011,22 @@ class JsonTimeline3(Novel):
         fetching the relevant data.
         Extend the superclass.
 
-        Return a message beginning with SUCCESS or ERROR.
+        Return a message beginning with the ERROR constant in case of error.
         """
 
         jsonPart = scan_file(self.filePath)
 
         if not jsonPart:
-            return 'ERROR: No JSON part found.'
+            return f'{ERROR}No JSON part found.'
 
-        elif jsonPart.startswith('ERROR'):
+        elif jsonPart.startswith(ERROR):
             return jsonPart
 
         try:
             jsonData = json.loads(jsonPart)
 
         except('JSONDecodeError'):
-            return 'ERROR: Invalid JSON data.'
+            return f'{ERROR}Invalid JSON data.'
 
         #--- Find types.
 
@@ -5450,11 +5411,11 @@ class JsonTimeline3(Novel):
             if self.scenes[scId].isNotesScene:
                 self.chapters[chId].srtScenes.append(scId)
 
-        return 'SUCCESS: Data read from "' + os.path.normpath(self.filePath) + '".'
+        return 'Timeline data converted to novel structure.'
 
 
 
-class Aeon3odtConverter(YwCnvUi):
+class Aeon3odtConverter(YwCnvFf):
     EXPORT_SOURCE_CLASSES = [CsvTimeline3, JsonTimeline3]
     EXPORT_TARGET_CLASSES = [OdtFullSynopsis,
                              OdtBriefSynopsis,
@@ -5466,21 +5427,24 @@ class Aeon3odtConverter(YwCnvUi):
 
 
 class Aeon3odtCnvUno(Aeon3odtConverter):
-    """Converter for yWriter project files.
-    Variant with UNO UI.
+    """A converter for universal import and export.
+    Support yWriter 7 projects and most of the Novel subclasses 
+    that can be read or written by OpenOffice/LibreOffice.
+    - No message in case of success when converting from yWriter.
     """
 
     def export_from_yw(self, sourceFile, targetFile):
         """Method for conversion from yw to other.
+        Override the superclass method.
         Show only error messages.
         """
         message = self.convert(sourceFile, targetFile)
 
-        if message.startswith('SUCCESS'):
-            self.newFile = targetFile.filePath
+        if message.startswith(ERROR):
+            self.ui.set_info_how(message)
 
         else:
-            self.ui.set_info_how(message)
+            self.newFile = targetFile.filePath
 from com.sun.star.awt.MessageBoxResults import OK, YES, NO, CANCEL
 from com.sun.star.awt.MessageBoxButtons import BUTTONS_OK, BUTTONS_OK_CANCEL, BUTTONS_YES_NO, BUTTONS_YES_NO_CANCEL, BUTTONS_RETRY_CANCEL, BUTTONS_ABORT_IGNORE_RETRY
 from com.sun.star.awt.MessageBoxType import MESSAGEBOX, INFOBOX, WARNINGBOX, ERRORBOX, QUERYBOX
@@ -5504,11 +5468,12 @@ class UiUno(Ui):
         """How's the converter doing?"""
         self.infoHowText = message
 
-        if message.startswith('SUCCESS'):
-            msgbox(message, type_msg=INFOBOX)
+        if message.startswith(ERROR):
+            message = message.split(ERROR, maxsplit=1)[1].strip()
+            msgbox(message, type_msg=ERRORBOX)
 
         else:
-            msgbox(message, type_msg=ERRORBOX)
+            msgbox(message, type_msg=INFOBOX)
 
 INI_FILE = 'openyw.ini'
 CONFIG_PROJECT = 'aeon3yw'
@@ -5545,7 +5510,7 @@ def open_src(suffix, newExt):
     # Set last opened Aeon project as default (if existing).
 
     scriptLocation = os.path.dirname(__file__)
-    inifile = uno.fileUrlToSystemPath(scriptLocation + '/' + INI_FILE)
+    inifile = uno.fileUrlToSystemPath(f'{scriptLocation}/{INI_FILE}')
     defaultFile = None
     config = ConfigParser()
 
@@ -5581,10 +5546,10 @@ def open_src(suffix, newExt):
 
     # Store selected yWriter project as "last opened".
 
-    newFile = srcFile.replace(aeonExt, suffix + newExt)
-    dirName, filename = os.path.split(newFile)
-    lockFile = uno.fileUrlToSystemPath(
-        dirName + '/') + '.~lock.' + filename + '#'
+    newFile = srcFile.replace(aeonExt, f'{suffix}{newExt}')
+    dirName, fileName = os.path.split(newFile)
+    thisDir = uno.fileUrlToSystemPath(f'{dirName}/')
+    lockFile = f'{thisDir}.~lock.{fileName}#'
 
     if not config.has_section('FILES'):
         config.add_section('FILES')
@@ -5597,7 +5562,7 @@ def open_src(suffix, newExt):
     # Check if import file is already open in LibreOffice:
 
     if os.path.isfile(lockFile):
-        msgbox('Please close "' + filename + '" first.',
+        msgbox(f'Please close "{fileName}" first.',
                'Import from Aeon Timeline', type_msg=ERRORBOX)
         return
 
@@ -5605,25 +5570,24 @@ def open_src(suffix, newExt):
 
     # Read the aeon3yw configuration.
 
-    iniFileName = CONFIG_PROJECT + '.ini'
+    iniFileName = f'{CONFIG_PROJECT}.ini'
     iniFiles = []
 
     try:
-        globalConfiguration = str(Path.home()).replace('\\', '/') + '/.pyWriter/' + \
-            CONFIG_PROJECT + '/config/' + iniFileName
+        homeDir = str(Path.home()).replace('\\', '/')
+        globalConfiguration = f'{homeDir}/.pyWriter/{CONFIG_PROJECT}/config/{iniFileName}'
         iniFiles.append(globalConfiguration)
 
     except:
         pass
 
     if workdir == '':
-        localConfiguration = './' + iniFileName
+        localConfiguration = f'./{iniFileName}'
 
     else:
-        localConfiguration = workdir + '/' + iniFileName
+        localConfiguration = f'{workdir}/{iniFileName}'
 
     iniFiles.append(localConfiguration)
-
     configuration = Configuration(SETTINGS)
 
     for iniFile in iniFiles:

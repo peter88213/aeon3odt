@@ -8,6 +8,13 @@
 
 See the [GitHub "features" project](https://github.com/peter88213/aeon3odt/projects/1).
 
+### v0.6.0 optional release
+
+- Rework the messages. 
+- Refactor the code.
+
+Based on PyWriter v5.0.0
+
 ### v0.4.4 beta release
 
 - Fix the aeon3yw configuration path and update help text.
