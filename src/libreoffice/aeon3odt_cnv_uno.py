@@ -21,8 +21,8 @@ class Aeon3odtCnvUno(Aeon3odtConverter):
         """
         message = self.convert(sourceFile, targetFile)
 
-        if message.startswith('SUCCESS'):
-            self.newFile = targetFile.filePath
+        if message.startswith('ERROR'):
+            self.ui.set_info_how(message)
 
         else:
-            self.ui.set_info_how(message)
+            self.newFile = targetFile.filePath
