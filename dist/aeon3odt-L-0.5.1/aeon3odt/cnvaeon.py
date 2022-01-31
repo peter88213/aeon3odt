@@ -1,6 +1,6 @@
 """Convert Aeon Timeline project data to odt. 
 
-Version 0.5.0
+Version 0.5.1
 
 Copyright (c) 2021 Peter Triesberger
 For further information see https://github.com/peter88213/aeon3odt
@@ -3850,6 +3850,7 @@ import webbrowser
 
 
 
+
 class Ui():
     """Base class for UI facades, implementing a 'silent mode'.
     """
@@ -3872,6 +3873,11 @@ class Ui():
 
     def set_info_how(self, message):
         """How's the converter doing?"""
+
+        if message.startswith(ERROR):
+            message = f'FAIL: {message.split(ERROR, maxsplit=1)[1].strip()}'
+            sys.stderr.write(message)
+
         self.infoHowText = message
 
     def start(self):
@@ -5389,13 +5395,13 @@ class JsonTimeline3(Novel):
                 partCount += 1
 
                 if not self.chapters[chId].title:
-                    self.chapters[chId].title = self.partHdPrefix + ' ' + str(partCount)
+                    self.chapters[chId].title = f'{self.partHdPrefix} {partCount}'
 
             else:
                 chapterCount += 1
 
                 if not self.chapters[chId].title:
-                    self.chapters[chId].title = self.chapterHdPrefix + ' ' + str(chapterCount)
+                    self.chapters[chId].title = f'{self.chapterHdPrefix} {chapterCount}'
 
         #--- Create a "Notes" chapter for non-narrative scenes.
 
