@@ -9,8 +9,8 @@ import inliner
 
 SRC = '../src/'
 BUILD = '../test/'
-SOURCE_FILE = 'cnvaeon_stub_.py'
-TARGET_FILE = BUILD + 'cnvaeon_stub.py'
+SOURCE_FILE = f'{SRC}cnvaeon_stub_.py'
+TARGET_FILE = f'{BUILD}cnvaeon_stub.py'
 
 
 def main():

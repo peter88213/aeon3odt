@@ -53,7 +53,7 @@ def run(sourcePath, suffix='', installDir=''):
     else:
         sourceDir += '/'
 
-    iniFiles = [installDir + iniFileName, sourceDir + iniFileName]
+    iniFiles = [f'{installDir}{iniFileName}', f'{sourceDir}{iniFileName}']
 
     configuration = Configuration(SETTINGS)
 
@@ -68,5 +68,4 @@ def run(sourcePath, suffix='', installDir=''):
 
 
 if __name__ == '__main__':
-    installDir = os.getenv('APPDATA').replace('\\', '/') + '/pyWriter/aeon3yw/config/'
-    run(sys.argv[1], sys.argv[2], installDir)
+    run(sys.argv[1], sys.argv[2], '')

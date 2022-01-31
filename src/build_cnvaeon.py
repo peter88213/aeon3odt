@@ -11,8 +11,8 @@ import inliner
 
 SRC = '../src/'
 BUILD = '../test/'
-SOURCE_FILE = 'cnvaeon_.py'
-TARGET_FILE = BUILD + 'cnvaeon.py'
+SOURCE_FILE = f'{SRC}cnvaeon_.py'
+TARGET_FILE = f'{BUILD}cnvaeon.py'
 
 
 def main():
