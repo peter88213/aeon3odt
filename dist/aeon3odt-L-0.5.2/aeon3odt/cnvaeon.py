@@ -1,6 +1,6 @@
 """Convert Aeon Timeline project data to odt. 
 
-Version 0.5.1
+Version 0.5.2
 
 Copyright (c) 2021 Peter Triesberger
 For further information see https://github.com/peter88213/aeon3odt
@@ -803,7 +803,7 @@ class FileExport(Novel):
                 else:
                     minute = '00'
 
-                scTime = f'{hour:02}:{minute:02}'
+                scTime = f'{hour.zfill(2)}:{minute.zfill(2)}'
 
             else:
                 hour = ''
