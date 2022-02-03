@@ -16,13 +16,13 @@ class OdtReport(OdtAeon):
     DESCRIPTION = 'Project report'
     SUFFIX = '_report'
 
-    partTemplate = '''<text:h text:style-name="Heading_20_1" text:outline-level="1">$Title – $Desc</text:h>
+    _partTemplate = '''<text:h text:style-name="Heading_20_1" text:outline-level="1">$Title – $Desc</text:h>
 '''
 
-    chapterTemplate = '''<text:h text:style-name="Heading_20_2" text:outline-level="2">$Title – $Desc</text:h>
+    _chapterTemplate = '''<text:h text:style-name="Heading_20_2" text:outline-level="2">$Title – $Desc</text:h>
 '''
 
-    sceneTemplate = '''<text:h text:style-name="Heading_20_3" text:outline-level="3">Scene $SceneNumber – ${Title}</text:h>
+    _sceneTemplate = '''<text:h text:style-name="Heading_20_3" text:outline-level="3">Scene $SceneNumber – ${Title}</text:h>
 <text:p text:style-name="Text_20_body_20_indent"><text:span text:style-name="Strong_20_Emphasis">Tags: </text:span>$Tags</text:p>
 <text:p text:style-name="Text_20_body_20_indent"><text:span text:style-name="Strong_20_Emphasis">Location: </text:span>$Locations</text:p>
 <text:p text:style-name="Text_20_body_20_indent"><text:span text:style-name="Strong_20_Emphasis">Date/Time/Duration: </text:span>$ScDate $ScTime $Duration</text:p>
@@ -31,10 +31,10 @@ class OdtReport(OdtAeon):
 <text:p text:style-name="Text_20_body_20_indent"><text:span text:style-name="Strong_20_Emphasis">Notes:</text:span>$Notes</text:p>
 '''
 
-    characterSectionHeading = '''<text:h text:style-name="Heading_20_1" text:outline-level="1">Characters</text:h>
+    _characterSectionHeading = '''<text:h text:style-name="Heading_20_1" text:outline-level="1">Characters</text:h>
 '''
 
-    characterTemplate = '''<text:h text:style-name="Heading_20_2" text:outline-level="2">$Title$FullName$AKA</text:h>
+    _characterTemplate = '''<text:h text:style-name="Heading_20_2" text:outline-level="2">$Title$FullName$AKA</text:h>
 <text:p text:style-name="Text_20_body_20_indent"><text:span text:style-name="Strong_20_Emphasis">Tags: </text:span>$Tags</text:p>
 <text:p text:style-name="Text_20_body">$Bio</text:p>
 <text:p text:style-name="Text_20_body">$Goals</text:p>
@@ -42,10 +42,10 @@ class OdtReport(OdtAeon):
 <text:p text:style-name="Text_20_body_20_indent"><text:span text:style-name="Strong_20_Emphasis">Notes: </text:span>$Notes</text:p>
 '''
 
-    locationSectionHeading = '''<text:h text:style-name="Heading_20_1" text:outline-level="1">Locations</text:h>
+    _locationSectionHeading = '''<text:h text:style-name="Heading_20_1" text:outline-level="1">Locations</text:h>
 '''
 
-    locationTemplate = '''<text:h text:style-name="Heading_20_2" text:outline-level="2">$Title$AKA</text:h>
+    _locationTemplate = '''<text:h text:style-name="Heading_20_2" text:outline-level="2">$Title$AKA</text:h>
 <text:p text:style-name="Text_20_body_20_indent"><text:span text:style-name="Strong_20_Emphasis">Tags: </text:span>$Tags</text:p>
 <text:p text:style-name="Text_20_body">$Desc</text:p>
 '''

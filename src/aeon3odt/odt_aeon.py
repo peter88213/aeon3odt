@@ -937,13 +937,13 @@ class OdtAeon(OdtFile):
 </office:document-styles>
 '''
 
-    fileHeader = OdtFile.CONTENT_XML_HEADER
-    fileFooter = OdtFile.CONTENT_XML_FOOTER
+    _fileHeader = OdtFile._CONTENT_XML_HEADER
+    _fileFooter = OdtFile._CONTENT_XML_FOOTER
 
-    def get_characterMapping(self, crId):
+    def _get_characterMapping(self, crId):
         """Return a mapping dictionary for a character section. 
         """
-        characterMapping = super().get_characterMapping(crId)
+        characterMapping = super()._get_characterMapping(crId)
 
         if self.characters[crId].aka:
             characterMapping['AKA'] = f' ("{self.characters[crId].aka}")'
@@ -953,7 +953,7 @@ class OdtAeon(OdtFile):
 
         return characterMapping
 
-    def get_locationMapping(self, lcId):
+    def _get_locationMapping(self, lcId):
         """Return a mapping dictionary for a location section. 
         """
         locationMapping = super().get_locationMapping(lcId)

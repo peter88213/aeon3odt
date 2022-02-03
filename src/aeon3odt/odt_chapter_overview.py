@@ -16,8 +16,8 @@ class OdtChapterOverview(OdtAeon):
     DESCRIPTION = 'Chapter overview'
     SUFFIX = '_chapter_overview'
 
-    partTemplate = '''<text:h text:style-name="Heading_20_1" text:outline-level="1">$Desc</text:h>
+    _partTemplate = '''<text:h text:style-name="Heading_20_1" text:outline-level="1">$Desc</text:h>
 '''
 
-    chapterTemplate = '''<text:p text:style-name="Text_20_body">$Desc</text:p>
+    _chapterTemplate = '''<text:p text:style-name="Text_20_body">$Desc</text:p>
 '''

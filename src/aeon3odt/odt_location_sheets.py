@@ -16,7 +16,7 @@ class OdtLocationSheets(OdtAeon):
     DESCRIPTION = 'Location sheets'
     SUFFIX = '_location_sheets'
 
-    locationTemplate = '''<text:h text:style-name="Heading_20_2" text:outline-level="2">$Title$AKA</text:h>
+    _locationTemplate = '''<text:h text:style-name="Heading_20_2" text:outline-level="2">$Title$AKA</text:h>
 <text:p text:style-name="Text_20_body"><text:span text:style-name="Emphasis">$Tags</text:span></text:p>
 
 <text:p text:style-name="Text_20_body" />

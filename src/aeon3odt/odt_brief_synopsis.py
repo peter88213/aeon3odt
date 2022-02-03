@@ -16,11 +16,11 @@ class OdtBriefSynopsis(OdtAeon):
     DESCRIPTION = 'Brief synopsis'
     SUFFIX = '_brief_synopsis'
 
-    partTemplate = '''<text:h text:style-name="Heading_20_1" text:outline-level="1">$Desc</text:h>
+    _partTemplate = '''<text:h text:style-name="Heading_20_1" text:outline-level="1">$Desc</text:h>
 '''
 
-    chapterTemplate = '''<text:h text:style-name="Heading_20_2" text:outline-level="2">$Desc</text:h>
+    _chapterTemplate = '''<text:h text:style-name="Heading_20_2" text:outline-level="2">$Desc</text:h>
 '''
 
-    sceneTemplate = '''<text:p text:style-name="Text_20_body">$Title</text:p>
+    _sceneTemplate = '''<text:p text:style-name="Text_20_body">$Title</text:p>
 '''

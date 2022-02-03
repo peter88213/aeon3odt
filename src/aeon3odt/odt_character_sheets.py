@@ -16,7 +16,7 @@ class OdtCharacterSheets(OdtAeon):
     DESCRIPTION = 'Character sheets'
     SUFFIX = '_character_sheets'
 
-    characterTemplate = '''<text:h text:style-name="Heading_20_2" text:outline-level="2">$Title$FullName$AKA</text:h>
+    _characterTemplate = '''<text:h text:style-name="Heading_20_2" text:outline-level="2">$Title$FullName$AKA</text:h>
 
 <text:p text:style-name="Text_20_body"><text:span text:style-name="Emphasis">$Tags</text:span></text:p>
 
