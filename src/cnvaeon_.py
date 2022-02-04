@@ -84,7 +84,7 @@ def open_src(suffix, newExt):
         return
 
     sourcePath = uno.fileUrlToSystemPath(srcFile)
-    aeonExt = os.path.splitext(sourcePath)[1]
+    __, aeonExt = os.path.splitext(sourcePath)
     converter = Aeon3odtCnvUno()
     extensions = []
 
