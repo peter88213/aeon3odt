@@ -47,7 +47,7 @@ def run(sourcePath, suffix='', installDir=''):
     iniFileName = 'aeon3yw.ini'
     sourceDir = os.path.dirname(sourcePath)
 
-    if sourceDir == '':
+    if not sourceDir:
         sourceDir = './'
 
     else:

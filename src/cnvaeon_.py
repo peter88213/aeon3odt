@@ -133,7 +133,7 @@ def open_src(suffix, newExt):
     except:
         pass
 
-    if workdir == '':
+    if not workdir:
         localConfiguration = f'./{iniFileName}'
 
     else:
