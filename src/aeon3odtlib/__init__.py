@@ -10,6 +10,9 @@ odt_full_synopsis -- Provide a class for ODT scene descriptions export.
 odt_location_sheets -- Provide a class for ODT descriptions export.
 odt_report -- Provide a class for ODT project report export.
 aeon3odt_converter -- Provide an Aeon3 converter class for yWriter projects. 
+aeon3odt_cnv_uno -- Provide a converter class for universal import and export. 
+ui_uno -- Provide a UNO user interface facade class.
+uno_tools -- Provide Python wrappers for UNO widgets.
 
 Copyright (c) 2022 Peter Triesberger
 For further information see https://github.com/peter88213/aeon3odt

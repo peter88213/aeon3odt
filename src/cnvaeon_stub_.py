@@ -11,7 +11,7 @@ import os
 
 from pywriter.ui.ui import Ui
 from pywriter.config.configuration import Configuration
-from aeon3odt.aeon3odt_converter import Aeon3odtConverter
+from aeon3odtlib.aeon3odt_converter import Aeon3odtConverter
 
 SETTINGS = dict(
     part_number_prefix='Part',

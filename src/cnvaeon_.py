@@ -10,22 +10,21 @@ import os
 from configparser import ConfigParser
 from pathlib import Path
 
-from pywriter.config.configuration import Configuration
-
-from aeon3odt.odt_full_synopsis import OdtFullSynopsis
-from aeon3odt.odt_brief_synopsis import OdtBriefSynopsis
-from aeon3odt.odt_chapter_overview import OdtChapterOverview
-from aeon3odt.odt_character_sheets import OdtCharacterSheets
-from aeon3odt.odt_location_sheets import OdtLocationSheets
-from aeon3odt.odt_report import OdtReport
-
 import uno
 from com.sun.star.awt.MessageBoxType import MESSAGEBOX, INFOBOX, WARNINGBOX, ERRORBOX, QUERYBOX
 from com.sun.star.beans import PropertyValue
 
-from libreoffice.uno_tools import *
-from libreoffice.aeon3odt_cnv_uno import Aeon3odtCnvUno
-from libreoffice.ui_uno import UiUno
+from pywriter.config.configuration import Configuration
+
+from aeon3odtlib.uno_tools import *
+from aeon3odtlib.aeon3odt_cnv_uno import Aeon3odtCnvUno
+from aeon3odtlib.ui_uno import UiUno
+from aeon3odtlib.odt_full_synopsis import OdtFullSynopsis
+from aeon3odtlib.odt_brief_synopsis import OdtBriefSynopsis
+from aeon3odtlib.odt_chapter_overview import OdtChapterOverview
+from aeon3odtlib.odt_character_sheets import OdtCharacterSheets
+from aeon3odtlib.odt_location_sheets import OdtLocationSheets
+from aeon3odtlib.odt_report import OdtReport
 
 INI_FILE = 'openyw.ini'
 CONFIG_PROJECT = 'aeon3yw'

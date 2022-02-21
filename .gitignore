@@ -1,6 +1,2 @@
-/src/__pycache__/
-/src/aeon3odt/__pycache__/
-/src/libreoffice/__pycache__/
-/src/sample/__pycache__/
-/test/__pycache__/
 /test/yw7/
+*.pyc
