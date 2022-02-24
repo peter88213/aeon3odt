@@ -1,6 +1,6 @@
 """Convert Aeon Timeline project data to odt. 
 
-Version 0.5.3
+Version 0.6.0
 Requires Python 3.6+
 Copyright (c) 2021 Peter Triesberger
 For further information see https://github.com/peter88213/aeon3odt
@@ -2395,6 +2395,7 @@ class FileExport(Novel):
     _unusedChapterEndTemplate = ''
     _notExportedChapterEndTemplate = ''
     _notesChapterEndTemplate = ''
+    _todoChapterEndTemplate = ''
     _characterSectionHeading = ''
     _characterTemplate = ''
     _locationSectionHeading = ''

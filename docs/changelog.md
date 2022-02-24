@@ -10,7 +10,7 @@ See the [GitHub "features" project](https://github.com/peter88213/aeon3odt/proje
 
 ### v0.6.0 optional release
 
-- Rework the messages. 
+- Rework the user interface. 
 - Refactor the code.
 
 Based on PyWriter v5.0.0
