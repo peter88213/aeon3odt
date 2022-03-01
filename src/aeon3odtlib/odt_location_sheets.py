@@ -12,7 +12,6 @@ class OdtLocationSheets(OdtAeon):
 
     Export a location sheet.
     """
-
     DESCRIPTION = 'Location sheets'
     SUFFIX = '_location_sheets'
 

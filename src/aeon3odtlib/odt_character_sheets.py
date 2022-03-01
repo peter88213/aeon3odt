@@ -12,7 +12,6 @@ class OdtCharacterSheets(OdtAeon):
 
     Export a character sheet.
     """
-
     DESCRIPTION = 'Character sheets'
     SUFFIX = '_character_sheets'
 

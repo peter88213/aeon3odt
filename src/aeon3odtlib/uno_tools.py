@@ -61,16 +61,12 @@ def FilePicker(path=None, mode=0):
         .getServiceManager()
         .createInstance
     )
-
     filepicker = createUnoService("com.sun.star.ui.dialogs.OfficeFilePicker")
-
     if path:
         filepicker.setDisplayDirectory(path)
-
     filepicker.initialize((mode,))
     filepicker.appendFilter("Aeon Timeline 3 Files", "*.aeon")
     filepicker.appendFilter("CSV Files", "*.csv")
-
     if filepicker.execute():
         return filepicker.getFiles()[0]
 

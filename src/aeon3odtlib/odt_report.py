@@ -12,7 +12,6 @@ class OdtReport(OdtAeon):
 
     Export a full synopsis.
     """
-
     DESCRIPTION = 'Project report'
     SUFFIX = '_report'
 

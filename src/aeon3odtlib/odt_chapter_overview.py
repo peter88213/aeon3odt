@@ -12,7 +12,6 @@ class OdtChapterOverview(OdtAeon):
 
     Export a very brief synopsis.
     """
-
     DESCRIPTION = 'Chapter overview'
     SUFFIX = '_chapter_overview'
 

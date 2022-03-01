@@ -942,23 +942,28 @@ class OdtAeon(OdtFile):
 
     def _get_characterMapping(self, crId):
         """Return a mapping dictionary for a character section. 
+        
+        Positional arguments:
+            crId -- str: character ID.
+        
+        Extend the superclass method.
         """
         characterMapping = super()._get_characterMapping(crId)
-
         if self.characters[crId].aka:
             characterMapping['AKA'] = f' ("{self.characters[crId].aka}")'
-
         if self.characters[crId].fullName:
             characterMapping['FullName'] = f'/{self.characters[crId].fullName}'
-
         return characterMapping
 
     def _get_locationMapping(self, lcId):
         """Return a mapping dictionary for a location section. 
+        
+        Positional arguments:
+            lcId -- str: location ID.
+
+        Extend the superclass method.
         """
         locationMapping = super().get_locationMapping(lcId)
-
         if self.locations[lcId].aka:
             locationMapping['AKA'] = f' ("{self.locations[lcId].aka}")'
-
         return locationMapping

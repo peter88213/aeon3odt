@@ -12,7 +12,6 @@ class OdtBriefSynopsis(OdtAeon):
 
     Export a brief synopsis.
     """
-
     DESCRIPTION = 'Brief synopsis'
     SUFFIX = '_brief_synopsis'
 

@@ -12,7 +12,6 @@ class OdtFullSynopsis(OdtAeon):
 
     Export a full synopsis.
     """
-
     DESCRIPTION = 'Full synopsis'
     SUFFIX = '_full_synopsis'
 
