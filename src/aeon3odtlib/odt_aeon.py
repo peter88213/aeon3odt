@@ -946,7 +946,7 @@ class OdtAeon(OdtFile):
         Positional arguments:
             crId -- str: character ID.
         
-        Extend the superclass method.
+        Extends the superclass method.
         """
         characterMapping = super()._get_characterMapping(crId)
         if self.characters[crId].aka:
@@ -961,7 +961,7 @@ class OdtAeon(OdtFile):
         Positional arguments:
             lcId -- str: location ID.
 
-        Extend the superclass method.
+        Extends the superclass method.
         """
         locationMapping = super().get_locationMapping(lcId)
         if self.locations[lcId].aka:
