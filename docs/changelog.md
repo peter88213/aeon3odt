@@ -8,7 +8,13 @@
 
 See the [GitHub "features" project](https://github.com/peter88213/aeon3odt/projects/1).
 
-### v0.6.0 optional release
+### v0.6.1 beta release
+
+- Improve code and documentation quality.
+
+Based on PyWriter v5.0.2
+
+### v0.6.0 beta release
 
 - Rework the user interface. 
 - Refactor the code.

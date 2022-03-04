@@ -1,23 +1,21 @@
 """Convert Aeon Timeline project data to odt. 
 
-Version 0.6.0
+Version 0.6.1
 Requires Python 3.6+
-Copyright (c) 2021 Peter Triesberger
+Copyright (c) 2022 Peter Triesberger
 For further information see https://github.com/peter88213/aeon3odt
 Published under the MIT License (https://opensource.org/licenses/mit-license.php)
 """
-import os
-from configparser import ConfigParser
-from pathlib import Path
-
 import uno
 from com.sun.star.awt.MessageBoxType import MESSAGEBOX, INFOBOX, WARNINGBOX, ERRORBOX, QUERYBOX
 from com.sun.star.beans import PropertyValue
-
+import os
+from configparser import ConfigParser
+from pathlib import Path
 from configparser import ConfigParser
 
 
-class Configuration():
+class Configuration:
     """Application configuration, representing an INI file.
 
         INI file sections:
@@ -54,10 +52,8 @@ class Configuration():
             settings -- new settings (dictionary of strings)
             options -- new options (dictionary of boolean values)
         """
-
         if settings is not None:
             self.settings = settings.copy()
-
         if options is not None:
             self.options = options.copy()
 
@@ -71,19 +67,13 @@ class Configuration():
         """
         config = ConfigParser()
         config.read(iniFile, encoding='utf-8')
-
         if config.has_section(self._sLabel):
-
             section = config[self._sLabel]
-
             for setting in self.settings:
                 fallback = self.settings[setting]
                 self.settings[setting] = section.get(setting, fallback)
-
         if config.has_section(self._oLabel):
-
             section = config[self._oLabel]
-
             for option in self.options:
                 fallback = self.options[option]
                 self.options[option] = section.getboolean(option, fallback)
@@ -95,29 +85,19 @@ class Configuration():
             iniFile -- str: path configuration file path.
         """
         config = ConfigParser()
-
         if self.settings:
-
             config.add_section(self._sLabel)
-
             for settingId in self.settings:
                 config.set(self._sLabel, settingId, str(self.settings[settingId]))
-
         if self.options:
-
             config.add_section(self._oLabel)
-
             for settingId in self.options:
-
                 if self.options[settingId]:
                     config.set(self._oLabel, settingId, 'Yes')
-
                 else:
                     config.set(self._oLabel, settingId, 'No')
-
         with open(iniFile, 'w', encoding='utf-8') as f:
             config.write(f)
-
 from com.sun.star.awt.MessageBoxType import MESSAGEBOX, INFOBOX, WARNINGBOX, ERRORBOX, QUERYBOX
 from com.sun.star.awt.MessageBoxButtons import BUTTONS_OK, BUTTONS_OK_CANCEL, BUTTONS_YES_NO, BUTTONS_YES_NO_CANCEL, BUTTONS_RETRY_CANCEL, BUTTONS_ABORT_IGNORE_RETRY
 
@@ -174,29 +154,22 @@ def FilePicker(path=None, mode=0):
         .getServiceManager()
         .createInstance
     )
-
     filepicker = createUnoService("com.sun.star.ui.dialogs.OfficeFilePicker")
-
     if path:
         filepicker.setDisplayDirectory(path)
-
     filepicker.initialize((mode,))
     filepicker.appendFilter("Aeon Timeline 3 Files", "*.aeon")
     filepicker.appendFilter("CSV Files", "*.csv")
-
     if filepicker.execute():
         return filepicker.getFiles()[0]
 
 
 ERROR = '!'
-
 import sys
 import webbrowser
 
 
-
-
-class Ui():
+class Ui:
     """Base class for UI facades, implementing a 'silent mode'.
     
     Public methods:
@@ -246,11 +219,9 @@ class Ui():
             
         Print the message to stderr, replacing the error marker, if any.
         """
-
         if message.startswith(ERROR):
             message = f'FAIL: {message.split(ERROR, maxsplit=1)[1].strip()}'
             sys.stderr.write(message)
-
         self.infoHowText = message
 
     def start(self):
@@ -261,8 +232,7 @@ class Ui():
         """
 
 
-
-class YwCnv():
+class YwCnv:
     """Base class for Novel file conversion.
 
     Public methods:
@@ -287,9 +257,6 @@ class YwCnv():
         - Pass the error messages of the called methods of source and target.
         - The success message comes from target.write(), if called.       
         """
-
-        # Initial error handling.
-
         if source.filePath is None:
             return f'{ERROR}Source "{os.path.normpath(source.filePath)}" is not of the supported type.'
 
@@ -302,21 +269,13 @@ class YwCnv():
         if os.path.isfile(target.filePath) and not self._confirm_overwrite(target.filePath):
             return f'{ERROR}Action canceled by user.'
 
-        # Make the source object read the source file.
-
         message = source.read()
-
         if message.startswith(ERROR):
             return message
-
-        # Make the target object merge the source object's instance variables.
 
         message = target.merge(source)
-
         if message.startswith(ERROR):
             return message
-
-        # Make the source object write the target file.
 
         return target.write()
 
@@ -348,7 +307,6 @@ class YwCnvUi(YwCnv):
         """Define instance variables."""
         self.ui = Ui('')
         # Per default, 'silent mode' is active.
-
         self.newFile = None
         # Also indicates successful conversion.
 
@@ -368,25 +326,12 @@ class YwCnvUi(YwCnv):
         Error handling:
         - If the conversion fails, newFile is set to None.
         """
-
-        # Send specific information about the conversion to the UI.
-
         self.ui.set_info_what(
             f'Input: {source.DESCRIPTION} "{os.path.normpath(source.filePath)}"\nOutput: {target.DESCRIPTION} "{os.path.normpath(target.filePath)}"')
-
-        # Convert source into target.
-
         message = self.convert(source, target)
-
-        # Pass the message to the UI.
-
         self.ui.set_info_how(message)
-
-        # Save the new file pathname.
-
         if message.startswith(ERROR):
             self.newFile = None
-
         else:
             self.newFile = target.filePath
 
@@ -408,29 +353,15 @@ class YwCnvUi(YwCnv):
           an error message is sent to the UI.
         - If the conversion fails, newFile is set to None.
         """
-
-        # Send specific information about the conversion to the UI.
-
         self.ui.set_info_what(
             f'Create a yWriter project file from {source.DESCRIPTION}\nNew project: "{os.path.normpath(target.filePath)}"')
-
         if os.path.isfile(target.filePath):
             self.ui.set_info_how(f'{ERROR}"{os.path.normpath(target.filePath)}" already exists.')
-
         else:
-            # Convert source into target.
-
             message = self.convert(source, target)
-
-            # Pass the message to the UI.
-
             self.ui.set_info_how(message)
-
-            # Save the new file pathname.
-
             if message.startswith(ERROR):
                 self.newFile = None
-
             else:
                 self.newFile = target.filePath
 
@@ -451,29 +382,13 @@ class YwCnvUi(YwCnv):
         Error handling:
         - If the conversion fails, newFile is set to None.
         """
-
-        # Send specific information about the conversion to the UI.
-
         self.ui.set_info_what(
             f'Input: {source.DESCRIPTION} "{os.path.normpath(source.filePath)}"\nOutput: {target.DESCRIPTION} "{os.path.normpath(target.filePath)}"')
-
-        # Convert source into target.
-
         message = self.convert(source, target)
-
-        # Pass the message to the UI.
-
         self.ui.set_info_how(message)
-
-        # Delete the temporay file, if exists.
-
         self._delete_tempfile(source.filePath)
-
-        # Save the new file pathname.
-
         if message.startswith(ERROR):
             self.newFile = None
-
         else:
             self.newFile = target.filePath
 
@@ -489,28 +404,20 @@ class YwCnvUi(YwCnv):
 
     def _delete_tempfile(self, filePath):
         """Delete filePath if it is a temporary file no longer needed."""
-
         if filePath.endswith('.html'):
             # Might it be a temporary text document?
-
             if os.path.isfile(filePath.replace('.html', '.odt')):
                 # Does a corresponding Office document exist?
-
                 try:
                     os.remove(filePath)
-
                 except:
                     pass
-
         elif filePath.endswith('.csv'):
             # Might it be a temporary spreadsheet document?
-
             if os.path.isfile(filePath.replace('.csv', '.ods')):
                 # Does a corresponding Office document exist?
-
                 try:
                     os.remove(filePath)
-
                 except:
                     pass
 
@@ -533,7 +440,6 @@ class FileFactory:
         self._fileClasses = fileClasses
 
 
-
 class ExportSourceFactory(FileFactory):
     """A factory class that instantiates a yWriter object to read.
 
@@ -553,15 +459,12 @@ class ExportSourceFactory(FileFactory):
         - targetFile: None
         """
         __, fileExtension = os.path.splitext(sourcePath)
-
         for fileClass in self._fileClasses:
-
             if fileClass.EXTENSION == fileExtension:
                 sourceFile = fileClass(sourcePath, **kwargs)
                 return 'Source object created.', sourceFile, None
-
+            
         return f'{ERROR}File type of "{os.path.normpath(sourcePath)}" not supported.', None, None
-
 
 
 class ExportTargetFactory(FileFactory):
@@ -590,17 +493,13 @@ class ExportTargetFactory(FileFactory):
         """
         fileName, __ = os.path.splitext(sourcePath)
         suffix = kwargs['suffix']
-
         for fileClass in self._fileClasses:
-
             if fileClass.SUFFIX == suffix:
-
                 if suffix is None:
                     suffix = ''
-
                 targetFile = fileClass(f'{fileName}{suffix}{fileClass.EXTENSION}', **kwargs)
                 return 'Target object created.', None, targetFile
-
+        
         return f'{ERROR}File type of "{os.path.normpath(sourcePath)}" not supported.', None, None
 
 
@@ -622,17 +521,12 @@ class ImportSourceFactory(FileFactory):
         - sourceFile: a Novel subclass instance, or None in case of error
         - targetFile: None
         """
-
         for fileClass in self._fileClasses:
-
             if fileClass.SUFFIX is not None:
-
                 if sourcePath.endswith(f'{fileClass.SUFFIX }{fileClass.EXTENSION}'):
                     sourceFile = fileClass(sourcePath, **kwargs)
                     return 'Source object created.', sourceFile, None
-
         return f'{ERROR}This document is not meant to be written back.', None, None
-
 
 
 class ImportTargetFactory(FileFactory):
@@ -658,25 +552,20 @@ class ImportTargetFactory(FileFactory):
         - A message beginning with the ERROR constant in case of error
         - sourceFile: None
         - targetFile: a YwFile subclass instance, or None in case of error
-
         """
         fileName, __ = os.path.splitext(sourcePath)
         sourceSuffix = kwargs['suffix']
-
         if sourceSuffix:
             ywPathBasis = fileName.split(sourceSuffix)[0]
-
         else:
             ywPathBasis = fileName
 
         # Look for an existing yWriter project to rewrite.
-
         for fileClass in self._fileClasses:
-
             if os.path.isfile(f'{ywPathBasis}{fileClass.EXTENSION}'):
                 targetFile = fileClass(f'{ywPathBasis}{fileClass.EXTENSION}', **kwargs)
                 return 'Target object created.', None, targetFile
-
+            
         return f'{ERROR}No yWriter project to write.', None, None
 
 
@@ -702,7 +591,6 @@ class YwCnvFf(YwCnvUi):
         importTargetFactory -- ImportTargetFactory.
         newProjectFactory -- FileFactory (a stub to be overridden by subclasses).
     """
-
     EXPORT_SOURCE_CLASSES = []
     EXPORT_TARGET_CLASSES = []
     IMPORT_SOURCE_CLASSES = []
@@ -732,59 +620,42 @@ class YwCnvFf(YwCnvUi):
         This is a template method that calls superclass methods as primitive operations by case.
         """
         self.newFile = None
-
         if not os.path.isfile(sourcePath):
             self.ui.set_info_how(f'{ERROR}File "{os.path.normpath(sourcePath)}" not found.')
             return
-
-        message, sourceFile, dummy = self.exportSourceFactory.make_file_objects(sourcePath, **kwargs)
-
+        
+        message, source, __ = self.exportSourceFactory.make_file_objects(sourcePath, **kwargs)
         if message.startswith(ERROR):
             # The source file is not a yWriter project.
-
-            message, sourceFile, dummy = self.importSourceFactory.make_file_objects(sourcePath, **kwargs)
-
+            message, source, __ = self.importSourceFactory.make_file_objects(sourcePath, **kwargs)
             if message.startswith(ERROR):
                 # A new yWriter project might be required.
-
-                message, sourceFile, targetFile = self.newProjectFactory.make_file_objects(sourcePath, **kwargs)
-
+                message, source, target = self.newProjectFactory.make_file_objects(sourcePath, **kwargs)
                 if message.startswith(ERROR):
                     self.ui.set_info_how(message)
-
                 else:
-                    self.create_yw7(sourceFile, targetFile)
-
+                    self.create_yw7(source, target)
             else:
                 # Try to update an existing yWriter project.
-
-                kwargs['suffix'] = sourceFile.SUFFIX
-                message, dummy, targetFile = self.importTargetFactory.make_file_objects(sourcePath, **kwargs)
-
+                kwargs['suffix'] = source.SUFFIX
+                message, __, target = self.importTargetFactory.make_file_objects(sourcePath, **kwargs)
                 if message.startswith(ERROR):
                     self.ui.set_info_how(message)
-
                 else:
-                    self.import_to_yw(sourceFile, targetFile)
-
+                    self.import_to_yw(source, target)
         else:
             # The source file is a yWriter project.
-
-            message, dummy, targetFile = self.exportTargetFactory.make_file_objects(sourcePath, **kwargs)
-
+            message, __, target = self.exportTargetFactory.make_file_objects(sourcePath, **kwargs)
             if message.startswith(ERROR):
                 self.ui.set_info_how(message)
-
             else:
-                self.export_from_yw(sourceFile, targetFile)
+                self.export_from_yw(source, target)
 import csv
-
 from datetime import datetime
-
 from urllib.parse import quote
 
 
-class Novel():
+class Novel:
     """Abstract yWriter project file representation.
 
     This class represents a file containing a novel with additional 
@@ -935,13 +806,10 @@ class Novel():
         - Format the path string according to Python's requirements. 
         - Accept only filenames with the right suffix and extension.
         """
-
         if self.SUFFIX is not None:
             suffix = self.SUFFIX
-
         else:
             suffix = ''
-
         if filePath.lower().endswith(f'{suffix}{self.EXTENSION}'.lower()):
             self._filePath = filePath
             head, tail = os.path.split(os.path.realpath(filePath))
@@ -1000,7 +868,7 @@ class Novel():
 import re
 
 
-class Scene():
+class Scene:
     """yWriter scene representation.
     
     Public instance variables:
@@ -1213,19 +1081,16 @@ class Scene():
         self._sceneContent = text
         text = re.sub('\[.+?\]|\.|\,| -', '', self._sceneContent)
         # Remove yWriter raw markup for word count
-
         wordList = text.split()
         self.wordCount = len(wordList)
-
         text = re.sub('\[.+?\]', '', self._sceneContent)
         # Remove yWriter raw markup for letter count
-
         text = text.replace('\n', '')
         text = text.replace('\r', '')
         self.letterCount = len(text)
 
 
-class Chapter():
+class Chapter:
     """yWriter chapter representation.
     
     Public instance variables:
@@ -1300,7 +1165,7 @@ class Chapter():
 
 
 
-class WorldElement():
+class WorldElement:
     """Story world element representation (may be location or item).
     
     Public instance variables:
@@ -1372,9 +1237,12 @@ class Character(WorldElement):
         # xml: <Major>
 
 
-
 def fix_iso_dt(dateTimeStr):
     """Return a date/time string with a four-number year.
+    
+    Positional arguments:
+        dateTimeStr -- str: date/time as read in from Aeon3 csv export.
+    
     This is required for comparing date/time strings, 
     and by the datetime.fromisoformat() method.
 
@@ -1390,15 +1258,11 @@ def fix_iso_dt(dateTimeStr):
         return None
 
     dt = dateTimeStr.split(' ')
-
     if len(dt) == 1:
         dt.append('00:00:00')
-
     date = dt[0].split('-')
-
     while len(date) < 3:
         date.append('01')
-
     if int(date[0]) < 100:
         return None
 
@@ -1414,26 +1278,25 @@ def fix_iso_dt(dateTimeStr):
 class CsvTimeline3(Novel):
     """File representation of a csv file exported by Aeon Timeline 3. 
 
+    Public methods:
+        read() -- parse the file and get the instance variables.
+
     Represents a csv file with a record per scene.
     - Records are separated by line breaks.
     - Data fields are delimited by commas.
     """
-
     EXTENSION = '.csv'
     DESCRIPTION = 'Aeon Timeline CSV export'
     SUFFIX = ''
-
     _SEPARATOR = ','
 
     # Aeon 3 csv export structure (fix part)
 
     # Types
-
     _TYPE_EVENT = 'Event'
     _TYPE_NARRATIVE = 'Narrative Folder'
 
     # Field names
-
     _LABEL_FIELD = 'Label'
     _TYPE_FIELD = 'Type'
     _SCENE_FIELD = 'Narrative Position'
@@ -1441,30 +1304,50 @@ class CsvTimeline3(Novel):
     _END_DATE_TIME_FIELD = 'End Date'
 
     # Narrative position markers
-
     _PART_MARKER = 'Part'
     _CHAPTER_MARKER = 'Chapter'
     _SCENE_MARKER = 'Scene'
-
     # Events assigned to the "narrative" become
     # regular scenes, the others become Notes scenes.
 
     def __init__(self, filePath, **kwargs):
-        """Extend the superclass constructor,
-        defining instance variables.
+        """Initialize instance variables.
+
+        Positional arguments:
+            filePath -- str: path to the file represented by the Novel instance.
+            
+        Required keyword arguments:
+            part_number_prefix -- str: prefix to the part number in the part's heading.
+            chapter_number_prefix -- str: prefix to the chapter number in the chapter's heading.
+            type_location -- str: label of the "Location" item type representing locations.
+            type_item -- str: label of the "Item" item type representing items.
+            type_character -- str: label of the "Character" item type representing characters. 
+            part_desc_label -- str: label of the csv field for the part's description.
+            chapter_desc_label -- str: label of the csv field for the chapter's description.
+            scene_desc_label -- str: label of the csv field for the scene's description.
+            scene_title_label -- str: label of the csv field for the scene's title.
+            notes_label -- str: label of the "Notes" property of events and characters.
+            tag_label -- str: label of the csv field for the scene's tags.
+            item_label -- str: label of the "Item" role type.
+            character_label -- str: label of the "Participant" role type.
+            viewpoint_label -- str: label of the "Viewpoint" property of events.
+            location_label -- str: label of the "Location" role type.
+            character_desc_label1 -- str: label of the character property imported as 1st part of the description.
+            character_desc_label2 -- str: label of the character property imported as 2nd part of the description.
+            character_desc_label3 -- str: label of the character property imported as 3rd part of the description.
+            character_bio_label -- str: 
+            character_aka_label -- str: label of the "Nickname" property of characters.           
+        
+        Extends the superclass constructor.
         """
         super().__init__(filePath, **kwargs)
         self.labels = []
         self.partNrPrefix = kwargs['part_number_prefix']
-
         if self.partNrPrefix:
             self.partNrPrefix += ' '
-
         self.chapterNrPrefix = kwargs['chapter_number_prefix']
-
         if self.chapterNrPrefix:
             self.chapterNrPrefix += ' '
-
         self.typeLocation = kwargs['type_location']
         self.typeItem = kwargs['type_item']
         self.typeCharacter = kwargs['type_character']
@@ -1486,130 +1369,93 @@ class CsvTimeline3(Novel):
         self.locationDescField = kwargs['location_desc_label']
 
     def read(self):
-        """Parse the timeline structure.
-
+        """Parse the file and get the instance variables.
+        
+        Build a yWriter novel structure from an Aeon3 csv export.
         Return a message beginning with the ERROR constant in case of error.
+        Overrides the superclass method.
         """
 
         def get_lcIds(lcTitles):
-            """Return a list of location IDs; Add new location to the project.
-            """
+            """Return a list of location IDs; Add new location to the project."""
             lcIds = []
-
             for lcTitle in lcTitles:
-
                 if lcTitle in self.locIdsByTitle:
                     lcIds.append(self.locIdsByTitle[lcTitle])
-
                 else:
                     return None
-
             return lcIds
 
         def get_itIds(itTitles):
-            """Return a list of item IDs; Add new item to the project.
-            """
+            """Return a list of item IDs; Add new item to the project."""
             itIds = []
-
             for itTitle in itTitles:
-
                 if itTitle in self.itmIdsByTitle:
                     itIds.append(self.itmIdsByTitle[itTitle])
-
                 else:
                     return None
-
             return itIds
 
         def get_crIds(crTitles):
-            """Return a list of character IDs; Add new characters to the project.
-            """
+            """Return a list of character IDs; Add new characters to the project."""
             crIds = []
-
             for crTitle in crTitles:
-
                 if crTitle in self.chrIdsByTitle:
                     crIds.append(self.chrIdsByTitle[crTitle])
-
                 else:
                     return None
-
             return crIds
-
         #--- Read the csv file.
-
         internalDelimiter = ','
-
         try:
             with open(self.filePath, newline='', encoding='utf-8') as f:
                 reader = csv.DictReader(f, delimiter=self._SEPARATOR)
-
                 for label in reader.fieldnames:
                     self.labels.append(label)
-
                 eventsAndFolders = []
-
                 characterCount = 0
                 self.chrIdsByTitle = {}
                 # key = character title
                 # value = character ID
-
                 locationCount = 0
                 self.locIdsByTitle = {}
                 # key = location title
                 # value = location ID
-
                 itemCount = 0
                 self.itmIdsByTitle = {}
                 # key = item title
                 # value = item ID
-
                 for row in reader:
                     aeonEntity = {}
-
                     for label in row:
                         aeonEntity[label] = row[label]
-
                     if self._TYPE_EVENT == aeonEntity[self._TYPE_FIELD]:
                         eventsAndFolders.append(aeonEntity)
-
                     elif self._TYPE_NARRATIVE == aeonEntity[self._TYPE_FIELD]:
                         eventsAndFolders.append(aeonEntity)
-
                     elif self.typeCharacter == aeonEntity[self._TYPE_FIELD]:
                         characterCount += 1
                         crId = str(characterCount)
                         self.chrIdsByTitle[aeonEntity[self._LABEL_FIELD]] = crId
                         self.characters[crId] = Character()
                         self.characters[crId].title = aeonEntity[self._LABEL_FIELD]
-
                         charDesc = []
-
                         if self.characterDescField1 in aeonEntity:
                             charDesc.append(aeonEntity[self.characterDescField1])
-
                         if self.characterDescField2 and self.characterDescField2 in aeonEntity:
                             charDesc.append(aeonEntity[self.characterDescField2])
-
                         if self.characterDescField3 and self.characterDescField3 in aeonEntity:
                             charDesc.append(aeonEntity[self.characterDescField3])
-
                         self.characters[crId].desc = ('\n').join(charDesc)
-
                         if self.characterBioField in aeonEntity:
                             self.characters[crId].bio = aeonEntity[self.characterBioField]
-
                         if self.characterAkaField in aeonEntity:
                             self.characters[crId].aka = aeonEntity[self.characterAkaField]
-
                         if self.tagField in aeonEntity and aeonEntity[self.tagField]:
                             self.characters[crId].tags = aeonEntity[self.tagField].split(internalDelimiter)
-
                         if self.notesField in aeonEntity:
                             self.characters[crId].notes = aeonEntity[self.notesField]
-
                         self.srtCharacters.append(crId)
-
                     elif self.typeLocation == aeonEntity[self._TYPE_FIELD]:
                         locationCount += 1
                         lcId = str(locationCount)
@@ -1617,13 +1463,10 @@ class CsvTimeline3(Novel):
                         self.locations[lcId] = WorldElement()
                         self.locations[lcId].title = aeonEntity[self._LABEL_FIELD]
                         self.srtLocations.append(lcId)
-
                         if self.locationDescField in aeonEntity:
                             self.locations[lcId].desc = aeonEntity[self.locationDescField]
-
                         if self.tagField in aeonEntity:
                             self.locations[lcId].tags = aeonEntity[self.tagField].split(internalDelimiter)
-
                     elif self.typeItem == aeonEntity[self._TYPE_FIELD]:
                         itemCount += 1
                         itId = str(itemCount)
@@ -1631,7 +1474,6 @@ class CsvTimeline3(Novel):
                         self.items[itId] = WorldElement()
                         self.items[itId].title = aeonEntity[self._LABEL_FIELD]
                         self.srtItems.append(itId)
-
         except(FileNotFoundError):
             return f'{ERROR}"{os.path.normpath(self.filePath)}" not found.'
 
@@ -1639,9 +1481,7 @@ class CsvTimeline3(Novel):
             return f'{ERROR}Can not parse csv file "{os.path.normpath(self.filePath)}".'
 
         try:
-
             for label in [self._SCENE_FIELD, self.sceneTitleField, self._START_DATE_TIME_FIELD, self._END_DATE_TIME_FIELD]:
-
                 if not label in self.labels:
                     return f'{ERROR}Label "{label}" is missing.'
 
@@ -1650,36 +1490,27 @@ class CsvTimeline3(Novel):
             otherEvents = []
             eventCount = 0
             chapterCount = 0
-
             for aeonEntity in eventsAndFolders:
-
                 if aeonEntity[self._SCENE_FIELD]:
                     narrativeType, narrativePosition = aeonEntity[self._SCENE_FIELD].split(' ')
 
                     # Make the narrative position a sortable string.
-
                     numbers = narrativePosition.split('.')
-
                     for i in range(len(numbers)):
                         numbers[i] = numbers[i].zfill(4)
                         narrativePosition = ('.').join(numbers)
-
                 else:
                     narrativeType = ''
                     narrativePosition = ''
-
                 if aeonEntity[self._TYPE_FIELD] == self._TYPE_NARRATIVE:
-
                     if narrativeType == self._CHAPTER_MARKER:
                         chapterCount += 1
                         chId = str(chapterCount)
                         chIdsByStruc[narrativePosition] = chId
                         self.chapters[chId] = Chapter()
                         self.chapters[chId].chLevel = 0
-
                         if self.chapterDescField:
                             self.chapters[chId].desc = aeonEntity[self.chapterDescField]
-
                     elif narrativeType == self._PART_MARKER:
                         chapterCount += 1
                         chId = str(chapterCount)
@@ -1687,10 +1518,8 @@ class CsvTimeline3(Novel):
                         self.chapters[chId] = Chapter()
                         self.chapters[chId].chLevel = 1
                         narrativePosition += '.0000'
-
                         if self.partDescField:
                             self.chapters[chId].desc = aeonEntity[self.partDescField]
-
                     continue
 
                 elif aeonEntity[self._TYPE_FIELD] != self._TYPE_EVENT:
@@ -1699,79 +1528,56 @@ class CsvTimeline3(Novel):
                 eventCount += 1
                 scId = str(eventCount)
                 self.scenes[scId] = Scene()
-
                 if narrativeType == self._SCENE_MARKER:
                     self.scenes[scId].isNotesScene = False
                     scIdsByStruc[narrativePosition] = scId
-
                 else:
                     self.scenes[scId].isNotesScene = True
                     otherEvents.append(scId)
-
                 self.scenes[scId].title = aeonEntity[self.sceneTitleField]
-
                 startDateTimeStr = fix_iso_dt(aeonEntity[self._START_DATE_TIME_FIELD])
-
                 if startDateTimeStr is not None:
                     startDateTime = startDateTimeStr.split(' ')
                     self.scenes[scId].date = startDateTime[0]
                     self.scenes[scId].time = startDateTime[1]
                     endDateTimeStr = fix_iso_dt(aeonEntity[self._END_DATE_TIME_FIELD])
-
                     if endDateTimeStr is not None:
-
                         # Calculate duration of scenes that begin after 99-12-31.
-
                         sceneStart = datetime.fromisoformat(startDateTimeStr)
                         sceneEnd = datetime.fromisoformat(endDateTimeStr)
                         sceneDuration = sceneEnd - sceneStart
                         lastsHours = sceneDuration.seconds // 3600
                         lastsMinutes = (sceneDuration.seconds % 3600) // 60
-
                         self.scenes[scId].lastsDays = str(sceneDuration.days)
                         self.scenes[scId].lastsHours = str(lastsHours)
                         self.scenes[scId].lastsMinutes = str(lastsMinutes)
-
                 else:
                     self.scenes[scId].date = Scene.NULL_DATE
                     self.scenes[scId].time = Scene.NULL_TIME
-
                 if self.sceneDescField in aeonEntity:
                     self.scenes[scId].desc = aeonEntity[self.sceneDescField]
-
                 if self.notesField in aeonEntity:
                     self.scenes[scId].sceneNotes = aeonEntity[self.notesField]
-
                 if self.tagField in aeonEntity and aeonEntity[self.tagField]:
                     self.scenes[scId].tags = aeonEntity[self.tagField].split(internalDelimiter)
-
                 if self.locationField in aeonEntity:
                     self.scenes[scId].locations = get_lcIds(aeonEntity[self.locationField].split(internalDelimiter))
-
                 if self.characterField in aeonEntity:
                     self.scenes[scId].characters = get_crIds(aeonEntity[self.characterField].split(internalDelimiter))
-
                 if self.viewpointField in aeonEntity:
                     vpIds = get_crIds([aeonEntity[self.viewpointField]])
-
                     if vpIds is not None:
                         vpId = vpIds[0]
-
                         if self.scenes[scId].characters is None:
                             self.scenes[scId].characters = []
-
                         elif vpId in self.scenes[scId].characters:
                             self.scenes[scId].characters.remove[vpId]
-
                         self.scenes[scId].characters.insert(0, vpId)
-
                 if self.itemField in aeonEntity:
                     self.scenes[scId].items = get_itIds(aeonEntity[self.itemField].split(internalDelimiter))
 
-                # Set scene status = "Outline".
-
                 self.scenes[scId].status = 1
-
+                # Set scene status = "Outline".
         except(FileNotFoundError):
             return f'{ERROR}"{os.path.normpath(self.filePath)}" not found.'
 
@@ -1785,31 +1591,22 @@ class CsvTimeline3(Novel):
             return f'{ERROR}Can not parse "{os.path.normpath(self.filePath)}".'
 
         # Build the chapter structure as defined with Aeon v3.
-
         srtChpDict = sorted(chIdsByStruc.items())
         srtScnDict = sorted(scIdsByStruc.items())
-
         partNr = 0
         chapterNr = 0
-
         for ch in srtChpDict:
             self.srtChapters.append(ch[1])
-
             if self.chapters[ch[1]].chLevel == 0:
                 chapterNr += 1
                 self.chapters[ch[1]].title = self.chapterNrPrefix + str(chapterNr)
-
                 for sc in srtScnDict:
-
                     if sc[0].startswith(ch[0]):
                         self.chapters[ch[1]].srtScenes.append(sc[1])
-
             else:
                 partNr += 1
                 self.chapters[ch[1]].title = self.partNrPrefix + str(partNr)
-
         # Create a chapter for the non-narrative events.
-
         chapterNr += 1
         chId = str(chapterCount + 1)
         self.chapters[chId] = Chapter()
@@ -1818,50 +1615,42 @@ class CsvTimeline3(Novel):
         self.chapters[chId].chType = 1
         self.chapters[chId].srtScenes = otherEvents
         self.srtChapters.append(chId)
-
         return 'Timeline data converted to novel structure.'
 import json
 from datetime import datetime
 from datetime import timedelta
-
-
 import codecs
-
 
 
 def scan_file(filePath):
     """Read and scan the project file.
+    
+    Positional arguments:
+        filePath -- str: Path to the Aeon 3 project file.
+    
     Return a string containing either the JSON part or an error message.
     """
-
     try:
         with open(filePath, 'rb') as f:
             binInput = f.read()
-
     except(FileNotFoundError):
         return f'{ERROR}"{os.path.normpath(filePath)}" not found.'
 
     except:
         return f'{ERROR}Cannot read "{os.path.normpath(filePath)}".'
-
+    
     # JSON part: all characters between the first and last curly bracket.
-
     chrData = []
     opening = ord('{')
     closing = ord('}')
     level = 0
-
     for c in binInput:
-
         if c == opening:
             level += 1
-
         if level > 0:
             chrData.append(c)
-
             if c == closing:
                 level -= 1
-
                 if level == 0:
                     break
 
@@ -1870,7 +1659,6 @@ def scan_file(filePath):
 
     try:
         jsonStr = codecs.decode(bytes(chrData), encoding='utf-8')
-
     except:
         return f'{ERROR}Cannot decode "{os.path.normpath(filePath)}".'
 
@@ -1880,31 +1668,51 @@ def scan_file(filePath):
 class JsonTimeline3(Novel):
     """File representation of an Aeon Timeline 3 project. 
 
+    Public methods:
+        read() -- parse the file and get the instance variables.
+
     Represents the JSON part of the project file.
     """
-
     EXTENSION = '.aeon'
     DESCRIPTION = 'Aeon Timeline 3 project'
     SUFFIX = ''
-
     DATE_LIMIT = (datetime(100, 1, 1) - datetime.min).total_seconds()
     # Dates before 100-01-01 can not be displayed properly in yWriter
 
     def __init__(self, filePath, **kwargs):
-        """Extend the superclass constructor,
-        defining instance variables.
+        """Initialize instance variables.
+
+        Positional arguments:
+            filePath -- str: path to the file represented by the Novel instance.
+            
+        Required keyword arguments:
+            type_event -- str: label of the "Event" item type representing scenes.
+            type_character -- str: label of the "Character" item type representing characters. 
+            type_location -- str: label of the "Location" item type representing locations.
+            type_item -- str: label of the "Item" item type representing items.
+            notes_label -- str: label of the "Notes" property of events and characters.
+            character_desc_label1 -- str: label of the character property imported as 1st part of the description.
+            character_desc_label2 -- str: label of the character property imported as 2nd part of the description.
+            character_desc_label3 -- str: label of the character property imported as 3rd part of the description.
+            character_aka_label -- str: label of the "Nickname" property of characters.
+            viewpoint_label -- str: label of the "Viewpoint" property of events.
+            character_label -- str: label of the "Participant" role type.
+            location_label -- str: label of the "Location" role type.
+            item_label -- str: label of the "Item" role type.
+            part_number_prefix -- str: prefix to the part number in the part's heading.
+            chapter_number_prefix -- str: prefix to the chapter number in the chapter's heading.
+        
+        Extends the superclass constructor.
         """
         super().__init__(filePath, **kwargs)
 
         # JSON[definitions][types][byId]
-
         self._labelEventType = kwargs['type_event']
         self._labelCharacterType = kwargs['type_character']
         self._labelLocationType = kwargs['type_location']
         self._labelItemType = kwargs['type_item']
 
         # JSON[definitions][properties][byId]
-
         self._labelNotesProperty = kwargs['notes_label']
         self._labelChrDesc1Property = kwargs['character_desc_label1']
         self._labelChrDesc2Property = kwargs['character_desc_label2']
@@ -1913,46 +1721,38 @@ class JsonTimeline3(Novel):
         self._labelViewpointProperty = kwargs['viewpoint_label']
 
         # JSON[definitions][references][byId]
-
         self._labelParticipantRef = kwargs['character_label']
         self._labelLocationRef = kwargs['location_label']
         self._labelItemRef = kwargs['item_label']
 
         # Misc.
-
         self._partHdPrefix = kwargs['part_number_prefix']
         self._chapterHdPrefix = kwargs['chapter_number_prefix']
 
     def read(self):
-        """Extract the JSON part of the Aeon Timeline 3 file located at filePath, 
-        fetching the relevant data.
-        Extend the superclass.
-
+        """Parse the file and get the instance variables.
+        
+        Extract the JSON part of the Aeon Timeline 3 file located at filePath
+        and build a yWriter novel structure.
         Return a message beginning with the ERROR constant in case of error.
+        Overrides the superclass method.
         """
-
         jsonPart = scan_file(self.filePath)
-
         if not jsonPart:
             return f'{ERROR}No JSON part found.'
-
         elif jsonPart.startswith(ERROR):
             return jsonPart
-
         try:
             jsonData = json.loads(jsonPart)
-
         except('JSONDecodeError'):
             return f'{ERROR}Invalid JSON data.'
 
         #--- Find types.
-
         typeEventUid = None
         typeCharacterUid = None
         typeLocationUid = None
         typeItemUid = None
         NarrativeFolderTypes = []
-
         for uid in jsonData['definitions']['types']['byId']:
 
             if jsonData['definitions']['types']['byId'][uid]['isNarrativeFolder']:
@@ -1971,14 +1771,12 @@ class JsonTimeline3(Novel):
                 typeItemUid = uid
 
         #--- Find properties.
-
         propNotesUid = None
         propChrDesc1Uid = None
         propChrDesc2Uid = None
         propChrDesc3Uid = None
         propAkaUid = None
         propViewpointUid = None
-
         for uid in jsonData['definitions']['properties']['byId']:
 
             if jsonData['definitions']['properties']['byId'][uid]['label'] == self._labelNotesProperty:
@@ -2000,10 +1798,8 @@ class JsonTimeline3(Novel):
                 propViewpointUid = uid
 
         #--- Find references.
-
         refParticipant = None
         refLocation = None
-
         for uid in jsonData['definitions']['references']['byId']:
 
             if jsonData['definitions']['references']['byId'][uid]['label'] == self._labelParticipantRef:
@@ -2013,7 +1809,6 @@ class JsonTimeline3(Novel):
                 refLocation = uid
 
         #--- Read items.
-
         crIdsByGuid = {}
         lcIdsByGuid = {}
         itIdsByGuid = {}
@@ -2025,14 +1820,11 @@ class JsonTimeline3(Novel):
         eventCount = 0
         chapterCount = 0
         vpGuidByScId = {}
-
         for uid in jsonData['data']['items']['byId']:
             dataItem = jsonData['data']['items']['byId'][uid]
-
             if dataItem['type'] == typeEventUid:
 
                 #--- Create scenes.
-
                 eventCount += 1
                 scId = str(eventCount)
                 scIdsByGuid[uid] = scId
@@ -2046,58 +1838,44 @@ class JsonTimeline3(Novel):
                 timestamp = dataItem['startDate']['timestamp']
 
                 #--- Get scene tags.
-
                 for tagId in dataItem['tags']:
-
                     if self.scenes[scId].tags is None:
                         self.scenes[scId].tags = []
-
                     self.scenes[scId].tags.append(jsonData['data']['tags'][tagId])
 
                 #--- Get scene properties.
-
                 for propId in dataItem['propertyValues']:
-
                     if propId == propNotesUid:
                         self.scenes[scId].sceneNotes = dataItem['propertyValues'][propId]
-
                     elif propId == propViewpointUid:
                         vpGuidByScId[scId] = dataItem['propertyValues'][propId]
 
                 #--- Get scene date, time, and duration.
-
                 if timestamp is not None and timestamp >= self.DATE_LIMIT:
                     # Restrict date/time calculation to dates within yWriter's range
-
                     sceneStart = datetime.min + timedelta(seconds=timestamp)
                     startDateTime = sceneStart.isoformat().split('T')
                     self.scenes[scId].date = startDateTime[0]
                     self.scenes[scId].time = startDateTime[1]
 
                     # Calculate duration.
-
                     if dataItem['duration']['years'] > 0 or dataItem['duration']['months'] > 0:
                         endYear = sceneStart.year + dataItem['duration']['years']
                         endMonth = sceneStart.month
-
                         if dataItem['duration']['months'] > 0:
                             endMonth += dataItem['duration']['months']
-
                             while endMonth > 12:
                                 endMonth -= 12
                                 endYear += 1
-
                         sceneDuration = datetime(endYear, endMonth, sceneStart.day) - \
-                            datetime(sceneStart.year, sceneStart.month, sceneStart.day)
+                                datetime(sceneStart.year, sceneStart.month, sceneStart.day)
                         lastsDays = sceneDuration.days
                         lastsHours = sceneDuration.seconds // 3600
                         lastsMinutes = (sceneDuration.seconds % 3600) // 60
-
                     else:
                         lastsDays = 0
                         lastsHours = 0
                         lastsMinutes = 0
-
                     lastsDays += dataItem['duration']['weeks'] * 7
                     lastsDays += dataItem['duration']['days']
                     lastsDays += dataItem['duration']['hours'] // 24
@@ -2112,72 +1890,49 @@ class JsonTimeline3(Novel):
                     self.scenes[scId].lastsDays = str(lastsDays)
                     self.scenes[scId].lastsHours = str(lastsHours)
                     self.scenes[scId].lastsMinutes = str(lastsMinutes)
-
             elif dataItem['type'] in NarrativeFolderTypes:
-
                 #--- Create chapters.
-
                 chapterCount += 1
                 chId = str(chapterCount)
                 chIdsByGuid[uid] = chId
                 self.chapters[chId] = Chapter()
                 self.chapters[chId].desc = dataItem['label']
-
             elif dataItem['type'] == typeCharacterUid:
-
                 #--- Create characters.
-
                 characterCount += 1
                 crId = str(characterCount)
                 crIdsByGuid[uid] = crId
                 self.characters[crId] = Character()
-
                 if dataItem['shortLabel']:
                     self.characters[crId].title = dataItem['shortLabel']
-
                 else:
                     self.characters[crId].title = dataItem['label']
-
                 self.characters[crId].fullName = dataItem['label']
                 self.characters[crId].bio = dataItem['summary']
                 self.srtCharacters.append(crId)
 
                 #--- Get character tags.
-
                 for tagId in dataItem['tags']:
-
                     if self.characters[crId].tags is None:
                         self.characters[crId].tags = []
-
                     self.characters[crId].tags.append(jsonData['data']['tags'][tagId])
 
                 #--- Get character properties.
-
                 charDesc = []
-
                 for propId in dataItem['propertyValues']:
-
                     if propId == propNotesUid:
                         self.characters[crId].notes = dataItem['propertyValues'][propId]
-
                     elif propId == propAkaUid:
                         self.characters[crId].aka = dataItem['propertyValues'][propId]
-
                     elif propId == propChrDesc1Uid:
                         charDesc.append(dataItem['propertyValues'][propId])
-
                     elif propId == propChrDesc2Uid:
                         charDesc.append(dataItem['propertyValues'][propId])
-
                     elif propId == propChrDesc3Uid:
                         charDesc.append(dataItem['propertyValues'][propId])
-
                 self.characters[crId].desc = ('\n').join(charDesc)
-
             elif dataItem['type'] == typeLocationUid:
-
                 #--- Create locations.
-
                 locationCount += 1
                 lcId = str(locationCount)
                 lcIdsByGuid[uid] = lcId
@@ -2187,18 +1942,12 @@ class JsonTimeline3(Novel):
                 self.srtLocations.append(lcId)
 
                 #--- Get location tags.
-
                 for tagId in dataItem['tags']:
-
                     if self.locations[lcId].tags is None:
                         self.locations[lcId].tags = []
-
                     self.locations[lcId].tags.append(jsonData['data']['tags'][tagId])
-
             elif dataItem['type'] == typeItemUid:
-
                 #--- Create items.
-
                 itemCount += 1
                 itId = str(itemCount)
                 itIdsByGuid[uid] = itId
@@ -2208,128 +1957,84 @@ class JsonTimeline3(Novel):
                 self.srtItems.append(itId)
 
                 #--- Get item tags.
-
                 for tagId in dataItem['tags']:
-
                     if self.items[itId].tags is None:
                         self.items[itId].tags = []
-
                     self.items[itId].tags.append(jsonData['data']['tags'][tagId])
-
         #--- Read relationships.
-
         for uid in jsonData['data']['relationships']['byId']:
-
             if jsonData['data']['relationships']['byId'][uid]['reference'] == refParticipant:
-
                 #--- Assign characters.
-
                 try:
                     scId = scIdsByGuid[jsonData['data']['relationships']['byId'][uid]['subject']]
                     crId = crIdsByGuid[jsonData['data']['relationships']['byId'][uid]['object']]
-
                     if self.scenes[scId].characters is None:
                         self.scenes[scId].characters = []
-
                     if not crId in self.scenes[scId].characters:
                         self.scenes[scId].characters.append(crId)
-
                 except:
                     pass
-
             elif jsonData['data']['relationships']['byId'][uid]['reference'] == refLocation:
-
                 #--- Assign locations.
-
                 try:
                     scId = scIdsByGuid[jsonData['data']['relationships']['byId'][uid]['subject']]
                     lcId = lcIdsByGuid[jsonData['data']['relationships']['byId'][uid]['object']]
-
                     if self.scenes[scId].locations is None:
                         self.scenes[scId].locations = []
-
                     if not lcId in self.scenes[scId].locations:
                         self.scenes[scId].locations.append(lcId)
-
                 except:
                     pass
-
         #--- Set scene viewpoints.
-
         for scId in vpGuidByScId:
-
             if vpGuidByScId[scId] in crIdsByGuid:
                 vpId = crIdsByGuid[vpGuidByScId[scId]]
-
                 if self.scenes[scId].characters is None:
                     self.scenes[scId].characters = []
-
                 elif vpId in self.scenes[scId].characters:
                     self.scenes[scId].characters.remove[vpId]
-
                 self.scenes[scId].characters.insert(0, vpId)
-
         #--- Build a narrative structure with 2 or 3 levels.
-
         for narrative0 in jsonData['data']['narrative']['children']:
-
             if narrative0['id'] in chIdsByGuid:
                 self.srtChapters.append(chIdsByGuid[narrative0['id']])
-
             for narrative1 in narrative0['children']:
-
                 if narrative1['id'] in chIdsByGuid:
                     self.srtChapters.append(chIdsByGuid[narrative1['id']])
                     self.chapters[chIdsByGuid[narrative0['id']]].chLevel = 1
-
                     for narrative2 in narrative1['children']:
-
                         if narrative2['id'] in scIdsByGuid:
                             self.chapters[chIdsByGuid[narrative1['id']]].srtScenes.append(
                                 scIdsByGuid[narrative2['id']])
                             self.scenes[scIdsByGuid[narrative2['id']]].isNotesScene = False
                             self.chapters[chIdsByGuid[narrative1['id']]].chLevel = 0
-
                 elif narrative1['id'] in scIdsByGuid:
                     self.chapters[chIdsByGuid[narrative0['id']]].srtScenes.append(scIdsByGuid[narrative1['id']])
                     self.scenes[scIdsByGuid[narrative1['id']]].isNotesScene = False
                     self.chapters[chIdsByGuid[narrative0['id']]].chLevel = 0
-
         #--- Auto-number untitled chapters.
-
         partCount = 0
         chapterCount = 0
-
         for chId in self.srtChapters:
-
             if self.chapters[chId].chLevel == 1:
                 partCount += 1
-
                 if not self.chapters[chId].title:
                     self.chapters[chId].title = f'{self._partHdPrefix} {partCount}'
-
             else:
                 chapterCount += 1
-
                 if not self.chapters[chId].title:
                     self.chapters[chId].title = f'{self._chapterHdPrefix} {chapterCount}'
-
         #--- Create a "Notes" chapter for non-narrative scenes.
-
         chId = str(partCount + chapterCount + 1)
         self.chapters[chId] = Chapter()
         self.chapters[chId].title = 'Other events'
         self.chapters[chId].desc = 'Scenes generated from events that ar not assigned to the narrative structure.'
         self.chapters[chId].chType = 1
         self.srtChapters.append(chId)
-
         for scId in self.scenes:
-
             if self.scenes[scId].isNotesScene:
                 self.chapters[chId].srtScenes.append(scId)
-
         return 'Timeline data converted to novel structure.'
-
 
 import zipfile
 import locale
@@ -2337,12 +2042,10 @@ import tempfile
 from shutil import rmtree
 from datetime import datetime
 from string import Template
-
 from string import Template
 
 
-
-class Filter():
+class Filter:
     """Filter an entity (chapter/scene/character/location/item) by filter criteria.
     
     Public methods:
@@ -2375,7 +2078,6 @@ class FileExport(Novel):
     This class is generic and contains no conversion algorithm and no templates.
     """
     SUFFIX = ''
-
     _fileHeader = ''
     _partTemplate = ''
     _chapterTemplate = ''
@@ -2431,76 +2133,66 @@ class FileExport(Novel):
         Return a message beginning with the ERROR constant in case of error.
         Overrides the superclass method.
         """
-
         if source.title is not None:
             self.title = source.title
-
         else:
             self.title = ''
 
         if source.desc is not None:
             self.desc = source.desc
-
         else:
             self.desc = ''
 
         if source.authorName is not None:
             self.authorName = source.authorName
-
         else:
             self.authorName = ''
 
         if source.authorBio is not None:
             self.authorBio = source.authorBio
-
         else:
             self.authorBio = ''
 
         if source.fieldTitle1 is not None:
             self.fieldTitle1 = source.fieldTitle1
-
         else:
             self.fieldTitle1 = 'Field 1'
-
+        
         if source.fieldTitle2 is not None:
             self.fieldTitle2 = source.fieldTitle2
-
         else:
             self.fieldTitle2 = 'Field 2'
-
+        
         if source.fieldTitle3 is not None:
             self.fieldTitle3 = source.fieldTitle3
-
         else:
             self.fieldTitle3 = 'Field 3'
-
+        
         if source.fieldTitle4 is not None:
             self.fieldTitle4 = source.fieldTitle4
-
         else:
             self.fieldTitle4 = 'Field 4'
-
+        
         if source.srtChapters:
             self.srtChapters = source.srtChapters
-
+        
         if source.scenes is not None:
             self.scenes = source.scenes
-
+        
         if source.chapters is not None:
             self.chapters = source.chapters
-
+        
         if source.srtCharacters:
             self.srtCharacters = source.srtCharacters
             self.characters = source.characters
-
+        
         if source.srtLocations:
             self.srtLocations = source.srtLocations
             self.locations = source.locations
-
+        
         if source.srtItems:
             self.srtItems = source.srtItems
             self.items = source.items
-
         return 'Export data updated from novel.'
 
     def _get_fileHeaderMapping(self):
@@ -2531,7 +2223,7 @@ class FileExport(Novel):
         """
         if chapterNumber == 0:
             chapterNumber = ''
-
+        
         chapterMapping = dict(
             ID=chId,
             ChapterNumber=chapterNumber,
@@ -2555,146 +2247,108 @@ class FileExport(Novel):
         """
         
         #--- Create a comma separated tag list.
-
         if sceneNumber == 0:
             sceneNumber = ''
-
         if self.scenes[scId].tags is not None:
             tags = self._get_string(self.scenes[scId].tags)
-
         else:
             tags = ''
 
         #--- Create a comma separated character list.
-
         try:
             # Note: Due to a bug, yWriter scenes might hold invalid
             # viepoint characters
-
             sChList = []
-
             for chId in self.scenes[scId].characters:
                 sChList.append(self.characters[chId].title)
-
             sceneChars = self._get_string(sChList)
             viewpointChar = sChList[0]
-
         except:
             sceneChars = ''
             viewpointChar = ''
 
         #--- Create a comma separated location list.
-
         if self.scenes[scId].locations is not None:
             sLcList = []
-
             for lcId in self.scenes[scId].locations:
                 sLcList.append(self.locations[lcId].title)
-
             sceneLocs = self._get_string(sLcList)
-
         else:
             sceneLocs = ''
 
         #--- Create a comma separated item list.
-
         if self.scenes[scId].items is not None:
             sItList = []
-
             for itId in self.scenes[scId].items:
                 sItList.append(self.items[itId].title)
-
             sceneItems = self._get_string(sItList)
-
         else:
             sceneItems = ''
 
         #--- Create A/R marker string.
-
         if self.scenes[scId].isReactionScene:
             reactionScene = Scene.REACTION_MARKER
-
         else:
             reactionScene = Scene.ACTION_MARKER
 
         #--- Create a combined scDate information.
-
         if self.scenes[scId].date is not None and self.scenes[scId].date != Scene.NULL_DATE:
             scDay = ''
             scDate = self.scenes[scId].date
             cmbDate = self.scenes[scId].date
-
         else:
             scDate = ''
-
             if self.scenes[scId].day is not None:
                 scDay = self.scenes[scId].day
                 cmbDate = f'Day {self.scenes[scId].day}'
-
             else:
                 scDay = ''
                 cmbDate = ''
 
         #--- Create a combined time information.
-
         if self.scenes[scId].time is not None and self.scenes[scId].date != Scene.NULL_DATE:
             scHour = ''
             scMinute = ''
             scTime = self.scenes[scId].time
             cmbTime = self.scenes[scId].time.rsplit(':', 1)[0]
-
         else:
             scTime = ''
-
             if self.scenes[scId].hour or self.scenes[scId].minute:
-
                 if self.scenes[scId].hour:
                     scHour = self.scenes[scId].hour
-
                 else:
                     scHour = '00'
-
                 if self.scenes[scId].minute:
                     scMinute = self.scenes[scId].minute
-
                 else:
                     scMinute = '00'
-
                 cmbTime = f'{scHour.zfill(2)}:{scMinute.zfill(2)}'
-
             else:
                 scHour = ''
                 scMinute = ''
                 cmbTime = ''
 
         #--- Create a combined duration information.
-
         if self.scenes[scId].lastsDays is not None and self.scenes[scId].lastsDays != '0':
             lastsDays = self.scenes[scId].lastsDays
             days = f'{self.scenes[scId].lastsDays}d '
-
         else:
             lastsDays = ''
             days = ''
-
         if self.scenes[scId].lastsHours is not None and self.scenes[scId].lastsHours != '0':
             lastsHours = self.scenes[scId].lastsHours
             hours = f'{self.scenes[scId].lastsHours}h '
-
         else:
             lastsHours = ''
             hours = ''
-
         if self.scenes[scId].lastsMinutes is not None and self.scenes[scId].lastsMinutes != '0':
             lastsMinutes = self.scenes[scId].lastsMinutes
             minutes = f'{self.scenes[scId].lastsMinutes}min'
-
         else:
             lastsMinutes = ''
             minutes = ''
-
         duration = f'{days}{hours}{minutes}'
-
+        
         sceneMapping = dict(
             ID=scId,
             SceneNumber=sceneNumber,
@@ -2739,7 +2393,6 @@ class FileExport(Novel):
             ProjectName=self._convert_from_yw(self.projectName, True),
             ProjectPath=self.projectPath,
         )
-
         return sceneMapping
 
     def _get_characterMapping(self, crId):
@@ -2750,19 +2403,15 @@ class FileExport(Novel):
         
         This is a template method that can be extended or overridden by subclasses.
         """
-
         if self.characters[crId].tags is not None:
             tags = self._get_string(self.characters[crId].tags)
-
         else:
             tags = ''
-
         if self.characters[crId].isMajor:
             characterStatus = Character.MAJOR_MARKER
-
         else:
             characterStatus = Character.MINOR_MARKER
-
+        
         characterMapping = dict(
             ID=crId,
             Title=self._convert_from_yw(self.characters[crId].title, True),
@@ -2788,13 +2437,11 @@ class FileExport(Novel):
         
         This is a template method that can be extended or overridden by subclasses.
         """
-
         if self.locations[lcId].tags is not None:
             tags = self._get_string(self.locations[lcId].tags)
-
         else:
             tags = ''
-
+        
         locationMapping = dict(
             ID=lcId,
             Title=self._convert_from_yw(self.locations[lcId].title, True),
@@ -2815,13 +2462,11 @@ class FileExport(Novel):
         
         This is a template method that can be extended or overridden by subclasses.
         """
-
         if self.items[itId].tags is not None:
             tags = self._get_string(self.items[itId].tags)
-
         else:
             tags = ''
-
+        
         itemMapping = dict(
             ID=itId,
             Title=self._convert_from_yw(self.items[itId].title, True),
@@ -2872,55 +2517,41 @@ class FileExport(Novel):
         """
         lines = []
         firstSceneInChapter = True
-
         for scId in self.chapters[chId].srtScenes:
             dispNumber = 0
-
             if not self._sceneFilter.accept(self, scId):
                 continue
-
             # The order counts; be aware that "Todo" and "Notes" scenes are
             # always unused.
-
             if self.scenes[scId].isTodoScene:
-
                 if self._todoSceneTemplate:
                     template = Template(self._todoSceneTemplate)
-
                 else:
                     continue
 
             elif self.scenes[scId].isNotesScene:
                 # Scene is "Notes" type.
-
                 if self._notesSceneTemplate:
                     template = Template(self._notesSceneTemplate)
-
                 else:
                     continue
 
             elif self.scenes[scId].isUnused or self.chapters[chId].isUnused:
-
                 if self._unusedSceneTemplate:
                     template = Template(self._unusedSceneTemplate)
-
                 else:
                     continue
 
             elif self.chapters[chId].oldType == 1:
                 # Scene is "Info" type (old file format).
-
                 if self._notesSceneTemplate:
                     template = Template(self._notesSceneTemplate)
-
                 else:
                     continue
 
             elif self.scenes[scId].doNotExport or doNotExport:
-
                 if self._notExportedSceneTemplate:
                     template = Template(self._notExportedSceneTemplate)
-
                 else:
                     continue
 
@@ -2929,23 +2560,16 @@ class FileExport(Novel):
                 dispNumber = sceneNumber
                 wordsTotal += self.scenes[scId].wordCount
                 lettersTotal += self.scenes[scId].letterCount
-
                 template = Template(self._sceneTemplate)
-
                 if not firstSceneInChapter and self.scenes[scId].appendToPrev and self._appendedSceneTemplate:
                     template = Template(self._appendedSceneTemplate)
-
             if not (firstSceneInChapter or self.scenes[scId].appendToPrev):
                 lines.append(self._sceneDivider)
-
             if firstSceneInChapter and self._firstSceneTemplate:
                 template = Template(self._firstSceneTemplate)
-
             lines.append(template.safe_substitute(self._get_sceneMapping(
-                scId, dispNumber, wordsTotal, lettersTotal)))
-
+                        scId, dispNumber, wordsTotal, lettersTotal)))
             firstSceneInChapter = False
-
         return lines, sceneNumber, wordsTotal, lettersTotal
 
     def _get_chapters(self):
@@ -2963,113 +2587,78 @@ class FileExport(Novel):
         sceneNumber = 0
         wordsTotal = 0
         lettersTotal = 0
-
         for chId in self.srtChapters:
             dispNumber = 0
-
             if not self._chapterFilter.accept(self, chId):
                 continue
 
             # The order counts; be aware that "Todo" and "Notes" chapters are
             # always unused.
-
             # Has the chapter only scenes not to be exported?
-
             sceneCount = 0
             notExportCount = 0
             doNotExport = False
             template = None
-
             for scId in self.chapters[chId].srtScenes:
                 sceneCount += 1
-
                 if self.scenes[scId].doNotExport:
                     notExportCount += 1
-
             if sceneCount > 0 and notExportCount == sceneCount:
                 doNotExport = True
-
             if self.chapters[chId].chType == 2:
                 # Chapter is "ToDo" type (implies "unused").
-
                 if self._todoChapterTemplate:
                     template = Template(self._todoChapterTemplate)
-
             elif self.chapters[chId].chType == 1:
                 # Chapter is "Notes" type (implies "unused").
-
                 if self._notesChapterTemplate:
                     template = Template(self._notesChapterTemplate)
-
             elif self.chapters[chId].isUnused:
                 # Chapter is "really" unused.
-
                 if self._unusedChapterTemplate:
                     template = Template(self._unusedChapterTemplate)
-
             elif self.chapters[chId].oldType == 1:
                 # Chapter is "Info" type (old file format).
-
                 if self._notesChapterTemplate:
                     template = Template(self._notesChapterTemplate)
-
             elif doNotExport:
-
                 if self._notExportedChapterTemplate:
                     template = Template(self._notExportedChapterTemplate)
-
             elif self.chapters[chId].chLevel == 1 and self._partTemplate:
                 template = Template(self._partTemplate)
-
             else:
                 template = Template(self._chapterTemplate)
                 chapterNumber += 1
                 dispNumber = chapterNumber
-
             if template is not None:
                 lines.append(template.safe_substitute(self._get_chapterMapping(chId, dispNumber)))
 
-            # Process scenes.
-
+            #--- Process scenes.
             sceneLines, sceneNumber, wordsTotal, lettersTotal = self._get_scenes(
                 chId, sceneNumber, wordsTotal, lettersTotal, doNotExport)
             lines.extend(sceneLines)
 
-            # Process chapter ending.
-
+            #--- Process chapter ending.
             template = None
-
             if self.chapters[chId].chType == 2:
-
                 if self._todoChapterEndTemplate:
                     template = Template(self._todoChapterEndTemplate)
-
             elif self.chapters[chId].chType == 1:
-
                 if self._notesChapterEndTemplate:
                     template = Template(self._notesChapterEndTemplate)
-
             elif self.chapters[chId].isUnused:
-
                 if self._unusedChapterEndTemplate:
                     template = Template(self._unusedChapterEndTemplate)
-
             elif self.chapters[chId].oldType == 1:
-
                 if self._notesChapterEndTemplate:
                     template = Template(self._notesChapterEndTemplate)
-
             elif doNotExport:
-
                 if self._notExportedChapterEndTemplate:
                     template = Template(self._notExportedChapterEndTemplate)
-
             elif self._chapterEndTemplate:
                 template = Template(self._chapterEndTemplate)
-
             if template is not None:
                 lines.append(template.safe_substitute(self._get_chapterMapping(chId, dispNumber)))
-
         return lines
 
     def _get_characters(self):
@@ -3081,20 +2670,14 @@ class FileExport(Novel):
         Return a list of strings.
         This is a template method that can be extended or overridden by subclasses.
         """
-
         if self._characterSectionHeading:
             lines = [self._characterSectionHeading]
-
         else:
             lines = []
-
         template = Template(self._characterTemplate)
-
         for crId in self.srtCharacters:
-
             if self._characterFilter.accept(self, crId):
                 lines.append(template.safe_substitute(self._get_characterMapping(crId)))
-
         return lines
 
     def _get_locations(self):
@@ -3106,20 +2689,14 @@ class FileExport(Novel):
         Return a list of strings.
         This is a template method that can be extended or overridden by subclasses.
         """
-
         if self._locationSectionHeading:
             lines = [self._locationSectionHeading]
-
         else:
             lines = []
-
         template = Template(self._locationTemplate)
-
         for lcId in self.srtLocations:
-
             if self._locationFilter.accept(self, lcId):
                 lines.append(template.safe_substitute(self._get_locationMapping(lcId)))
-
         return lines
 
     def _get_items(self):
@@ -3131,20 +2708,14 @@ class FileExport(Novel):
         Return a list of strings.
         This is a template method that can be extended or overridden by subclasses.
         """
-
         if self._itemSectionHeading:
             lines = [self._itemSectionHeading]
-
         else:
             lines = []
-
         template = Template(self._itemTemplate)
-
         for itId in self.srtItems:
-
             if self._itemFilter.accept(self, itId):
                 lines.append(template.safe_substitute(self._get_itemMapping(itId)))
-
         return lines
 
     def _get_text(self):
@@ -3169,26 +2740,19 @@ class FileExport(Novel):
         """
         text = self._get_text()
         backedUp = False
-
         if os.path.isfile(self.filePath):
-
             try:
                 os.replace(self.filePath, f'{self.filePath}.bak')
-                backedUp = True
-                
+                backedUp = True            
             except:
                 return f'{ERROR}Cannot overwrite "{os.path.normpath(self.filePath)}".'
             
         try:
-
             with open(self.filePath, 'w', encoding='utf-8') as f:
                 f.write(text)
-
         except:
-
             if backedUp:
                 os.replace(f'{self.filePath}.bak', self.filePath)
-
             return f'{ERROR}Cannot write "{os.path.normpath(self.filePath)}".'
 
         return f'"{os.path.normpath(self.filePath)}" written.'
@@ -3215,10 +2779,8 @@ class FileExport(Novel):
         
         Overrides the superclass method.
         """
-
         if text is None:
             text = ''
-
         return(text)
 
 
@@ -3268,42 +2830,36 @@ class OdfFile(FileExport):
         Return a message beginning with the ERROR constant in case of error.
         """
         
-        # Create and open a temporary directory for the files to zip.
-
+        #--- Create and open a temporary directory for the files to zip.
         try:
             self._tear_down()
             os.mkdir(self._tempDir)
             os.mkdir(f'{self._tempDir}/META-INF')
-
         except:
             return f'{ERROR}Cannot create "{os.path.normpath(self._tempDir)}".'
 
-        # Generate mimetype.
-
+        #--- Generate mimetype.
         try:
             with open(f'{self._tempDir}/mimetype', 'w', encoding='utf-8') as f:
                 f.write(self._MIMETYPE)
         except:
             return f'{ERROR}Cannot write "mimetype"'
 
-        # Generate settings.xml.
-
+        #--- Generate settings.xml.
         try:
             with open(f'{self._tempDir}/settings.xml', 'w', encoding='utf-8') as f:
                 f.write(self._SETTINGS_XML)
         except:
             return f'{ERROR}Cannot write "settings.xml"'
 
-        # Generate META-INF\manifest.xml.
-
+        #--- Generate META-INF\manifest.xml.
         try:
             with open(f'{self._tempDir}/META-INF/manifest.xml', 'w', encoding='utf-8') as f:
                 f.write(self._MANIFEST_XML)
         except:
             return f'{ERROR}Cannot write "manifest.xml"'
 
-        # Generate styles.xml with system language set as document language.
-
+        #--- Generate styles.xml with system language set as document language.
         lng, ctr = locale.getdefaultlocale()[0].split('_')
         localeMapping = dict(
             Language=lng,
@@ -3311,15 +2867,13 @@ class OdfFile(FileExport):
         )
         template = Template(self._STYLES_XML)
         text = template.safe_substitute(localeMapping)
-
         try:
             with open(f'{self._tempDir}/styles.xml', 'w', encoding='utf-8') as f:
                 f.write(text)
         except:
             return f'{ERROR}Cannot write "styles.xml"'
 
-        # Generate meta.xml with actual document metadata.
-
+        #--- Generate meta.xml with actual document metadata.
         metaMapping = dict(
             Author=self.authorName,
             Title=self.title,
@@ -3328,7 +2882,6 @@ class OdfFile(FileExport):
         )
         template = Template(self._META_XML)
         text = template.safe_substitute(metaMapping)
-
         try:
             with open(f'{self._tempDir}/meta.xml', 'w', encoding='utf-8') as f:
                 f.write(text)
@@ -3345,58 +2898,42 @@ class OdfFile(FileExport):
         Extends the super class method, adding ZIP file operations.
         """
 
-        # Create a temporary directory containing the internal
-        # structure of an ODS file except "content.xml".
-
+        #--- Create a temporary directory
+        # containing the internal structure of an ODS file except "content.xml".
         message = self._set_up()
-
         if message.startswith(ERROR):
             return message
 
-        # Add "content.xml" to the temporary directory.
-
+        #--- Add "content.xml" to the temporary directory.
         self._originalPath = self._filePath
-
         self._filePath = f'{self._tempDir}/content.xml'
-
         message = super().write()
-
         self._filePath = self._originalPath
-
         if message.startswith(ERROR):
             return message
 
-        # Pack the contents of the temporary directory
-        # into the ODF file.
-
+        #--- Pack the contents of the temporary directory into the ODF file.
         workdir = os.getcwd()
         backedUp = False
-
         if os.path.isfile(self.filePath):
-
             try:
                 os.replace(self.filePath, f'{self.filePath}.bak')
                 backedUp = True
-                
             except:
                 return f'{ERROR}Cannot overwrite "{os.path.normpath(self.filePath)}".'
-            
+
         try:
             with zipfile.ZipFile(self.filePath, 'w') as odfTarget:
                 os.chdir(self._tempDir)
-
                 for file in self._ODF_COMPONENTS:
                     odfTarget.write(file, compress_type=zipfile.ZIP_DEFLATED)
         except:
-
             if backedUp:
                 os.replace(f'{self.filePath}.bak', self.filePath)
-
             os.chdir(workdir)
             return f'{ERROR}Cannot generate "{os.path.normpath(self.filePath)}".'
 
-        # Remove temporary data.
-
+        #--- Remove temporary data.
         os.chdir(workdir)
         self._tear_down()
         return f'"{os.path.normpath(self.filePath)}" written.'
@@ -4520,7 +4057,6 @@ class OdtFile(OdfFile):
         # Generate the common ODF components.
 
         message = super()._set_up()
-
         if message.startswith(ERROR):
             return message
 
@@ -4529,7 +4065,6 @@ class OdtFile(OdfFile):
         try:
             with open(f'{self._tempDir}/manifest.rdf', 'w', encoding='utf-8') as f:
                 f.write(self._MANIFEST_RDF)
-        
         except:
             return f'{ERROR}Cannot write "manifest.rdf"'
 
@@ -4546,10 +4081,8 @@ class OdtFile(OdfFile):
         
         Overrides the superclass method.
         """
-        
         if quick:            
             # Just clean up a one-liner without sophisticated formatting.
-            
             try:
                 return text.replace('&', '&amp;').replace('>', '&gt;').replace('<', '&lt;')
             
@@ -4570,7 +4103,6 @@ class OdtFile(OdfFile):
             ('/*', f'<office:annotation><dc:creator>{self.authorName}</dc:creator><text:p>'),
             ('*/', '</text:p></office:annotation>'),
         ]
-
         try:
             # process italics and bold markup reaching across linebreaks
 
@@ -4578,38 +4110,27 @@ class OdtFile(OdfFile):
             bold = False
             newlines = []
             lines = text.split('\n')
-
             for line in lines:
                 if italics:
                     line = f'[i]{line}'
                     italics = False
-
                 while line.count('[i]') > line.count('[/i]'):
                     line = f'{line}[/i]'
                     italics = True
-
                 while line.count('[/i]') > line.count('[i]'):
                     line = f'[i]{line}'
-
                 line = line.replace('[i][/i]', '')
-
                 if bold:
                     line = f'[b]{line}'
                     bold = False
-
                 while line.count('[b]') > line.count('[/b]'):
                     line = f'{line}[/b]'
                     bold = True
-
                 while line.count('[/b]') > line.count('[b]'):
                     line = f'[b]{line}'
-
                 line = line.replace('[b][/b]', '')
-
                 newlines.append(line)
-
             text = '\n'.join(newlines).rstrip()
-
             for yw, od in ODT_REPLACEMENTS:
                 text = text.replace(yw, od)
 
@@ -4617,10 +4138,8 @@ class OdtFile(OdfFile):
             # strikethrough, and underline tags.
 
             text = re.sub('\[\/*[h|c|r|s|u]\d*\]', '', text)
-
         except AttributeError:
             text = ''
-
         return text
 
 
@@ -5559,25 +5078,30 @@ class OdtAeon(OdtFile):
 
     def _get_characterMapping(self, crId):
         """Return a mapping dictionary for a character section. 
+        
+        Positional arguments:
+            crId -- str: character ID.
+        
+        Extends the superclass method.
         """
         characterMapping = super()._get_characterMapping(crId)
-
         if self.characters[crId].aka:
             characterMapping['AKA'] = f' ("{self.characters[crId].aka}")'
-
         if self.characters[crId].fullName:
             characterMapping['FullName'] = f'/{self.characters[crId].fullName}'
-
         return characterMapping
 
     def _get_locationMapping(self, lcId):
         """Return a mapping dictionary for a location section. 
+        
+        Positional arguments:
+            lcId -- str: location ID.
+
+        Extends the superclass method.
         """
         locationMapping = super().get_locationMapping(lcId)
-
         if self.locations[lcId].aka:
             locationMapping['AKA'] = f' ("{self.locations[lcId].aka}")'
-
         return locationMapping
 
 
@@ -5586,7 +5110,6 @@ class OdtFullSynopsis(OdtAeon):
 
     Export a full synopsis.
     """
-
     DESCRIPTION = 'Full synopsis'
     SUFFIX = '_full_synopsis'
 
@@ -5612,7 +5135,6 @@ class OdtBriefSynopsis(OdtAeon):
 
     Export a brief synopsis.
     """
-
     DESCRIPTION = 'Brief synopsis'
     SUFFIX = '_brief_synopsis'
 
@@ -5631,7 +5153,6 @@ class OdtChapterOverview(OdtAeon):
 
     Export a very brief synopsis.
     """
-
     DESCRIPTION = 'Chapter overview'
     SUFFIX = '_chapter_overview'
 
@@ -5647,7 +5168,6 @@ class OdtCharacterSheets(OdtAeon):
 
     Export a character sheet.
     """
-
     DESCRIPTION = 'Character sheets'
     SUFFIX = '_character_sheets'
 
@@ -5675,7 +5195,6 @@ class OdtLocationSheets(OdtAeon):
 
     Export a location sheet.
     """
-
     DESCRIPTION = 'Location sheets'
     SUFFIX = '_location_sheets'
 
@@ -5692,7 +5211,6 @@ class OdtReport(OdtAeon):
 
     Export a full synopsis.
     """
-
     DESCRIPTION = 'Project report'
     SUFFIX = '_report'
 
@@ -5732,6 +5250,11 @@ class OdtReport(OdtAeon):
 
 
 class Aeon3odtConverter(YwCnvFf):
+    """A converter for universal export from a yWriter 7 project.
+
+    Overrides the superclass constants EXPORT_SOURCE_CLASSES,
+    EXPORT_TARGET_CLASSES.
+    """
     EXPORT_SOURCE_CLASSES = [CsvTimeline3, JsonTimeline3]
     EXPORT_TARGET_CLASSES = [OdtFullSynopsis,
                              OdtBriefSynopsis,
@@ -5744,21 +5267,28 @@ class Aeon3odtConverter(YwCnvFf):
 
 class Aeon3odtCnvUno(Aeon3odtConverter):
     """A converter for universal import and export.
+    
+    Public methods:
+        export_from_yw(sourceFile, targetFile) -- Convert from yWriter project to other file format.
+
     Support yWriter 7 projects and most of the Novel subclasses 
     that can be read or written by OpenOffice/LibreOffice.
     - No message in case of success when converting from yWriter.
     """
 
     def export_from_yw(self, source, target):
-        """Method for conversion from yw to other.
-        Override the superclass method.
+        """Convert from yWriter project to other file format.
+
+        Positional arguments:
+            source -- YwFile subclass instance.
+            target -- Any Novel subclass instance.
+
         Show only error messages.
+        Overrides the superclass method.
         """
         message = self.convert(source, target)
-
         if message.startswith(ERROR):
             self.ui.set_info_how(message)
-
         else:
             self.newFile = target.filePath
 from com.sun.star.awt.MessageBoxResults import OK, YES, NO, CANCEL
@@ -5766,35 +5296,25 @@ from com.sun.star.awt.MessageBoxButtons import BUTTONS_OK, BUTTONS_OK_CANCEL, BU
 from com.sun.star.awt.MessageBoxType import MESSAGEBOX, INFOBOX, WARNINGBOX, ERRORBOX, QUERYBOX
 
 
-
 class UiUno(Ui):
     """UI subclass implementing a LibreOffice UNO facade."""
 
     def ask_yes_no(self, text):
-        result = msgbox(text, buttons=BUTTONS_YES_NO,
-                        type_msg=WARNINGBOX)
-
-        if result == YES:
-            return True
-
-        else:
-            return False
+        result = msgbox(text, buttons=BUTTONS_YES_NO, type_msg=WARNINGBOX)
+        return result == YES
 
     def set_info_how(self, message):
         """How's the converter doing?"""
         self.infoHowText = message
-
         if message.startswith(ERROR):
             message = message.split(ERROR, maxsplit=1)[1].strip()
             msgbox(message, type_msg=ERRORBOX)
-
         else:
             msgbox(message, type_msg=INFOBOX)
 
 INI_FILE = 'openyw.ini'
 CONFIG_PROJECT = 'aeon3yw'
 # cnvaeon uses the aeon3yw configuration file, if any.
-
 SETTINGS = dict(
     part_number_prefix='Part',
     chapter_number_prefix='Chapter',
@@ -5822,28 +5342,28 @@ SETTINGS = dict(
 
 
 def open_src(suffix, newExt):
+    """Open a yWriter project, create a new document and load it.
+    
+    Positional arguments:
+        suffix -- str: filename suffix of the document to create.
+        newExt -- str: file extension of the document to create.   
+    """
 
     # Set last opened Aeon project as default (if existing).
-
     scriptLocation = os.path.dirname(__file__)
     inifile = uno.fileUrlToSystemPath(f'{scriptLocation}/{INI_FILE}')
     defaultFile = None
     config = ConfigParser()
-
     try:
         config.read(inifile)
         srcLastOpen = config.get('FILES', 'src_last_open')
-
         if os.path.isfile(srcLastOpen):
             defaultFile = uno.systemPathToFileUrl(srcLastOpen)
-
     except:
         pass
 
     # Ask for source file to open:
-
     srcFile = FilePicker(path=defaultFile)
-
     if srcFile is None:
         return
 
@@ -5851,32 +5371,25 @@ def open_src(suffix, newExt):
     __, aeonExt = os.path.splitext(sourcePath)
     converter = Aeon3odtCnvUno()
     extensions = []
-
     for srcClass in converter.EXPORT_SOURCE_CLASSES:
         extensions.append(srcClass.EXTENSION)
-
     if not aeonExt in extensions:
         msgbox('Please choose a csv file exported by Aeon Timeline 3, or an .aeon file.',
                'Import from Aeon timeline', type_msg=ERRORBOX)
         return
 
     # Store selected yWriter project as "last opened".
-
     newFile = srcFile.replace(aeonExt, f'{suffix}{newExt}')
     dirName, fileName = os.path.split(newFile)
     thisDir = uno.fileUrlToSystemPath(f'{dirName}/')
     lockFile = f'{thisDir}.~lock.{fileName}#'
-
     if not config.has_section('FILES'):
         config.add_section('FILES')
-
     config.set('FILES', 'src_last_open', uno.fileUrlToSystemPath(srcFile))
-
     with open(inifile, 'w') as f:
         config.write(f)
 
-    # Check if import file is already open in LibreOffice:
-
+    # Check whether the import file is already open in LibreOffice:
     if os.path.isfile(lockFile):
         msgbox(f'Please close "{fileName}" first.',
                'Import from Aeon Timeline', type_msg=ERRORBOX)
@@ -5885,41 +5398,32 @@ def open_src(suffix, newExt):
     workdir = os.path.dirname(sourcePath)
 
     # Read the aeon3yw configuration.
-
     iniFileName = f'{CONFIG_PROJECT}.ini'
     iniFiles = []
-
     try:
         homeDir = str(Path.home()).replace('\\', '/')
         globalConfiguration = f'{homeDir}/.pyWriter/{CONFIG_PROJECT}/config/{iniFileName}'
         iniFiles.append(globalConfiguration)
-
     except:
         pass
-
     if not workdir:
         localConfiguration = f'./{iniFileName}'
-
     else:
         localConfiguration = f'{workdir}/{iniFileName}'
-
     iniFiles.append(localConfiguration)
     configuration = Configuration(SETTINGS)
-
     for iniFile in iniFiles:
         configuration.read(iniFile)
 
     # Open yWriter project and convert data.
-
     os.chdir(workdir)
     converter.ui = UiUno('Import from Aeon Timeline')
     kwargs = {'suffix': suffix}
     kwargs.update(configuration.settings)
     converter.run(sourcePath, **kwargs)
-
     if converter.newFile:
         desktop = XSCRIPTCONTEXT.getDesktop()
-        doc = desktop.loadComponentFromURL(newFile, "_blank", 0, ())
+        desktop.loadComponentFromURL(newFile, "_blank", 0, ())
 
 
 def get_chapteroverview():
