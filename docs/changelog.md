@@ -8,6 +8,12 @@
 
 See the [GitHub "features" project](https://github.com/peter88213/aeon3odt/projects/1).
 
+### v0.6.2 beta release
+
+- Clean up ODF templates to make the code and generated documents more compact.
+
+Based on PyWriter v5.0.3
+
 ### v0.6.1 beta release
 
 - Improve code and documentation quality.
