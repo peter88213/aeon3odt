@@ -1,2 +1,5 @@
 /test/yw7/
+/test/cnvaeon.py
+/test/cnvaeon_stub.py
 *.pyc
+*.bak

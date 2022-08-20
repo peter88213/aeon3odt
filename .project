@@ -4,7 +4,6 @@
 	<comment></comment>
 	<projects>
 		<project>aeon3yw</project>
-		<project>PyWriter</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

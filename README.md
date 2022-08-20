@@ -6,13 +6,14 @@ For more information, see the [project homepage](https://peter88213.github.io/ae
 
 *aeon3odt* depends on the [pywriter](https://github.com/peter88213/PyWriter) and the [aeon3yw](https://github.com/peter88213/aeon3yw) libraries which must be present in your file system. It is organized as an Eclipse PyDev project. The official release branch on GitHub is *main*.
 
+## Important
+
+Please note that the program has not yet been extensively tested. To me, it's actually just a proof of concept. I probably won't develop the program further. Feel free to copy the project and modify it to your own liking.
+
 ### Mandatory directory structure for building the application script
 
 ```
 .
-├── PyWriter/
-│   └── src/
-│       └── pywriter/
 ├── aeon3yw/
 │   └── src/
 │       └── aeon3ywlib/
