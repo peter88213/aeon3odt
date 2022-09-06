@@ -15,7 +15,7 @@ TARGET_FILE = f'{BUILD}cnvaeon_stub.py'
 
 def main():
     inliner.run(SOURCE_FILE, TARGET_FILE, 'aeon3odtlib', '../src/')
-    inliner.run(TARGET_FILE, TARGET_FILE, 'aeon3ywlib', '../../aeon3yw/src/')
+    inliner.run(TARGET_FILE, TARGET_FILE, 'aeon3ywlib', '../src/')
     inliner.run(TARGET_FILE, TARGET_FILE, 'pywriter', '../src/')
     print('Done.')
 

@@ -3,7 +3,6 @@
 	<name>aeon3odt</name>
 	<comment></comment>
 	<projects>
-		<project>aeon3yw</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
