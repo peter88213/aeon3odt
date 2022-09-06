@@ -8,18 +8,7 @@ For more information, see the [project homepage](https://peter88213.github.io/ae
 
 ## Important
 
-Please note that the program has not yet been extensively tested. To me, it's actually just a proof of concept. I probably won't develop the program further. Feel free to copy the project and modify it to your own liking.
-
-### Mandatory directory structure for building the application script
-
-```
-.
-└── aeon3odt/
-    ├── src/
-    ├── test/
-    └── tools/
-        └── build.xml
-```
+Please note that this extension has not yet been extensively tested. To me, it's actually just a proof of concept. I probably won't develop the extension further. Feel free to copy the project and modify it to your own liking.
 
 ### Conventions
 
