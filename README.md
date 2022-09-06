@@ -4,7 +4,7 @@ For more information, see the [project homepage](https://peter88213.github.io/ae
 
 ## Development
 
-*aeon3odt* depends on the [pywriter](https://github.com/peter88213/PyWriter) and the [aeon3yw](https://github.com/peter88213/aeon3yw) libraries which must be present in your file system. It is organized as an Eclipse PyDev project. The official release branch on GitHub is *main*.
+*aeon3odt* is organized as an Eclipse PyDev project. The official release branch on GitHub is *main*.
 
 ## Important
 
@@ -14,9 +14,6 @@ Please note that the program has not yet been extensively tested. To me, it's ac
 
 ```
 .
-├── aeon3yw/
-│   └── src/
-│       └── aeon3ywlib/
 └── aeon3odt/
     ├── src/
     ├── test/
