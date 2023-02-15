@@ -6,7 +6,7 @@
 
 ### Planned features
 
-See the [GitHub "features" project](https://github.com/peter88213/aeon3odt/projects/1).
+See the [GitHub "Features" project](https://github.com/users/peter88213/projects/7/views/1).
 
 ### v0.6.2 beta release
 
