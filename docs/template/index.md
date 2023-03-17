@@ -21,8 +21,6 @@ The *aeon3odt* extension for LibreOffice extracts the narrative part of an [Aeon
 ## Requirements
 
 -   [LibreOffice version 7.0+](https://www.libreoffice.org/).
--   Java Runtime Environment (LibreOffice might need it for macro
-    execution).
 
 __Please note:__  _This extension can not be installed on OpenOffice._
 
