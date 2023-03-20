@@ -8,6 +8,12 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/7/views/1).
 
+### v0.6.3 beta release
+
+- If the full name is the same as the short name, omit it from the character sheet.
+
+Based on PyWriter v5.0.3
+
 ### v0.6.2 beta release
 
 - Clean up ODF templates to make the code and generated documents more compact.

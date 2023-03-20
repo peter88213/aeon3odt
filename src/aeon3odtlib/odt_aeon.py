@@ -951,8 +951,10 @@ class OdtAeon(OdtFile):
         characterMapping = super()._get_characterMapping(crId)
         if self.characters[crId].aka:
             characterMapping['AKA'] = f' ("{self.characters[crId].aka}")'
-        if self.characters[crId].fullName:
+        if self.characters[crId].fullName and self.characters[crId].fullName != self.characters[crId].title:
             characterMapping['FullName'] = f'/{self.characters[crId].fullName}'
+        else:
+            characterMapping['FullName'] = ''
         return characterMapping
 
     def _get_locationMapping(self, lcId):

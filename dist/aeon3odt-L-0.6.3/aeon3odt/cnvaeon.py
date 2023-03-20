@@ -1,6 +1,6 @@
 """Convert Aeon Timeline project data to odt. 
 
-Version 0.6.2
+Version 0.6.3
 Requires Python 3.6+
 Copyright (c) 2022 Peter Triesberger
 For further information see https://github.com/peter88213/aeon3odt
@@ -2859,7 +2859,7 @@ class OdfFile(FileExport):
             return f'{ERROR}Cannot write "manifest.xml"'
 
         #--- Generate styles.xml with system language set as document language.
-        lng, ctr = locale.getdefaultlocale()[0].split('_')
+        lng, ctr = locale.getlocale()[0].split('_')
         localeMapping = dict(
             Language=lng,
             Country=ctr,
@@ -4327,8 +4327,10 @@ class OdtAeon(OdtFile):
         characterMapping = super()._get_characterMapping(crId)
         if self.characters[crId].aka:
             characterMapping['AKA'] = f' ("{self.characters[crId].aka}")'
-        if self.characters[crId].fullName:
+        if self.characters[crId].fullName and self.characters[crId].fullName != self.characters[crId].title:
             characterMapping['FullName'] = f'/{self.characters[crId].fullName}'
+        else:
+            characterMapping['FullName'] = ''
         return characterMapping
 
     def _get_locationMapping(self, lcId):
