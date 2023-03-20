@@ -1,4 +1,4 @@
-"""Provide a converter class for Aeon 3Timeline csv import.
+"""Provide a converter class for Aeon 3 Timeline import.
 
 Copyright (c) 2022 Peter Triesberger
 For further information see https://github.com/peter88213/aeon3odt
