@@ -1,4 +1,4 @@
-""" Build python script for the LibreOffice "import Aeon 3" script.
+"""Build a Python script for the LibreOffice "import Aeon 3" script.
         
 In order to distribute single scripts without dependencies, 
 this script "inlines" all modules imported from the pywriter package.
