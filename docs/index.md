@@ -24,6 +24,8 @@ The *aeon3odt* extension for LibreOffice extracts the narrative part of an [Aeon
 
 __Please note:__  _This extension can not be installed on OpenOffice._
 
+**According to recent user feedback, the Aeon Timeline 3 file format has been changed, so this extension might not work for you. However, you can try to use it with the csv export.**
+
 ## Download and install {#download}
 
 [Download the latest release (version 0.6.3)](https://raw.githubusercontent.com/peter88213/aeon3odt/main/dist/aeon3odt-L-0.6.3.oxt)
