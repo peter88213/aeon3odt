@@ -10,7 +10,7 @@ For more information, see the [project homepage](https://peter88213.github.io/ae
 
 Please note that this extension has not yet been extensively tested. To me, it's actually just a proof of concept. I probably won't develop the extension further. Feel free to copy the project and modify it to your own liking.
 
-**According to recent user feedback, the Aeon Timeline 3 file format has been changed, so this extension might not work for you.**
+**According to recent user feedback, the Aeon Timeline 3 file format has been changed, so this extension might not work for you. However, you can try to use it with the csv export.**
 
 ### Conventions
 
