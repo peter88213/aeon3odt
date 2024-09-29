@@ -4,9 +4,6 @@
 
 ## Changelog
 
-### Planned features
-
-See the [GitHub "Features" project](https://github.com/users/peter88213/projects/7/views/1).
 
 ### v0.6.3 beta release
 
